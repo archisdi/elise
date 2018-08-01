@@ -1,0 +1,21 @@
+{
+  "name": "express-ts-api-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "npm run build && nodemon ./build/server"
+  },
+  "author": "archie isdiningrat",
+  "license": "ISC",
+  "dependencies": {
+    "@types/es6-shim": "^0.31.37",
+    "@types/express": "^4.16.0",
+    "express": "^4.16.3",
+    "typescript": "^3.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.3"
+  }
+}
