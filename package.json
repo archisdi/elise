@@ -4,9 +4,11 @@
   "description": "api server with typescript",
   "main": "server.js",
   "scripts": {
+    "start": "node ./build/server",
     "build": "tsc",
     "build-watch": "tsc -w",
-    "dev": "npm run build && node ./build/server"
+    "dev": "npm run build && node ./build/server",
+    "clean-install": "rm -rf node_modules && npm install"
   },
   "author": "archie isdiningrat",
   "license": "ISC",
@@ -25,6 +27,8 @@
     "typescript": "^3.0.1"
   },
   "devDependencies": {
-    "nodemon": "^1.18.3"
+    "nodemon": "^1.18.3",
+    "tslint": "^5.11.0",
+    "tslint-config-airbnb": "^5.9.2"
   }
 }

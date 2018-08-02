@@ -1,7 +1,7 @@
 import env from 'dotenv';
 env.config();
 
-import app from "./app";
+import app from './app';
 
 const port: number | string = process.env.APP_PORT || 3000;
 const server = app.listen(port, () => {
