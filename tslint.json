@@ -6,7 +6,8 @@
     "jsRules": {},
     "rules": {
         "import-name": false,
-        "indent": [ true, "spaces", 4 ]
+        "indent": [ true, "spaces", 4 ],
+        "trailing-comma": false
     },
     "rulesDirectory": []
 }
