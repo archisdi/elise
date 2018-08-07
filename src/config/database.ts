@@ -8,7 +8,7 @@ export default {
     port,
     dialect: process.env.DB_DIALECT || 'mysql',
     host: process.env.DB_HOST || '127.0.0.1',
-    logging: process.env.DB_LOG === 'true' ? console.log : false,
+    logging: process.env.APP_DEBUG === 'true' ? console.log : false,
     operatorsAliases: false,
   },
 };
