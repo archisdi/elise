@@ -7,7 +7,9 @@
     "rules": {
         "import-name": false,
         "indent": [ true, "spaces", 4 ],
-        "trailing-comma": false
+        "trailing-comma": false,
+        "max-line-length": false,
+        "object-shorthand-properties-first": false
     },
     "rulesDirectory": []
 }

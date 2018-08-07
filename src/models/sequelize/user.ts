@@ -1,5 +1,3 @@
-import bcrypt from 'bcryptjs';
-import moment from 'moment';
 import { Sequelize, DataTypes } from 'sequelize';
 
 module.exports = function (sequelize: Sequelize, dataTypes: DataTypes) {
@@ -52,7 +50,8 @@ module.exports = function (sequelize: Sequelize, dataTypes: DataTypes) {
       allowNull: true,
       field: 'updated_at',
     },
-  },                            { tableName: 'users' });
+  },
+                                { tableName: 'users' });
 
   user.associate = (models) => {
         // User.belongsTo(models.model_name, {

@@ -1,6 +1,9 @@
-import { Application as app } from 'express';
-import MainController from '../controllers/MainController';
+import { Application as app, Router } from 'express';
+import AuthController from '../controllers/AuthController';
+const router: Router = Router();
+
+router.get('/:id', AuthController.login);
 
 export default (app: app) => {
-    app.use('/', MainController.index);
+  app.use(router);
 };
