@@ -51,7 +51,7 @@ module.exports = function (sequelize: Sequelize, dataTypes: DataTypes) {
       field: 'updated_at',
     },
   },
-                                { tableName: 'users' });
+{ tableName: 'users' });
 
   user.associate = (models) => {
         // User.belongsTo(models.model_name, {
