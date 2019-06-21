@@ -14,5 +14,6 @@ build/
 *.ntvs*
 *.njsproj
 *.sln
+*.js
 
 database/config/config.json
