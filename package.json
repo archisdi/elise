@@ -25,7 +25,7 @@
     "@types/moment": "^2.13.0",
     "@types/morgan": "^1.7.35",
     "@types/randomstring": "^1.1.6",
-    "@types/sequelize": "^4.27.24",
+    "@types/sequelize": "^4.28.3",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
@@ -37,7 +37,7 @@
     "morgan": "^1.9.1",
     "mysql2": "^1.6.1",
     "randomstring": "^1.1.5",
-    "sequelize": "^4.38.0",
+    "sequelize": "^5.8.11",
     "typescript": "^3.0.1"
   },
   "devDependencies": {
