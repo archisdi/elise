@@ -12,5 +12,6 @@
         "object-shorthand-properties-first": false,
         "align": false
     },
-    "rulesDirectory": []
+    "rulesDirectory": [],
+    "outDir": "build"
 }
