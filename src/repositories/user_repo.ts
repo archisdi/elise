@@ -1,6 +1,29 @@
-import db from '../models/sequelize';
+import BaseRepo from './base_repository';
 
-export default {
-  findOne: (conditions: object, attributes: string[] | null = null) => db.User.findOne({ where: conditions, attributes }),
-  findAll: (conditions: object, attributes: string[] | null = null) => db.User.findAll({ where: conditions, attributes })
-};
+export default class UserRepo extends BaseRepo {
+    private collectionName: string = 'users';
+
+    public async find(conditions: any[]) {
+        const firestore = await this.getFirestoreInstance();
+        const collection = firestore.collection('users');
+
+        conditions.forEach((condition: string[]) => {
+          collection.where(...condition);
+        });
+
+        return collection
+        .get()
+        .then((snapshot: any) => {
+          if (snapshot.empty) {
+            console.log('No matching documents.');
+            return;
+          }
+
+          console.log(snapshot);
+
+          return snapshot.forEach((doc: any) => {
+            console.log(doc.id, '=>', doc.data());
+          });
+        });
+    }
+}
