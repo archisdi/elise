@@ -5,7 +5,7 @@ import ExpressWrapper from '../utils/wrapper/express';
 import JWT from '../lib/jwt';
 import Validator from '../middleware/request_validator';
 // import UserRepository from '../repositories/user_repo';
-import { IContext, IData } from 'src/declarations/common';
+import { IContext, IData } from 'src/typings/common';
 
 @Controller('auth')
 @ClassWrapper(ExpressWrapper)

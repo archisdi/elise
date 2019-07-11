@@ -2,7 +2,7 @@ import { Controller, Get, ClassMiddleware, ClassWrapper } from '@overnightjs/cor
 import { HttpError } from 'tymon';
 
 import AuthMiddleware from '../middleware/auth';
-import { IContext, IData } from 'src/declarations/common';
+import { IContext, IData } from 'src/typings/common';
 import ExpressWrapper from '../utils/wrapper/express';
 
 @Controller('profile')

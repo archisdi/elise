@@ -23,7 +23,7 @@
   ],
   "exclude": [],
   "files": [
-    "./src/declarations/express.d.ts",
-    "./src/declarations/common.d.ts"
+    "src/typings/express.d.ts",
+    "src/typings/common.d.ts"
   ]
 }
