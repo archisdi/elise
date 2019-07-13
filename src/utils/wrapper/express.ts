@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { OK } from 'http-status-codes';
+import { IContext, IData } from 'src/typings/common';
 
-const parseInput = (req: Request) => ({
+const parseInput = (req: Request): IData => ({
     query: req.query,
     params: req.params,
     body: req.body
@@ -9,8 +10,8 @@ const parseInput = (req: Request) => ({
 
 export default (method: any) => async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const data = parseInput(req);
-        const context = req && req.context ? req.context : null;
+        const data: IData = parseInput(req);
+        const context: IContext | null = req && req.context ? req.context : null;
 
         const {
             message = 'success', data: outData = {}

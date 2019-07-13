@@ -1,5 +1,5 @@
 import * as Joi from '@hapi/joi';
-import { HttpError } from '../lib/http_error';
+import { HttpError } from 'tymon';
 
 const schemas: { [s: string]: Joi.ObjectSchema; } = {
     login: Joi.object({

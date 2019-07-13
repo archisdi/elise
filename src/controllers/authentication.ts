@@ -4,7 +4,6 @@ import { HttpError } from 'tymon';
 import ExpressWrapper from '../utils/wrapper/express';
 import JWT from '../lib/jwt';
 import Validator from '../middleware/request_validator';
-// import UserRepository from '../repositories/user_repo';
 import { IContext, IData } from 'src/typings/common';
 
 @Controller('auth')
@@ -17,10 +16,7 @@ export default class AuthController {
         try {
             const { body: { username, password } } = data;
 
-            // const userRepo = new UserRepository();
-            // const user = await userRepo.find([['name', '==', 'archie']]);
-
-            const token: string = await JWT.generateToken({ username, id: username });
+            const token: string = await JWT.generateToken({ user_id: username });
 
             return {
                 message: 'authentication success',

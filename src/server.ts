@@ -1,11 +1,13 @@
-
-import App from './app';
 import * as env from 'dotenv';
+import App from './app';
 
 /**  */
-(async () => {
-    await env.config();
+(() => {
+    env.config();
 
-    const app = new App();
-    app.start(Number(process.env.APP_PORT) || 3000);
+    /** parse envs */
+    const port = Number(process.env.APP_PORT);
+
+    /** instantiate and start server  */
+    new App(port).start();
 })();

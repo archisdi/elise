@@ -6,7 +6,7 @@ import { IContext, IData } from 'src/typings/common';
 import ExpressWrapper from '../utils/wrapper/express';
 
 @Controller('profile')
-@ClassMiddleware([AuthMiddleware])
+@ClassMiddleware(AuthMiddleware)
 @ClassWrapper(ExpressWrapper)
 export default class ProfileController {
 

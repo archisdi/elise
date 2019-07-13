@@ -14,29 +14,16 @@ import NotFoundHandler from './middleware/not_found';
 class App extends Server {
 
     private readonly SERVER_STARTED = 'server started on port: ';
+    private port: number = 3000;
 
-    constructor() {
+    constructor(port: number) {
         super(true);
+        this.port = port;
 
-        /** register plugins */
-        this.app.use(bodyParser.json());
-        this.app.use(bodyParser.urlencoded({extended: true}));
-        this.app.use(helmet());
-        this.app.use(cors());
-
-        /** register libs */
-        HttpError.initialize();
-        DBContext.initialize({
-            connection_string: String(process.env.DB_CONNECTION_STRING),
-            models_path: '/src/models'
-        });
-
-        /** register controllers */
+        this.setupPlugins();
+        this.setupModules();
         this.setupControllers();
-
-        /** register error handler middleware */
-        this.app.use(NotFoundHandler);
-        this.app.use(ExceptionHandler);
+        this.setupExceptionHandlers();
     }
 
     private setupControllers(): void {
@@ -46,9 +33,29 @@ class App extends Server {
         ]);
     }
 
-    public start(port: number): void {
-        this.app.listen(port, () => {
-            Logger.Imp(this.SERVER_STARTED + port);
+    private setupModules(): void {
+        HttpError.initialize();
+        DBContext.initialize({
+            connection_string: String(process.env.DB_CONNECTION_STRING),
+            models_path: '/src/models'
+        });
+    }
+
+    private setupPlugins(): void {
+        this.app.use(bodyParser.json());
+        this.app.use(bodyParser.urlencoded({extended: true}));
+        this.app.use(helmet());
+        this.app.use(cors());
+    }
+
+    private setupExceptionHandlers(): void {
+        this.app.use(NotFoundHandler);
+        this.app.use(ExceptionHandler);
+    }
+
+    public start(): void {
+        this.app.listen(this.port, () => {
+            Logger.Imp(this.SERVER_STARTED + this.port);
         });
     }
 }

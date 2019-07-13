@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { HttpError } from '../lib/http_error';
+import { HttpError } from 'tymon';
 import JWT from '../lib/jwt';
 
 export default async (req: Request, res: Response, next: NextFunction) => {
