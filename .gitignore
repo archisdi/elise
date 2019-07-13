@@ -16,4 +16,4 @@ build/
 *.sln
 *.js
 
-database/config/config.json
+storage/
