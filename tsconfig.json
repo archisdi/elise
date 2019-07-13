@@ -3,7 +3,7 @@
     "module": "commonjs",
     "strict": true,
     "baseUrl": "./",
-    "outDir": "build",
+    "outDir": "build/src",
     "removeComments": true,
     "experimentalDecorators": true,
     "target": "es6",
@@ -16,7 +16,8 @@
     ],
     "typeRoots": [
       "node_modules/@types"
-    ]
+    ],
+    "sourceMap": true
   },
   "include": [
     "./src/**/*.ts"

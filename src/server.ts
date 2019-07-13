@@ -2,7 +2,10 @@
 import App from './app';
 import * as env from 'dotenv';
 
-env.config();
+/**  */
+(async () => {
+    await env.config();
 
-new App()
-    .start(3000);
+    const app = new App();
+    app.start(Number(process.env.APP_PORT) || 3000);
+})();

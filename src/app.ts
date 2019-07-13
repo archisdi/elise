@@ -3,14 +3,13 @@ import * as helmet from 'helmet';
 import * as cors from 'cors';
 import { Server } from '@overnightjs/core';
 import { Logger } from '@overnightjs/logger';
+import { HttpError, DBContext } from 'tymon';
 
 import AuthController from './controllers/authentication';
 import ProfileController from './controllers/profile';
 
 import ExceptionHandler from './middleware/exception';
 import NotFoundHandler from './middleware/not_found';
-
-import { HttpError } from 'tymon';
 
 class App extends Server {
 
@@ -27,6 +26,10 @@ class App extends Server {
 
         /** register libs */
         HttpError.initialize();
+        DBContext.initialize({
+            connection_string: String(process.env.DB_CONNECTION_STRING),
+            models_path: '/src/models'
+        });
 
         /** register controllers */
         this.setupControllers();
