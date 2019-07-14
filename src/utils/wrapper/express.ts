@@ -8,6 +8,8 @@ const parseInput = (req: Request): IData => ({
     body: req.body
 });
 
+// type Method = (data: IData, context: IContext | null) => Promise<{ message: string, data?: object, status: number }>;
+
 export default (method: any) => async (req: Request, res: Response, next: NextFunction) => {
     try {
         const data: IData = parseInput(req);

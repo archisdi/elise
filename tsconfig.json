@@ -17,7 +17,7 @@
     "typeRoots": [
       "node_modules/@types"
     ],
-    "sourceMap": true
+    "sourceMap": false
   },
   "include": [
     "./src/**/*.ts"

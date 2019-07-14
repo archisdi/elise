@@ -4,7 +4,8 @@ declare module "*.json" {
 }
 
 export interface IContext {
-
+    username: string;
+    user_id: string;
 }
 
 export interface IData {

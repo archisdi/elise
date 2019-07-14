@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { HttpError } from '../lib/http_error';
+import { HttpError } from 'tymon';
 
 export default (req: Request, res: Response, next: NextFunction) => {
   if (req.query.secret !== process.env.API_SECRET && req.headers.secret !== process.env.API_SECRET) {
