@@ -8,8 +8,8 @@ export default (err: any, req: Request, res: Response, next: NextFunction) => {
         detail
     } = err;
 
-  let stack = err.stack;
-  stack = err.stack.split('\n').map((item: any) => item.trim());
+  let stack: any = err && err.stack;
+  stack = stack ? stack.split('\n').map((item: any) => item.trim()) : null;
 
   return res.status(status).json({
     status,
