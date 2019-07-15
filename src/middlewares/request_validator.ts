@@ -1,7 +1,7 @@
 'use strict';
 
 import { Request, Response, NextFunction } from 'express';
-import Validator from '../lib/validator';
+import Validator from '../libs/validator';
 
 export default (schema: string) => (req: Request, res: Response, next: NextFunction) => {
     const {

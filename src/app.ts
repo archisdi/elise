@@ -8,8 +8,8 @@ import { HttpError, DBContext } from 'tymon';
 import AuthController from './controllers/authentication';
 import ProfileController from './controllers/profile';
 
-import ExceptionHandler from './middleware/exception';
-import NotFoundHandler from './middleware/not_found';
+import ExceptionHandler from './middlewares/exception';
+import NotFoundHandler from './middlewares/not_found';
 
 class App extends Server {
 

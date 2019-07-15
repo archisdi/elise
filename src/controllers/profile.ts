@@ -1,7 +1,7 @@
 import { Controller, Get, ClassMiddleware, ClassWrapper } from '@overnightjs/core';
 import { HttpError } from 'tymon';
 
-import AuthMiddleware from '../middleware/auth';
+import AuthMiddleware from '../middlewares/auth';
 import { IContext, IData } from 'src/typings/common';
 import ExpressWrapper from '../utils/wrapper/express';
 

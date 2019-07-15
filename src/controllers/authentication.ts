@@ -2,8 +2,8 @@ import { Controller, Post, Middleware, Wrapper, ClassWrapper } from '@overnightj
 import { HttpError } from 'tymon';
 
 import ExpressWrapper from '../utils/wrapper/express';
-import JWT from '../lib/jwt';
-import Validator from '../middleware/request_validator';
+import JWT from '../libs/jwt';
+import Validator from '../middlewares/request_validator';
 import { IContext, IData } from 'src/typings/common';
 
 @Controller('auth')

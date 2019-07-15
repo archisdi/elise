@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { HttpError } from 'tymon';
-import JWT from '../lib/jwt';
+import JWT from '../libs/jwt';
 import { ITokenable, IContext } from 'src/typings/common';
 
 const generateContext = async (payload: ITokenable): Promise<IContext> => {
