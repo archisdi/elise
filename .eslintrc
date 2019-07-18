@@ -1,0 +1,28 @@
+{
+    "extends": "airbnb-base",
+    "rules": {
+        "max-depth": ["warn", {
+            "max": 3
+        }],
+        "indent": ["warn", 4],
+        "max-len": "off",
+        "strict": "off",
+        "comma-dangle": ["error", "never"],
+        "global-require": 0,
+        "import/no-dynamic-require": 0,
+        "no-unused-vars": ["error", {
+            "args": "none",
+            "caughtErrors": "all"
+        }],
+        "no-param-reassign": ["error", {
+            "props": false
+        }],
+        "require-yield": 0,
+        "radix": "off",
+        "func-names": "off",
+        "prefer-destructuring": "off",
+        "no-plusplus": [2, {
+            "allowForLoopAfterthoughts": true
+        }]
+    }
+}
