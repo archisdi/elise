@@ -5,9 +5,13 @@
   "main": "index.js",
   "scripts": {
     "serve": "nodemon",
-    "build": "sh ./scripts/build.sh",
+    "build": "sh ./scripts/deployment/build.sh",
     "clean-install": "rm -rf node_modules package-lock.json && npm install",
-    "lint": "tslint --fix ./src/**.ts"
+    "lint": "tslint --fix ./src/**.ts",
+    "migrate": "./scripts/migration/migrate.sh",
+    "migrate:rollback": "./scripts/migration/rollback.sh",
+    "migrate:refresh": "./scripts/migration/refresh.sh",
+    "db:seed": "./scripts/migration/seed.sh"
   },
   "author": "archie isdiningrat",
   "license": "ISC",
@@ -30,6 +34,7 @@
     "install": "^0.12.2",
     "nodemon": "^1.19.1",
     "npm": "^6.9.0",
+    "sequelize-cli": "^5.5.0",
     "ts-node": "^8.3.0",
     "tslint": "^5.18.0",
     "typescript": "^3.5.2"
@@ -50,6 +55,7 @@
     "moment": "^2.24.0",
     "randomstring": "^1.1.5",
     "tymon": "git+https://github.com/archisdi/tymon.git",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "sequelize": "^5.10.1"
   }
 }
