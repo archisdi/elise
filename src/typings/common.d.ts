@@ -32,3 +32,10 @@ export interface ICredential {
 export interface ITokenable {
     user_id: string;
 }
+
+export interface IHttpError {
+    message: string;
+    name: string;
+    status: number;
+    data?: object;
+}

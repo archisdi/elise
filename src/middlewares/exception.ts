@@ -1,12 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 import { INTERNAL_SERVER_ERROR } from 'http-status-codes';
+import { COMMON_ERRORS } from '../utils/constant';
+import { IHttpError } from 'src/typings/common';
 
 export default (err: any, req: Request, res: Response, next: NextFunction) => {
   const {
         message,
         status = INTERNAL_SERVER_ERROR,
-        detail
-    } = err;
+        name,
+        data
+  }: IHttpError = err;
 
   let stack: any = err && err.stack;
   stack = stack ? stack.split('\n').map((item: any) => item.trim()) : null;
@@ -14,7 +17,8 @@ export default (err: any, req: Request, res: Response, next: NextFunction) => {
   return res.status(status).json({
     status,
     message,
-    detail,
+    name: status === INTERNAL_SERVER_ERROR ? COMMON_ERRORS.SYSTEM_ERROR : name,
+    data: data ? data : undefined,
     stack
   });
 };

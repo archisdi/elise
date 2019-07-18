@@ -19,7 +19,7 @@ export default class ProfileController {
             const user = await userRepo.findOne(context.username);
 
             if (!user) {
-                throw HttpError.NotFound('user not found') ;
+                throw HttpError.NotFound('user not found', 'USER_NOT_FOUND') ;
             }
 
             return {

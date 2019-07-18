@@ -2,6 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import { HttpError } from 'tymon';
 import JWT from '../libs/jwt';
 import { ITokenable, IContext } from 'src/typings/common';
+import { COMMON_ERRORS } from '../utils/constant';
+
+const jwtExpiredMessage: string = 'jwt expired';
 
 const generateContext = async (payload: ITokenable): Promise<IContext> => {
     return {
@@ -14,15 +17,18 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     try {
         const token: string | undefined = req.headers.authorization;
         if (!token) {
-            throw HttpError.NotAuthorized('token not provided');
+            throw HttpError.NotAuthorized('token not provided', COMMON_ERRORS.TOKEN_INVALID);
         }
 
         try {
             const tokenPayload: ITokenable = await JWT.verifyToken(token);
             req.context = await generateContext(tokenPayload);
         } catch (err) {
-            const message = err.message === 'jwt expired' ? 'token expired' : 'invalid token';
-            throw HttpError.NotAuthorized(message);
+            const message = err.message === jwtExpiredMessage ?
+            ['token expired', COMMON_ERRORS.TOKEN_EXPIRED] :
+            ['token invalid', COMMON_ERRORS.TOKEN_INVALID];
+
+            throw HttpError.NotAuthorized(...message);
         }
 
         return next();
