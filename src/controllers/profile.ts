@@ -13,7 +13,7 @@ import UserRepository from '../repositories/user_repo';
 export default class ProfileController {
 
     @Get('/')
-    private async sgetProfile(data: IData, context: IContext) {
+    private async getProfile(data: IData, context: IContext) {
         try {
             const userRepo = new UserRepository(context);
             const user = await userRepo.findOne(context.username);
