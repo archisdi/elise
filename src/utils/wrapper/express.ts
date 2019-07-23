@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { OK } from 'http-status-codes';
-import { IContext, IData } from 'src/typings/common';
+import { IContext, IData } from '../../typings/common';
 
 const parseInput = (req: Request): IData => ({
     query: req.query,

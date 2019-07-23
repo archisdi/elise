@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { INTERNAL_SERVER_ERROR } from 'http-status-codes';
 import { COMMON_ERRORS } from '../utils/constant';
-import { IHttpError } from 'src/typings/common';
+import { IHttpError } from '../typings/common';
 
 export default (err: any, req: Request, res: Response, next: NextFunction) => {
   const {

@@ -1,18 +1,12 @@
-import { Controller, Post, Middleware, Wrapper, ClassWrapper } from '@overnightjs/core';
 import { HttpError } from 'tymon';
 
-import ExpressWrapper from '../utils/wrapper/express';
 import JWT from '../libs/jwt';
 import Validator from '../middlewares/request_validator';
-import { IContext, IData } from 'src/typings/common';
+import { IContext, IData, IBaseController } from '../typings/common';
+import BaseController from './base_controller';
 
-@Controller('auth')
-@ClassWrapper(ExpressWrapper)
-export default class AuthController {
-
-    @Post('login')
-    @Middleware(Validator('login'))
-    private async login(data: IData, context: IContext) {
+export default class AuthController extends BaseController {
+    public async login(data: IData, context: IContext) {
         try {
             const { body: { username, password } } = data;
 
@@ -31,4 +25,7 @@ export default class AuthController {
         }
     }
 
+    public setRoutes() {
+        this.addRoute('post', '/login', [Validator('login')], this.login);
+    }
 }

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { HttpError } from 'tymon';
 import JWT from '../libs/jwt';
-import { ITokenable, IContext } from 'src/typings/common';
+import { ITokenable, IContext } from '../typings/common';
 import { COMMON_ERRORS } from '../utils/constant';
 
 const jwtExpiredMessage: string = 'jwt expired';

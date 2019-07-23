@@ -1,23 +1,22 @@
+import { HttpError, DBContext } from 'tymon';
+import { Application } from 'express';
+import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as helmet from 'helmet';
 import * as cors from 'cors';
-import { Server } from '@overnightjs/core';
-import { Logger } from '@overnightjs/logger';
-import { HttpError, DBContext } from 'tymon';
 
-import AuthController from './controllers/authentication';
-import ProfileController from './controllers/profile';
+import AuthController from './controllers/auth_controller';
+import ProfileController from './controllers/profile_controller';
 
 import ExceptionHandler from './middlewares/exception';
 import NotFoundHandler from './middlewares/not_found';
 
-class App extends Server {
-
-    private readonly SERVER_STARTED = 'server started on port: ';
+class App {
+    private app: Application;
     private port: number = 3000;
 
     constructor(port: number) {
-        super(true);
+        this.app = express();
         this.port = port;
 
         this.setupPlugins();
@@ -27,10 +26,8 @@ class App extends Server {
     }
 
     private setupControllers(): void {
-        super.addControllers([
-            new AuthController(),
-            new ProfileController()
-        ]);
+        this.app.use('/auth', new AuthController().getRoutes());
+        this.app.use('/profile', new ProfileController().getRoutes());
     }
 
     private setupModules(): void {
@@ -55,7 +52,7 @@ class App extends Server {
 
     public start(): void {
         this.app.listen(this.port, () => {
-            Logger.Imp(this.SERVER_STARTED + this.port);
+            console.info('server started on port: ' + this.port); // tslint:disable-line
         });
     }
 }

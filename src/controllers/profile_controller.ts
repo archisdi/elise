@@ -1,19 +1,12 @@
-import { Controller, Get, ClassMiddleware, ClassWrapper } from '@overnightjs/core';
 import { HttpError } from 'tymon';
 
-import AuthMiddleware from '../middlewares/auth';
 import { IContext, IData } from 'src/typings/common';
-import ExpressWrapper from '../utils/wrapper/express';
-
+import AuthMiddleware from '../middlewares/auth';
 import UserRepository from '../repositories/user_repo';
+import BaseController from './base_controller';
 
-@Controller('profile')
-@ClassMiddleware(AuthMiddleware)
-@ClassWrapper(ExpressWrapper)
-export default class ProfileController {
-
-    @Get('/')
-    private async getProfile(data: IData, context: IContext) {
+export default class ProfileController extends BaseController {
+    public async getProfile(data: IData, context: IContext) {
         try {
             const userRepo = new UserRepository(context);
             const user = await userRepo.findOne(context.username);
@@ -32,4 +25,7 @@ export default class ProfileController {
         }
     }
 
+    public setRoutes() {
+        this.addRoute('get', '/', [AuthMiddleware], this.getProfile);
+    }
 }

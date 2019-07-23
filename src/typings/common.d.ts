@@ -1,6 +1,14 @@
+import { Router } from "express";
+
 declare module "*.json" {
     const value: any;
     export default value;
+}
+
+export interface IBaseController {
+    setRoutes(): void;
+    getRoutes(): Router;
+    childController?(): void;
 }
 
 export interface IContext {
