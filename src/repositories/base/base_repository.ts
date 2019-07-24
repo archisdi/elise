@@ -1,5 +1,5 @@
-import { DBContext, MongoContext, RedisContext, FirebaseContext, ElasticContext } from "tymon";
-import { IContext } from "../../typings/common";
+import { DBContext, MongoContext, RedisContext, FirebaseContext, ElasticContext } from 'tymon';
+import { IContext } from '../../typings/common';
 
 type Context = IContext | null;
 

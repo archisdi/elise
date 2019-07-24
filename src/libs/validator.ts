@@ -1,6 +1,6 @@
-import * as Joi from "@hapi/joi";
-import { HttpError } from "tymon";
-import { COMMON_ERRORS } from "../utils/constant";
+import * as Joi from '@hapi/joi';
+import { HttpError } from 'tymon';
+import { COMMON_ERRORS } from '../utils/constant';
 
 const schemas: { [s: string]: Joi.ObjectSchema } = {
     login: Joi.object({
@@ -25,10 +25,10 @@ export default (input: object, schema: string, options: object = defaultOptions)
     return Joi.validate(input, scheme, options)
         .catch((err): void => {
             const details = err.details.reduce((detail: any, item: any): object => {
-                detail[item.context.key] = item.message.replace(/"/g, "");
+                detail[item.context.key] = item.message.replace(/"/g, '');
                 return detail;
             }, {});
-            throw HttpError.UnprocessableEntity("error validating fields", COMMON_ERRORS.VALIDATION_ERROR, details);
+            throw HttpError.UnprocessableEntity('error validating fields', COMMON_ERRORS.VALIDATION_ERROR, details);
         });
 };
 

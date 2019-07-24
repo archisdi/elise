@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from "express";
-import { OK } from "http-status-codes";
-import { IContext, IData } from "../../typings/common";
+import { Request, Response, NextFunction } from 'express';
+import { OK } from 'http-status-codes';
+import { IContext, IData } from '../../typings/common';
 
 const parseInput = (req: Request): IData => ({
     query: req.query,
@@ -16,7 +16,7 @@ export default (method: any): any => async (req: Request, res: Response, next: N
         const context: IContext | null = req && req.context ? req.context : null;
 
         const {
-            message = "success", data: outData = {}
+            message = 'success', data: outData = {}
         } = await method(data, context);
 
         return res.status(OK).json({

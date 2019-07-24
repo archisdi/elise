@@ -1,5 +1,5 @@
 export default function(sequelize: any, dataTypes: any): any {
-    const member = sequelize.define("User", {
+    const member = sequelize.define('User', {
         id: {
             type: dataTypes.UUID,
             defaultValue: dataTypes.UUIDV4,
@@ -40,7 +40,7 @@ export default function(sequelize: any, dataTypes: any): any {
             allowNull: true
         }
     }, {
-        tableName: "users",
+        tableName: 'users',
         freezeTableName: true,
         underscored: true,
         paranoid: true /** Soft deletes */
