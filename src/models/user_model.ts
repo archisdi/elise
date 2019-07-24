@@ -1,5 +1,5 @@
-export default function(sequelize: any, dataTypes: any) {
-    const member = sequelize.define('User', {
+export default function(sequelize: any, dataTypes: any): any {
+    const member = sequelize.define("User", {
         id: {
             type: dataTypes.UUID,
             defaultValue: dataTypes.UUIDV4,
@@ -40,13 +40,13 @@ export default function(sequelize: any, dataTypes: any) {
             allowNull: true
         }
     }, {
-        tableName: 'users',
+        tableName: "users",
         freezeTableName: true,
         underscored: true,
         paranoid: true /** Soft deletes */
     });
 
-    member.associate = (models: any) => {
+    member.associate = (models: any): void => {
         // Member.belongsTo(models.model_name, {
         //     foreignKey: 'model_name_id',
         //     targetKey: 'id'

@@ -1,5 +1,5 @@
-import { DBContext, MongoContext, RedisContext, FirebaseContext, ElasticContext } from 'tymon';
-import { IContext } from '../../typings/common';
+import { DBContext, MongoContext, RedisContext, FirebaseContext, ElasticContext } from "tymon";
+import { IContext } from "../../typings/common";
 
 type Context = IContext | null;
 
@@ -11,46 +11,46 @@ export default class BaseRepository {
     private firebase: any = null;
     private elastic: any = null;
 
-    constructor(context: Context = null) {
+    public constructor(context: Context = null) {
         this.context = context;
     }
 
-    public async getDbInstance() {
+    public async getDbInstance(): Promise<any> {
         if (!this.db) {
             this.db = await DBContext.getInstance();
         }
         return this.db;
     }
 
-    public async getMongoInstance() {
+    public async getMongoInstance(): Promise<any> {
         if (!this.mongo) {
             this.mongo = await MongoContext.getInstance();
         }
         return this.mongo;
     }
 
-    public async getRedisInstance() {
+    public async getRedisInstance(): Promise<any> {
         if (!this.redis) {
             this.redis = await RedisContext.getInstance();
         }
         return this.redis;
     }
 
-    public async getFirebaseInstance() {
+    public async getFirebaseInstance(): Promise<any> {
         if (!this.firebase) {
             this.firebase = await FirebaseContext.getInstance();
         }
         return this.firebase;
     }
 
-    public async getElasticInstance() {
+    public async getElasticInstance(): Promise<any> {
         if (!this.elastic) {
             this.elastic = await ElasticContext.getInstance();
         }
         return this.elastic;
     }
 
-    public async getDbTransaction() {
+    public async getDbTransaction(): Promise<any> {
         return DBContext.getTransaction();
     }
 

@@ -1,21 +1,21 @@
-import { HttpError, DBContext } from 'tymon';
-import { Application } from 'express';
-import * as express from 'express';
-import * as bodyParser from 'body-parser';
-import * as helmet from 'helmet';
-import * as cors from 'cors';
+import { HttpError, DBContext } from "tymon";
+import { Application } from "express";
+import * as express from "express";
+import * as bodyParser from "body-parser";
+import * as helmet from "helmet";
+import * as cors from "cors";
 
-import AuthController from './controllers/auth_controller';
-import ProfileController from './controllers/profile_controller';
+import AuthController from "./controllers/auth_controller";
+import ProfileController from "./controllers/profile_controller";
 
-import ExceptionHandler from './middlewares/exception';
-import NotFoundHandler from './middlewares/not_found';
+import ExceptionHandler from "./middlewares/exception";
+import NotFoundHandler from "./middlewares/not_found";
 
 class App {
     private app: Application;
     private port: number = 3000;
 
-    constructor(port: number) {
+    public constructor(port: number) {
         this.app = express();
         this.port = port;
 
@@ -26,15 +26,15 @@ class App {
     }
 
     private setupControllers(): void {
-        this.app.use('/auth', new AuthController().getRoutes());
-        this.app.use('/profile', new ProfileController().getRoutes());
+        this.app.use("/auth", new AuthController().getRoutes());
+        this.app.use("/profile", new ProfileController().getRoutes());
     }
 
     private setupModules(): void {
         HttpError.initialize();
         DBContext.initialize({
             connection_string: String(process.env.DB_CONNECTION_STRING),
-            models_path: '/src/models'
+            models_path: "/src/models"
         });
     }
 
@@ -51,8 +51,8 @@ class App {
     }
 
     public start(): void {
-        this.app.listen(this.port, () => {
-            console.info('server started on port: ' + this.port); // tslint:disable-line
+        this.app.listen(this.port, (): void => {
+            console.info("server started on port: " + this.port);
         });
     }
 }

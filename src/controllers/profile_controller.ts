@@ -1,9 +1,9 @@
-import { HttpError } from 'tymon';
+import { HttpError } from "tymon";
 
-import { IContext, IData } from 'src/typings/common';
-import AuthMiddleware from '../middlewares/auth';
-import UserRepository from '../repositories/user_repo';
-import BaseController from './base/base_controller';
+import { IContext, IData } from "src/typings/common";
+import AuthMiddleware from "../middlewares/auth";
+import UserRepository from "../repositories/user_repo";
+import BaseController from "./base/base_controller";
 
 export default class ProfileController extends BaseController {
     public async getProfile(data: IData, context: IContext) {
@@ -12,11 +12,11 @@ export default class ProfileController extends BaseController {
             const user = await userRepo.findOne(context.username);
 
             if (!user) {
-                throw HttpError.NotFound('user not found', 'USER_NOT_FOUND') ;
+                throw HttpError.NotFound("user not found", "USER_NOT_FOUND") ;
             }
 
             return {
-                message: 'profile data retrieved',
+                message: "profile data retrieved",
                 data: user
             };
         } catch (err) {
@@ -26,6 +26,6 @@ export default class ProfileController extends BaseController {
     }
 
     public setRoutes() {
-        this.addRoute('get', '/', [AuthMiddleware], this.getProfile);
+        this.addRoute("get", "/", [AuthMiddleware], this.getProfile);
     }
 }

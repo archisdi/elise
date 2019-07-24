@@ -1,4 +1,4 @@
-import BaseRepo from './base/base_repository';
+import BaseRepo from "./base/base_repository";
 
 export default class UserRepo extends BaseRepo {
     public async findOne(username: string): Promise<object> {

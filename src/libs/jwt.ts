@@ -1,8 +1,8 @@
-import * as jwt from 'jsonwebtoken';
-import * as random from 'randomstring';
-import * as moment from 'moment';
-import * as bcrypt from 'bcryptjs';
-import { IRefreshToken, ITokenable } from '../typings/common';
+import * as jwt from "jsonwebtoken";
+import * as random from "randomstring";
+import * as moment from "moment";
+import * as bcrypt from "bcryptjs";
+import { IRefreshToken, ITokenable } from "../typings/common";
 
 const salt = 10;
 const refreshLength = 50;
@@ -19,7 +19,7 @@ export const verifyToken = (token: string): any => {
 export const generateRefreshToken = (): IRefreshToken => {
     return {
         token: random.generate(refreshLength),
-        valid_until: moment().add(refreshLifeTime, 'days').utc().format()
+        valid_until: moment().add(refreshLifeTime, "days").utc().format()
     };
 };
 
