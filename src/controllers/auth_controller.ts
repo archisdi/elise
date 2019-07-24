@@ -3,7 +3,7 @@ import { HttpError } from 'tymon';
 import JWT from '../libs/jwt';
 import Validator from '../middlewares/request_validator';
 import { IContext, IData, IBaseController } from '../typings/common';
-import BaseController from './base_controller';
+import BaseController from './base/base_controller';
 
 export default class AuthController extends BaseController {
     public async login(data: IData, context: IContext) {

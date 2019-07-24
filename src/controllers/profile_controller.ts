@@ -3,7 +3,7 @@ import { HttpError } from 'tymon';
 import { IContext, IData } from 'src/typings/common';
 import AuthMiddleware from '../middlewares/auth';
 import UserRepository from '../repositories/user_repo';
-import BaseController from './base_controller';
+import BaseController from './base/base_controller';
 
 export default class ProfileController extends BaseController {
     public async getProfile(data: IData, context: IContext) {

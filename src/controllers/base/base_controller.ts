@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { IBaseController, IData, IContext } from '../typings/common';
-import ExpressWrapper from '../utils/wrapper/express';
+import { IBaseController, IData, IContext } from '../../typings/common';
+import ExpressWrapper from '../../utils/wrapper/express';
 
 type middlewareType = any[];
 type httpMethodType = 'get' | 'post' | 'put' | 'delete';
