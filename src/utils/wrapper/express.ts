@@ -10,7 +10,7 @@ const parseInput = (req: Request): IData => ({
 
 // type Method = (data: IData, context: IContext | null) => Promise<{ message: string, data?: object, status: number }>;
 
-export default (method: any) => async (req: Request, res: Response, next: NextFunction) => {
+export default (method: any): any => async (req: Request, res: Response, next: NextFunction): any => {
     try {
         const data: IData = parseInput(req);
         const context: IContext | null = req && req.context ? req.context : null;

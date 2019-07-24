@@ -6,7 +6,7 @@ import UserRepository from "../repositories/user_repo";
 import BaseController from "./base/base_controller";
 
 export default class ProfileController extends BaseController {
-    public async getProfile(data: IData, context: IContext) {
+    public async getProfile(data: IData, context: IContext): Promise<object> {
         try {
             const userRepo = new UserRepository(context);
             const user = await userRepo.findOne(context.username);
@@ -25,7 +25,7 @@ export default class ProfileController extends BaseController {
         }
     }
 
-    public setRoutes() {
+    public setRoutes(): void {
         this.addRoute("get", "/", [AuthMiddleware], this.getProfile);
     }
 }

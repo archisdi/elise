@@ -13,7 +13,7 @@ const generateContext = async (payload: ITokenable): Promise<IContext> => {
     };
 };
 
-export default async (req: Request, res: Response, next: NextFunction) => {
+export default async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const token: string | undefined = req.headers.authorization;
         if (!token) {

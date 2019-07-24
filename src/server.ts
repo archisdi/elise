@@ -2,7 +2,7 @@ import * as env from "dotenv";
 import App from "./app";
 
 /**  */
-(() => {
+((): void => {
     env.config();
 
     /** parse envs */

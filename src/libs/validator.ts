@@ -23,8 +23,8 @@ export default (input: object, schema: string, options: object = defaultOptions)
     const scheme: Joi.ObjectSchema = schemas[schema];
 
     return Joi.validate(input, scheme, options)
-        .catch((err) => {
-            const details = err.details.reduce((detail: any, item: any) => {
+        .catch((err): void => {
+            const details = err.details.reduce((detail: any, item: any): object => {
                 detail[item.context.key] = item.message.replace(/"/g, "");
                 return detail;
             }, {});
