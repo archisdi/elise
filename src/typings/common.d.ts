@@ -5,12 +5,6 @@ declare module '*.json' {
     export default value;
 }
 
-export interface IBaseController {
-    setRoutes(): void;
-    getRoutes(): Router;
-    childController?(): void;
-}
-
 export interface IContext {
     username: string;
     user_id: string;

@@ -25,7 +25,7 @@ export default class ProfileController extends BaseController {
         }
     }
 
-    public setRoutes(): void {
+    protected setRoutes(): void {
         this.addRoute('get', '/', [AuthMiddleware], this.getProfile);
     }
 }
