@@ -1,3 +1,5 @@
+/// <reference types="../typings/express" />
+
 import { Request, Response, NextFunction } from 'express';
 import { HttpError } from 'tymon';
 import JWT from '../libs/jwt';

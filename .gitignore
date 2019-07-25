@@ -17,3 +17,4 @@ build/
 /src/**/*.js
 
 storage/
+.vscode
