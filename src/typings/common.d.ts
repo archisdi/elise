@@ -5,6 +5,17 @@ declare module '*.json' {
     export default value;
 }
 
+export interface IObject { 
+    [s: string]: any; 
+}
+
+export interface IMeta {
+    page: number;
+    limit: number;
+    total_page: number;
+    total_data: number;
+}
+
 export interface IContext {
     username: string;
     user_id: string;
