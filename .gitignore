@@ -16,5 +16,7 @@ build/
 *.sln
 /src/**/*.js
 
-storage/
+storage/*
+!storage/.gitkeep
+
 .vscode
