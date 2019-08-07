@@ -6,7 +6,7 @@ interface IObjectString {
     [s: string]: string; 
 }
 
-const repoDirPath = '../repositories/';
+const repoDirPath = './';
 let paths: IObjectString;
 
 const normalizeRepoName = (name: string): string => {
@@ -37,11 +37,11 @@ class RepoFactory {
 
     public get(repoName: string): any {
         if (!this.instance[repoName]) {
-            const Repo: any = import(this.repoPath[repoName]);
+            const { default: Repo }: any = require(this.repoPath[repoName]); // eslint-disable-line
             this.instance[repoName] = new Repo(this.context);
         }
         return this.instance[repoName];
     }
 }
 
-module.exports = RepoFactory;
+export default RepoFactory;

@@ -25,7 +25,7 @@ export default class SQLRepo extends BaseRepository {
 
     public async findAll(conditions: IObject, attributes?: attributes): Promise<any[]> {
         const db = await this.getDbInstance();
-        return db[this.model].find({ where: conditions, attributes });
+        return db[this.model].findAll({ where: conditions, attributes });
     }
 
     public async create(data: IObject): Promise<any> {

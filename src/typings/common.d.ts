@@ -5,6 +5,8 @@ declare module '*.json' {
     export default value;
 }
 
+declare function require(name: string): any;
+
 export interface IObject { 
     [s: string]: any; 
 }
