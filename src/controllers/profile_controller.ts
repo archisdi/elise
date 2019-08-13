@@ -33,5 +33,8 @@ export default class ProfileController extends BaseController {
 
     protected setRoutes(): void {
         this.addRoute('get', '/', this.getProfile);
+
+        /** nested controllers */
+        // this.addChildController(new Controller());
     }
 }
