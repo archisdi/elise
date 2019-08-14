@@ -28,6 +28,14 @@ export default class SQLRepo extends BaseRepository {
         return db[this.model].findAll({ where: conditions, attributes });
     }
 
+
+    public async upsert(search: IObject, data: IObject): Promise<void> {
+        return this.findOne(search).then((row: IObject | undefined): Promise<void> => {
+            const payload = { ...data, created_by: this.context ? this.context.user_id : null };
+            return row ? this.update(search, payload) : this.create(payload);
+        });
+    }
+
     public async create(data: IObject): Promise<any> {
         const db = await this.getDbInstance();
         return db[this.model].create(data, { transaction: await this.getDbTransaction() });
