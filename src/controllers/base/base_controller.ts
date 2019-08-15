@@ -12,7 +12,7 @@ export default class BaseController {
     private middlewares: middleware;
 
     public constructor() {
-        this.routes = Router();
+        this.routes = Router({ mergeParams: true });
         this.middlewares = [];
     }
 
