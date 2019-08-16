@@ -1,22 +1,21 @@
 import { Router } from 'express';
-import { IData, IContext } from '../../typings/common';
+import { IData, IContext, IHandlerOutput } from '../../typings/common';
 import ExpressWrapper from '../../utils/wrapper/express';
 import { RequestHandler } from 'express-serve-static-core';
 
-type middleware = RequestHandler[];
-type httpMethod = 'get' | 'post' | 'put' | 'delete';
-type methodHandler = (data: IData, context: IContext) => any;
+type allowedMethod = 'get' | 'post' | 'put' | 'delete';
+type methodHandler = (data: IData, context: IContext) => Promise<IHandlerOutput>;
 
 export default class BaseController {
     private routes: Router;
-    private middlewares: middleware;
+    private middlewares: RequestHandler[];
 
     public constructor() {
         this.routes = Router({ mergeParams: true });
         this.middlewares = [];
     }
 
-    protected setMiddleware(middleware: RequestHandler | middleware): void{
+    protected setMiddleware(middleware: RequestHandler | RequestHandler[]): void{
         if (middleware instanceof Array){
             this.middlewares = middleware;
         } else {
@@ -24,8 +23,8 @@ export default class BaseController {
         }
     }
 
-    protected addRoute(httpMethod: httpMethod, path: string = '/', handler: methodHandler, middlewares: middleware = []): void {
-        const routeMiddleware: middleware = middlewares instanceof Array ? middlewares : [middlewares];
+    protected addRoute(httpMethod: allowedMethod, path: string = '/', handler: methodHandler, middlewares: RequestHandler[] = []): void {
+        const routeMiddleware: RequestHandler[] = middlewares instanceof Array ? middlewares : [middlewares];
         this.routes[httpMethod](path, [...this.middlewares, ...routeMiddleware], ExpressWrapper(handler));
     }
 

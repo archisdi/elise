@@ -2,7 +2,7 @@ import * as jwt from 'jsonwebtoken';
 import * as random from 'randomstring';
 import * as moment from 'moment';
 import * as bcrypt from 'bcryptjs';
-import { IRefreshToken, ITokenable } from '../typings/common';
+import { IRefreshToken, ITokenable } from '../typings/auth';
 
 const salt = 10;
 const refreshLength = 50;

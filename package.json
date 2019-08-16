@@ -8,7 +8,7 @@
     "build": "sh ./scripts/deployment/build.sh",
     "clean-install": "rm -rf node_modules package-lock.json && npm install",
     "unit-test": "NODE_ENV=test nyc ava --verbose",
-    "lint": "eslint './src/**/*.{js,ts}' --quiet --fix",
+    "lint": "eslint './src/**/*.{js,ts}' --fix",
     "migrate": "./scripts/migration/migrate.sh",
     "migrate:rollback": "./scripts/migration/rollback.sh",
     "migrate:refresh": "./scripts/migration/refresh.sh",

@@ -29,24 +29,12 @@ export interface IData {
     body: any;
 }
 
-export interface IRefreshToken {
-    token: string;
-    valid_until: string;
+export interface IHandlerOutput {
+    message?: string;
+    data?: any;
 }
 
-export interface ITokens {
-    token: string;
-    refresh_token: IRefreshToken;
-}
-
-export interface ICredential {
-    username: string;
-    password: string;
-}
-
-export interface ITokenable {
-    user_id: string;
-}
+type methodHandler = (data: IData, context: IContext) => Promise<IHandlerOutput>;
 
 export interface IHttpError {
     message: string;
