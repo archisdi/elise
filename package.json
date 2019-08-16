@@ -1,7 +1,8 @@
 {
   "name": "exprestful-typed",
   "version": "1.0.0",
-  "description": "",
+  "description": "rest api made with node, express, and typescript",
+  "repository": "https://github.com/archisdi/expRESTful-typed",
   "main": "index.js",
   "scripts": {
     "serve": "nodemon",
