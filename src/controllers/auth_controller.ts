@@ -8,7 +8,9 @@ import BaseController from './base/base_controller';
 export default class AuthController extends BaseController {
     public async login(data: IData, context: IContext): Promise<object> {
         try {
-            const { body: { username, password } } = data;
+            const {
+                body: { username, password }
+            } = data;
 
             const token: string = await JWT.generateToken({ user_id: username });
 
@@ -20,7 +22,9 @@ export default class AuthController extends BaseController {
                 }
             };
         } catch (err) {
-            if (err.status) { throw err; }
+            if (err.status) {
+                throw err;
+            }
             throw HttpError.InternalServerError(err.message);
         }
     }

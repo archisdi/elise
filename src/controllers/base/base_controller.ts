@@ -15,20 +15,25 @@ export default class BaseController {
         this.middlewares = [];
     }
 
-    protected setMiddleware(middleware: RequestHandler | RequestHandler[]): void{
-        if (middleware instanceof Array){
+    protected setMiddleware(middleware: RequestHandler | RequestHandler[]): void {
+        if (middleware instanceof Array) {
             this.middlewares = middleware;
         } else {
             this.middlewares.push(middleware);
         }
     }
 
-    protected addRoute(httpMethod: allowedMethod, path: string = '/', handler: methodHandler, middlewares: RequestHandler[] = []): void {
+    protected addRoute(
+        httpMethod: allowedMethod,
+        path: string = '/',
+        handler: methodHandler,
+        middlewares: RequestHandler[] = []
+    ): void {
         const routeMiddleware: RequestHandler[] = middlewares instanceof Array ? middlewares : [middlewares];
         this.routes[httpMethod](path, [...this.middlewares, ...routeMiddleware], ExpressWrapper(handler));
     }
 
-    protected addChildController(controller: { getRoutes(): Router }, path: string = '/'): void{
+    protected addChildController(controller: { getRoutes(): Router }, path: string = '/'): void {
         this.routes.use(path, controller.getRoutes());
     }
 

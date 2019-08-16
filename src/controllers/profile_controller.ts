@@ -6,8 +6,7 @@ import UserRepository from '../repositories/user_repo';
 import BaseController from './base/base_controller';
 
 export default class ProfileController extends BaseController {
-
-    public constructor(){
+    public constructor() {
         super();
         this.setMiddleware(AuthMiddleware);
     }
@@ -18,7 +17,7 @@ export default class ProfileController extends BaseController {
             const user = await userRepo.findOne(context.username);
 
             if (!user) {
-                throw HttpError.NotFound('user not found', 'USER_NOT_FOUND') ;
+                throw HttpError.NotFound('user not found', 'USER_NOT_FOUND');
             }
 
             return {
@@ -26,7 +25,9 @@ export default class ProfileController extends BaseController {
                 data: user
             };
         } catch (err) {
-            if (err.status) { throw err; }
+            if (err.status) {
+                throw err;
+            }
             throw HttpError.InternalServerError(err.message);
         }
     }

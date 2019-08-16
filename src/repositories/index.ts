@@ -2,8 +2,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as _ from 'lodash';
 
-interface IObjectString { 
-    [s: string]: string; 
+interface IObjectString {
+    [s: string]: string;
 }
 
 const repoDirPath = './';

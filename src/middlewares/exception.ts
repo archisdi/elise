@@ -4,12 +4,7 @@ import { COMMON_ERRORS } from '../utils/constant';
 import { IHttpError } from '../typings/common';
 
 export default (err: any, req: Request, res: Response, next: NextFunction): object => {
-    const {
-        message,
-        status = INTERNAL_SERVER_ERROR,
-        name,
-        data
-    }: IHttpError = err;
+    const { message, status = INTERNAL_SERVER_ERROR, name, data }: IHttpError = err;
 
     let stack: any = err && err.stack;
     stack = stack ? stack.split('\n').map((item: any): string[] => item.trim()) : null;

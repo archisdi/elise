@@ -28,12 +28,13 @@ export default class SQLRepo extends BaseRepository {
         return db[this.model].findAll({ where: conditions, attributes });
     }
 
-
     public async upsert(search: IObject, data: IObject): Promise<void> {
-        return this.findOne(search).then((row: IObject | undefined): Promise<void> => {
-            const payload = { ...data, created_by: this.context ? this.context.user_id : null };
-            return row ? this.update(search, payload) : this.create(payload);
-        });
+        return this.findOne(search).then(
+            (row: IObject | undefined): Promise<void> => {
+                const payload = { ...data, created_by: this.context ? this.context.user_id : null };
+                return row ? this.update(search, payload) : this.create(payload);
+            }
+        );
     }
 
     public async create(data: IObject): Promise<any> {
@@ -57,18 +58,24 @@ export default class SQLRepo extends BaseRepository {
         });
     }
 
-    public async paginate(conditions: IObject, { page = 1, limit = 10 }, attributes?: attributes, order = [['created_at', 'desc']]): Promise<{ data: any[]; meta: IMeta }> {
+    public async paginate(
+        conditions: IObject,
+        { page = 1, limit = 10 },
+        attributes?: attributes,
+        order = [['created_at', 'desc']]
+    ): Promise<{ data: any[]; meta: IMeta }> {
         const db = await this.getDbInstance();
-        return db[this.model].findAndCountAll({
-            where: conditions,
-            attributes,
-            limit,
-            offset: offset(page, limit),
-            order
-        }).then(({ rows, count }: { rows: object[]; count: number }): { data: any[]; meta: IMeta } => ({
-            data: rows,
-            meta: { page, limit, total_page: Math.ceil(count / limit), total_data: count }
-        }))
-        ;
+        return db[this.model]
+            .findAndCountAll({
+                where: conditions,
+                attributes,
+                limit,
+                offset: offset(page, limit),
+                order
+            })
+            .then(({ rows, count }: { rows: object[]; count: number }): { data: any[]; meta: IMeta } => ({
+                data: rows,
+                meta: { page, limit, total_page: Math.ceil(count / limit), total_data: count }
+            }));
     }
 }

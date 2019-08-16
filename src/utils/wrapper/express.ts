@@ -13,9 +13,7 @@ export default (method: any): any => async (req: Request, res: Response, next: N
         const data: IData = parseInput(req);
         const context: IContext | null = req && req.context ? req.context : null;
 
-        const {
-            message = 'success', data: outData = {}
-        } = await method(data, context);
+        const { message = 'success', data: outData = {} } = await method(data, context);
 
         return res.status(OK).json({
             message,

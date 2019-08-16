@@ -7,8 +7,8 @@ declare module '*.json' {
 
 declare function require(name: string): any;
 
-export interface IObject { 
-    [s: string]: any; 
+export interface IObject {
+    [s: string]: any;
 }
 
 export interface IMeta {

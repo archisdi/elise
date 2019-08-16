@@ -53,5 +53,4 @@ export default class BaseRepository {
     public async getDbTransaction(): Promise<any> {
         return DBContext.getTransaction();
     }
-
 }

@@ -27,9 +27,10 @@ export default async (req: Request, res: Response, next: NextFunction): Promise<
             const tokenPayload: ITokenable = await JWT.verifyToken(token);
             req.context = await generateContext(tokenPayload);
         } catch (err) {
-            const message = err.message === jwtExpiredMessage ?
-                ['token expired', COMMON_ERRORS.TOKEN_EXPIRED] :
-                ['token invalid', COMMON_ERRORS.TOKEN_INVALID];
+            const message =
+                err.message === jwtExpiredMessage
+                    ? ['token expired', COMMON_ERRORS.TOKEN_EXPIRED]
+                    : ['token invalid', COMMON_ERRORS.TOKEN_INVALID];
 
             throw HttpError.NotAuthorized(...message);
         }
