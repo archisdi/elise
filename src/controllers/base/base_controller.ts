@@ -1,10 +1,8 @@
-import { Router } from 'express';
-import { IData, IContext, IHandlerOutput } from '../../typings/common';
+import { Router, RequestHandler } from 'express';
+import { methodHandler } from '../../typings/common';
 import ExpressWrapper from '../../utils/wrapper/express';
-import { RequestHandler } from 'express-serve-static-core';
 
 type allowedMethod = 'get' | 'post' | 'put' | 'delete';
-type methodHandler = (data: IData, context: IContext) => Promise<IHandlerOutput>;
 
 export default class BaseController {
     private routes: Router;

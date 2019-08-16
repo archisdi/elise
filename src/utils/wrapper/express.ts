@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, RequestHandler } from 'express';
 import { OK } from 'http-status-codes';
-import { IContext, IData } from '../../typings/common';
+import { IContext, IData, methodHandler } from '../../typings/common';
 
 const parseInput = (req: Request): IData => ({
     query: req.query,
@@ -8,16 +8,20 @@ const parseInput = (req: Request): IData => ({
     body: req.body
 });
 
-export default (method: any): any => async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export default (method: methodHandler): RequestHandler => async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<any> => {
     try {
         const data: IData = parseInput(req);
-        const context: IContext | null = req && req.context ? req.context : null;
+        const context: IContext = req && req.context;
 
-        const { message = 'success', data: outData = {} } = await method(data, context);
+        const { message = 'success', data: outData = {}, status = OK } = await method(data, context);
 
         return res.status(OK).json({
             message,
-            status: OK,
+            status,
             content: outData
         });
     } catch (err) {

@@ -32,6 +32,7 @@ export interface IData {
 export interface IHandlerOutput {
     message?: string;
     data?: any;
+    status?: number;
 }
 
 type methodHandler = (data: IData, context: IContext) => Promise<IHandlerOutput>;
