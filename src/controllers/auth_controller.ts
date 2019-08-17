@@ -2,15 +2,16 @@ import { HttpError } from 'tymon';
 
 import JWT from '../libs/jwt';
 import Validator from '../middlewares/request_validator';
-import { IContext, IData } from '../typings/common';
+import { IContext, IData, IHandlerOutput } from '../typings/common';
 import BaseController from './base/base_controller';
+import { LoginHandlerInput } from 'src/typings/methods/auth';
 
 export default class AuthController extends BaseController {
-    public async login(data: IData, context: IContext): Promise<object> {
+    public async login(data: IData, context: IContext): Promise<IHandlerOutput> {
         try {
             const {
                 body: { username, password }
-            } = data;
+            }: LoginHandlerInput = data;
 
             const token: string = await JWT.generateToken({ user_id: username });
 

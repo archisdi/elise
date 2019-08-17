@@ -1,10 +1,8 @@
-import BaseRepo from './base/base_repository';
+import SQLRepo from './base/base_sql_repository';
+import { IContext } from 'src/typings/common';
 
-export default class UserRepo extends BaseRepo {
-    public async findOne(username: string): Promise<object> {
-        const db = await this.getDbInstance();
-        return db.User.findOne({
-            where: { username }
-        });
+export default class UserRepo extends SQLRepo {
+    public constructor(context: IContext) {
+        super('User', context);
     }
 }
