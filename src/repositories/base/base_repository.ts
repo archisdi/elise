@@ -3,7 +3,7 @@ import { IContext } from '../../typings/common';
 
 type Context = IContext | null;
 
-export default class BaseRepository {
+export class BaseRepository {
     public context: Context;
     private db: any = null;
     private mongo: any = null;
@@ -54,3 +54,5 @@ export default class BaseRepository {
         return DBContext.getTransaction();
     }
 }
+
+export default BaseRepository;
