@@ -13,7 +13,7 @@ export default class AuthController extends BaseController {
                 body: { username, password }
             }: LoginHandlerInput = data;
 
-            const token: string = await JWT.generateToken({ user_id: username });
+            const token = await JWT.generateToken({ user_id: username });
 
             return {
                 message: 'authentication success',

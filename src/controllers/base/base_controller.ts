@@ -31,7 +31,7 @@ export default class BaseController {
         this.routes[httpMethod](path, [...this.middlewares, ...routeMiddleware], ExpressWrapper(handler));
     }
 
-    protected addChildController(controller: { getRoutes(): Router }, path: string = '/'): void {
+    protected addChildController(path: string = '/', controller: { getRoutes(): Router }): void {
         this.routes.use(path, controller.getRoutes());
     }
 
