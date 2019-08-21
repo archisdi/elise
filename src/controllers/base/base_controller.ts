@@ -1,8 +1,9 @@
 import { Router, RequestHandler } from 'express';
-import { methodHandler } from '../../typings/common';
+import { methodHandler as MethodHandler } from '../../typings/common';
 import ExpressWrapper from '../../utils/wrapper/express';
 
-type allowedMethod = 'get' | 'post' | 'put' | 'delete';
+type AllowedMethod = 'get' | 'post' | 'put' | 'delete';
+type MiddleWare = RequestHandler | RequestHandler[];
 
 export default class BaseController {
     private routes: Router;
@@ -13,7 +14,7 @@ export default class BaseController {
         this.middlewares = [];
     }
 
-    protected setMiddleware(middleware: RequestHandler | RequestHandler[]): void {
+    protected setMiddleware(middleware: MiddleWare): void {
         if (middleware instanceof Array) {
             this.middlewares = middleware;
         } else {
@@ -22,10 +23,10 @@ export default class BaseController {
     }
 
     protected addRoute(
-        httpMethod: allowedMethod,
+        httpMethod: AllowedMethod,
         path: string = '/',
-        handler: methodHandler,
-        middlewares: RequestHandler[] = []
+        handler: MethodHandler,
+        middlewares: MiddleWare = []
     ): void {
         const routeMiddleware: RequestHandler[] = middlewares instanceof Array ? middlewares : [middlewares];
         this.routes[httpMethod](path, [...this.middlewares, ...routeMiddleware], ExpressWrapper(handler));
