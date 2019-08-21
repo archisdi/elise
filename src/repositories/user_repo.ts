@@ -1,4 +1,4 @@
-import SQLRepo from './base/base_sql_repository';
+import SQLRepo from './base/sql_repository';
 import { IContext } from 'src/typings/common';
 import { User, UserFillable } from '../typings/models/user';
 
