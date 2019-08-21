@@ -4,11 +4,11 @@ import { offset } from '../../utils/helpers';
 
 type Context = IContext | null;
 
-export default class ElasticRepo extends BaseRepository {
-    protected index: string;
+export default class FirebaseRepo<Model, ModelFillable> extends BaseRepository {
+    protected ref: string;
 
-    public constructor(index: string, context?: Context) {
+    public constructor(ref: string, context?: Context) {
         super(context);
-        this.index = index;
+        this.ref = ref;
     }
 }
