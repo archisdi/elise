@@ -1,5 +1,5 @@
 import BaseRepository from './base_repository';
-import { IContext, IMeta, IObject } from '../../typings/common';
+import { IContext, IPagination, IObject } from '../../typings/common';
 import { offset } from '../../utils/helpers';
 
 type Context = IContext | null;

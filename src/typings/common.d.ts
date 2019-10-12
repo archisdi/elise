@@ -11,9 +11,9 @@ export interface IObject {
     [s: string]: any;
 }
 
-export interface IMeta {
+export interface IPagination {
     page: number;
-    limit: number;
+    per_page: number;
     total_page: number;
     total_data: number;
 }
@@ -33,13 +33,26 @@ export interface IHandlerOutput {
     message?: string;
     data?: any;
     status?: number;
+    pagination?: IPagination;
 }
 
-type methodHandler = (data: IData, context: IContext) => Promise<IHandlerOutput>;
+export type methodHandler = (data: IData, context: IContext) => Promise<IHandlerOutput>;
 
 export interface IHttpError {
     message: string;
     name: string;
     status: number;
     data?: object;
+}
+
+export interface IHttpOutput {
+    data?: any;
+    meta: {
+        code: number;
+        user_message?: string;
+        error_message?: string | null;
+        error_type?: string;
+        error_data?: any;
+    };
+    pagination?: IPagination;
 }

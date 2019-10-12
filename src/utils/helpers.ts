@@ -2,7 +2,7 @@ import { IObject } from 'src/typings/common';
 
 export const parseDataObject = (object: object): object => JSON.parse(JSON.stringify(object));
 
-export const offset = (page: number = 1, limit: number = 10): number => (page - 1) * limit;
+export const offset = (page: number = 1, per_page: number = 10): number => (page - 1) * per_page;
 
 export const isEmptyObject = (object: object): boolean => !Object.keys(object).length;
 
