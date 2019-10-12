@@ -1,5 +1,5 @@
 import BaseRepository from './base_repository';
-import { IContext, IMeta, IObject } from '../../typings/common';
+import { IContext, IPagination, IObject } from '../../typings/common';
 import { offset } from '../../utils/helpers';
 
 type attributes = string[] | undefined;
@@ -60,22 +60,22 @@ export default class SQLRepo<Model, ModelFillable> extends BaseRepository {
 
     public async paginate(
         conditions: ModelFillable,
-        { page = 1, limit = 10 },
+        { page = 1, per_page = 10 },
         attributes?: attributes,
         order = [['created_at', 'desc']]
-    ): Promise<{ data: Model[]; meta: IMeta }> {
+    ): Promise<{ data: Model[]; meta: IPagination }> {
         const db = await this.getDbInstance();
         return db[this.model]
             .findAndCountAll({
                 where: conditions,
                 attributes,
-                limit,
-                offset: offset(page, limit),
+                per_page,
+                offset: offset(page, per_page),
                 order
             })
-            .then(({ rows, count }: { rows: Model[]; count: number }): { data: Model[]; meta: IMeta } => ({
+            .then(({ rows, count }: { rows: Model[]; count: number }): { data: Model[]; meta: IPagination } => ({
                 data: rows,
-                meta: { page, limit, total_page: Math.ceil(count / limit), total_data: count }
+                meta: { page, per_page, total_page: Math.ceil(count / per_page), total_data: count }
             }));
     }
 }
