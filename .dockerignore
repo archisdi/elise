@@ -1,0 +1,6 @@
+node_modules
+build
+npm-debug.log
+.vscode
+coverage
+.nyc_output
