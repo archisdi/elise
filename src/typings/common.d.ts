@@ -23,10 +23,10 @@ export interface IContext {
     user_id: string;
 }
 
-export interface IData {
-    query: any;
-    params: any;
-    body: any;
+export interface IData<Query = any, Params = any, Body = any> {
+    query: Query;
+    params: Params;
+    body: Body;
 }
 
 export interface IHandlerOutput {
