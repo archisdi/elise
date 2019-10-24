@@ -81,7 +81,7 @@ export default class SQLRepo<Model> extends BaseRepository {
             .findAndCountAll({
                 where: conditions,
                 attributes,
-                per_page,
+                limit: per_page,
                 offset: offset(page, per_page),
                 order: [order]
             })
