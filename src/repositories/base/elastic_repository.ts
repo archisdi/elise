@@ -4,7 +4,7 @@ import { offset } from '../../utils/helpers';
 
 type Context = IContext | null;
 
-export default class ElasticRepo<Model, ModelFillable> extends BaseRepository {
+export default class ElasticRepo<Model> extends BaseRepository {
     protected index: string;
 
     public constructor(index: string, context?: Context) {

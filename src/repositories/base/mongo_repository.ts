@@ -4,7 +4,7 @@ import { offset } from '../../utils/helpers';
 
 type Context = IContext | null;
 
-export default class MongoRepo<Model, ModelFillable> extends BaseRepository {
+export default class MongoRepo<Model> extends BaseRepository {
     protected collection: string;
 
     public constructor(collection: string, context?: Context) {

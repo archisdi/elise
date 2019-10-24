@@ -1,5 +1,5 @@
 import BaseRepository from './base_repository';
-import { IContext, IPagination, IObject } from '../../typings/common';
+import { IContext, IPagination } from '../../typings/common';
 import { offset } from '../../utils/helpers';
 
 type attributes = string[] | undefined;

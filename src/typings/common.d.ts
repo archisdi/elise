@@ -56,3 +56,5 @@ export interface IHttpOutput {
     };
     pagination?: IPagination;
 }
+
+export declare function ArrayKeys<T extends object>(): (keyof T)[];
