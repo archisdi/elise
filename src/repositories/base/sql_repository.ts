@@ -1,9 +1,11 @@
 import BaseRepository from './base_repository';
 import { IContext, IPagination } from '../../typings/common';
-import { offset } from '../../utils/helpers';
+import { offset, sorter } from '../../utils/helpers';
 
 type attributes = string[] | undefined;
 type Context = IContext | null;
+
+const DEFAULT_SORT = '-created_at';
 
 export default class SQLRepo<Model> extends BaseRepository {
     protected model: any;
@@ -23,9 +25,19 @@ export default class SQLRepo<Model> extends BaseRepository {
         return db[this.model].findOne({ where: conditions, attributes });
     }
 
-    public async findAll(conditions: Partial<Model>, attributes?: attributes): Promise<Model[]> {
+    public async findAll(
+        conditions: Partial<Model>,
+        sort: string = DEFAULT_SORT,
+        attributes?: attributes
+    ): Promise<Model[]> {
         const db = await this.getDbInstance();
-        return db[this.model].findAll({ where: conditions, attributes });
+        const order = sorter(sort);
+
+        return db[this.model].findAll({
+            where: conditions,
+            attributes,
+            order: [order]
+        });
     }
 
     public async upsert(search: Partial<Model>, data: Partial<Model>): Promise<void> {
@@ -60,18 +72,18 @@ export default class SQLRepo<Model> extends BaseRepository {
 
     public async paginate(
         conditions: Partial<Model>,
-        { page = 1, per_page = 10 },
-        attributes?: attributes,
-        order = [['created_at', 'desc']]
+        { page = 1, per_page = 10, sort = DEFAULT_SORT },
+        attributes?: attributes
     ): Promise<{ data: Model[]; meta: IPagination }> {
         const db = await this.getDbInstance();
+        const order = sorter(sort);
         return db[this.model]
             .findAndCountAll({
                 where: conditions,
                 attributes,
                 per_page,
                 offset: offset(page, per_page),
-                order
+                order: [order]
             })
             .then(({ rows, count }: { rows: Model[]; count: number }): { data: Model[]; meta: IPagination } => ({
                 data: rows,

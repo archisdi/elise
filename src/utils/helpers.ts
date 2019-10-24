@@ -23,6 +23,20 @@ export const stringifyObjectKey = (object: IObject): IObject => {
     return object;
 };
 
+export const sorter = (sort: string = '-created_at'): string[] => {
+    let sortString = sort;
+    let sortMethod;
+
+    if (sortString.charAt(0) === '-') {
+        sortMethod = 'desc';
+        sortString = sort.substr(1);
+    } else {
+        sortMethod = 'asc';
+    }
+
+    return [sortString, sortMethod];
+};
+
 export default {
     parseDataObject,
     offset,
