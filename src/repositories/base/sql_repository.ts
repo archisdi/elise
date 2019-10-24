@@ -5,7 +5,7 @@ import { offset } from '../../utils/helpers';
 type attributes = string[] | undefined;
 type Context = IContext | null;
 
-export default class SQLRepo<Model, ModelFillable> extends BaseRepository {
+export default class SQLRepo<Model> extends BaseRepository {
     protected model: any;
 
     public constructor(model: string, context?: Context) {
@@ -18,17 +18,17 @@ export default class SQLRepo<Model, ModelFillable> extends BaseRepository {
         return db[this.model].findOne({ where: { id }, attributes });
     }
 
-    public async findOne(conditions: ModelFillable, attributes?: attributes): Promise<Model | undefined> {
+    public async findOne(conditions: Partial<Model>, attributes?: attributes): Promise<Model | undefined> {
         const db = await this.getDbInstance();
         return db[this.model].findOne({ where: conditions, attributes });
     }
 
-    public async findAll(conditions: ModelFillable, attributes?: attributes): Promise<Model[]> {
+    public async findAll(conditions: Partial<Model>, attributes?: attributes): Promise<Model[]> {
         const db = await this.getDbInstance();
         return db[this.model].findAll({ where: conditions, attributes });
     }
 
-    public async upsert(search: ModelFillable, data: ModelFillable): Promise<void> {
+    public async upsert(search: Partial<Model>, data: Partial<Model>): Promise<void> {
         return this.findOne(search).then(
             (row: Model | undefined): Promise<any> => {
                 const payload = { ...data, created_by: this.context ? this.context.user_id : null };
@@ -37,12 +37,12 @@ export default class SQLRepo<Model, ModelFillable> extends BaseRepository {
         );
     }
 
-    public async create(data: ModelFillable): Promise<Model> {
+    public async create(data: Partial<Model>): Promise<Model> {
         const db = await this.getDbInstance();
         return db[this.model].create(data, { transaction: await this.getDbTransaction() });
     }
 
-    public async update(conditions: ModelFillable, data: ModelFillable): Promise<void> {
+    public async update(conditions: Partial<Model>, data: Partial<Model>): Promise<void> {
         const db = await this.getDbInstance();
         return db[this.model].update(data, {
             where: conditions,
@@ -50,7 +50,7 @@ export default class SQLRepo<Model, ModelFillable> extends BaseRepository {
         });
     }
 
-    public async delete(conditions: ModelFillable): Promise<void> {
+    public async delete(conditions: Partial<Model>): Promise<void> {
         const db = await this.getDbInstance();
         return db[this.model].delete({
             where: conditions,
@@ -59,7 +59,7 @@ export default class SQLRepo<Model, ModelFillable> extends BaseRepository {
     }
 
     public async paginate(
-        conditions: ModelFillable,
+        conditions: Partial<Model>,
         { page = 1, per_page = 10 },
         attributes?: attributes,
         order = [['created_at', 'desc']]
