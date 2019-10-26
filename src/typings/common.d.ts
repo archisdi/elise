@@ -57,4 +57,6 @@ export interface IHttpOutput {
     pagination?: IPagination;
 }
 
-export declare function ArrayKeys<T extends object>(): (keyof T)[];
+export type MakeAny<T> = {
+    [P in keyof T]?: any;
+};
