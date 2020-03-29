@@ -1,4 +1,5 @@
 import { IObject } from 'src/typings/common';
+import moment = require('moment');
 
 export const parseDataObject = (object: object): object => JSON.parse(JSON.stringify(object));
 
@@ -37,7 +38,13 @@ export const sorter = (sort: string = '-created_at'): string[] => {
     return [sortString, sortMethod];
 };
 
+export const timestamp = (): string =>
+    moment()
+        .utc()
+        .toISOString();
+
 export default {
+    timestamp,
     parseDataObject,
     offset,
     isEmptyArray,
