@@ -20,4 +20,4 @@ FROM node:10-alpine as release
 COPY --from=builder ./usr/src/app/build .
 
 EXPOSE 3020
-CMD [ "node", "./src/server.js" ]
+CMD [ "NODE_OPTIONS=--enable-source-maps", "node", "./src/server.js" ]
