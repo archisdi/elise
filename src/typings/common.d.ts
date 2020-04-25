@@ -53,6 +53,7 @@ export interface IHttpOutput {
         error_message?: string | null;
         error_type?: string;
         error_data?: any;
+        stack?: any[];
     };
     pagination?: IPagination;
 }

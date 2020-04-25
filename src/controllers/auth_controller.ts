@@ -9,35 +9,31 @@ import UserRepository from '../repositories/user_repo';
 
 export default class AuthController extends BaseController {
     public async login(data: IData, context: IContext): Promise<IHandlerOutput> {
-        try {
-            const {
-                body: { username, password }
-            }: LoginHandlerInput = data;
+        const {
+            body: { username, password }
+        }: LoginHandlerInput = data;
 
-            const userRepo = new UserRepository();
-            const user = await userRepo.findOne({ username });
+        const userRepo = new UserRepository();
+        const user = await userRepo.findOne({ username });
 
-            if (!user) {
-                throw HttpError.NotAuthorized(null, 'CREDENTIAL_NOT_MATCH');
-            }
-
-            if (!validatePassword(password, user.password)) {
-                throw HttpError.NotAuthorized(null, 'CREDENTIAL_NOT_MATCH');
-            }
-
-            const token = JWT.generateToken({ user_id: username });
-
-            return {
-                message: 'authentication success',
-                data: {
-                    token,
-                    expires_in: Number(process.env.JWT_LIFETIME)
-                }
-            };
-        } catch (err) {
-            if (err.status) throw err;
-            throw HttpError.InternalServerError(err.message);
+        if (!user) {
+            throw HttpError.NotAuthorized(null, 'CREDENTIAL_NOT_MATCH');
         }
+
+        if (!validatePassword(password, user.password)) {
+            throw HttpError.NotAuthorized(null, 'CREDENTIAL_NOT_MATCH');
+        }
+
+        const token = JWT.generateToken({ user_id: username });
+
+        return {
+            message: 'authentication success',
+            data: {
+                token,
+                expires_in: Number(process.env.JWT_LIFETIME)
+            }
+        };
+        // Wrap in try/catch block if transaction is needed
     }
 
     public setRoutes(): void {

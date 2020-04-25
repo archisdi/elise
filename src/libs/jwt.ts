@@ -19,10 +19,7 @@ export const verifyToken = (token: string): any => {
 export const generateRefreshToken = (): IRefreshToken => {
     return {
         token: random.generate(refreshLength),
-        valid_until: moment()
-            .add(refreshLifeTime, 'days')
-            .utc()
-            .format()
+        valid_until: moment().add(refreshLifeTime, 'days').utc().format()
     };
 };
 
