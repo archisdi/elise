@@ -1,5 +1,5 @@
 # builder
-FROM node:10 as builder
+FROM node:12 as builder
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
@@ -16,8 +16,8 @@ RUN cp -a ./storage ./build
 RUN cp ./.env ./build
 
 # release
-FROM node:10-alpine as release
+FROM node:12-alpine as release
 COPY --from=builder ./usr/src/app/build .
 
 EXPOSE 3020
-CMD [ "NODE_OPTIONS=--enable-source-maps", "node", "./src/server.js" ]
+CMD ["node", "./src/server.js" ]
