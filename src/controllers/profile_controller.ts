@@ -13,11 +13,8 @@ export default class ProfileController extends BaseController {
 
     public async getProfile(data: IData, context: IContext): Promise<IHandlerOutput> {
         const userRepo = new UserRepository(context);
-        const user = await userRepo.findOne({ username: context.username });
 
-        if (!user) {
-            throw HttpError.NotFound(null, 'USER_NOT_FOUND');
-        }
+        const user = await userRepo.findOneOrFail({ username: context.username });
 
         return {
             message: 'profile data retrieved',
