@@ -1,5 +1,3 @@
-import { HttpError } from 'tymon';
-
 import { IContext, IData, IHandlerOutput } from 'src/typings/common';
 import AuthMiddleware from '../middlewares/auth';
 import UserRepository from '../repositories/user_repo';
