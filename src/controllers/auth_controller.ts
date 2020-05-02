@@ -5,7 +5,7 @@ import Validator from '../middlewares/request_validator';
 import BaseController from './base/base_controller';
 import { IContext, IData, IHandlerOutput } from '../typings/common';
 import { LoginHandlerInput } from 'src/typings/methods/auth';
-import UserRepository from '../repositories/user_repo';
+import RepoService from 'src/utils/wrapper/repository';
 
 export default class AuthController extends BaseController {
     public async login(data: IData, context: IContext): Promise<IHandlerOutput> {
@@ -13,7 +13,7 @@ export default class AuthController extends BaseController {
             body: { username, password }
         }: LoginHandlerInput = data;
 
-        const userRepo = new UserRepository();
+        const userRepo = RepoService.get('User');
         const user = await userRepo.findOne({ username });
 
         if (!user) {
