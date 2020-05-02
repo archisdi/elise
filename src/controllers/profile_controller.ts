@@ -12,13 +12,13 @@ export default class ProfileController extends BaseController {
     }
 
     public async getProfile(data: IData, context: IContext): Promise<IHandlerOutput> {
-        const userRepo = new UserRepository(context);
+        const userRepo = new UserRepository();
 
         const user = await userRepo.findOneOrFail({ username: context.username });
 
         return {
             message: 'profile data retrieved',
-            data: user
+            data: user.toJson()
         };
     }
 

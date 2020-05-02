@@ -1,6 +1,6 @@
-import { BaseModelClass } from './base/base_model';
+import { BaseModelClass, BaseModel } from './base/base_model';
 
-export interface User {
+export interface UserDefinition {
     id: string;
     name: string;
     username: string;
@@ -12,7 +12,7 @@ export interface User {
     deleted_at: string;
 }
 
-export class UserModel {
+export class UserModel implements BaseModel<UserDefinition> {
     private _id: string;
     private _name: string;
     private _username: string;
@@ -23,7 +23,7 @@ export class UserModel {
     private _updated_at: string;
     private _deleted_at: string;
 
-    public constructor(data: User) {
+    public constructor(data: UserDefinition) {
         this._id = data.id;
         this._name = data.name;
         this._username = data.username;
@@ -106,9 +106,19 @@ export class UserModel {
         this._deleted_at = value;
     }
 
-    public print(): void {
-        console.table(this);
+    public toJson(): UserDefinition {
+        return {
+            id: this._id,
+            name: this._name,
+            username: this._username,
+            password: this._password,
+            refresh_token: this._refresh_token,
+            token_validity: this._token_validity,
+            created_at: this._created_at,
+            updated_at: this._updated_at,
+            deleted_at: this._deleted_at
+        };
     }
 }
 
-export const UserClass: BaseModelClass = UserModel;
+export const UserClass: BaseModelClass<UserModel> = UserModel;
