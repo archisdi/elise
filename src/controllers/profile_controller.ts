@@ -1,5 +1,3 @@
-import { HttpError } from 'tymon';
-
 import { IContext, IData, IHandlerOutput } from 'src/typings/common';
 import AuthMiddleware from '../middlewares/auth';
 import UserRepository from '../repositories/user_repo';
@@ -12,16 +10,13 @@ export default class ProfileController extends BaseController {
     }
 
     public async getProfile(data: IData, context: IContext): Promise<IHandlerOutput> {
-        const userRepo = new UserRepository(context);
-        const user = await userRepo.findOne({ username: context.username });
+        const userRepo = new UserRepository();
 
-        if (!user) {
-            throw HttpError.NotFound(null, 'USER_NOT_FOUND');
-        }
+        const user = await userRepo.findOneOrFail({ username: context.username });
 
         return {
             message: 'profile data retrieved',
-            data: user
+            data: user.toJson()
         };
     }
 

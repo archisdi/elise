@@ -1,83 +1,108 @@
 import BaseRepository from './base_repository';
-import { IContext, IPagination } from '../../typings/common';
+import { IPagination } from '../../typings/common';
 import { offset, sorter } from '../../utils/helpers';
+import { BaseModelClass } from '../../models/base/base_model';
+import { HttpError } from 'tymon';
 
 type attributes = string[] | undefined;
-type Context = IContext | null;
 
 const DEFAULT_SORT = '-created_at';
 
-export default class SQLRepo<Model> extends BaseRepository {
-    protected model: any;
+export default class SQLRepo<ModelClass> extends BaseRepository {
+    protected modelName: string;
+    protected model: BaseModelClass<ModelClass>;
 
-    public constructor(model: string, context?: Context) {
-        super(context);
-        this.model = model;
+    public constructor(model: string, modelClass: BaseModelClass<ModelClass>) {
+        super();
+        this.modelName = model;
+        this.model = modelClass;
     }
 
-    public async findId(id: string, attributes?: attributes): Promise<Model | undefined> {
+    private build(data: any): ModelClass {
+        return new this.model(data);
+    }
+
+    private buildMany(datas: any[]): ModelClass[] {
+        return datas.map((data): ModelClass => new this.model(data));
+    }
+
+    public async findId(id: string, attributes?: attributes): Promise<ModelClass | null> {
         const db = await this.getDbInstance();
-        return db[this.model].findOne({ where: { id }, attributes });
+        return db[this.modelName].findOne({ where: { id }, attributes }).then((res: any): any => this.build(res));
     }
 
-    public async findOne(conditions: Partial<Model>, attributes?: attributes): Promise<Model | undefined> {
+    public async findOne(conditions: Partial<ModelClass>, attributes?: attributes): Promise<ModelClass | null> {
         const db = await this.getDbInstance();
-        return db[this.model].findOne({ where: conditions, attributes });
+        return db[this.modelName]
+            .findOne({ where: conditions, attributes })
+            .then((res: any): any => (res ? this.build(res) : null));
     }
 
-    public async findAll(
-        conditions: Partial<Model>,
-        sort: string = DEFAULT_SORT,
-        attributes?: attributes
-    ): Promise<Model[]> {
-        const db = await this.getDbInstance();
-        const order = sorter(sort);
-
-        return db[this.model].findAll({
-            where: conditions,
-            attributes,
-            order: [order]
-        });
-    }
-
-    public async upsert(search: Partial<Model>, data: Partial<Model>): Promise<void> {
-        return this.findOne(search).then(
-            (row: Model | undefined): Promise<any> => {
-                const payload = { ...data, created_by: this.context ? this.context.user_id : null };
-                return row ? this.update(search, payload) : this.create(payload);
+    public async findOneOrFail(conditions: Partial<ModelClass>, attributes?: attributes): Promise<ModelClass> {
+        return this.findOne(conditions, attributes).then(
+            (res: any): ModelClass => {
+                if (!res) throw HttpError.NotFound(`${this.modelName.toUpperCase()}_NOT_FOUND`);
+                return this.build(res);
             }
         );
     }
 
-    public async create(data: Partial<Model>): Promise<Model> {
+    public async findAll(
+        conditions: Partial<ModelClass>,
+        sort: string = DEFAULT_SORT,
+        attributes?: attributes
+    ): Promise<ModelClass[]> {
         const db = await this.getDbInstance();
-        return db[this.model].create(data, { transaction: await this.getDbTransaction() });
+        const order = sorter(sort);
+
+        return db[this.modelName]
+            .findAll({
+                where: conditions,
+                attributes,
+                order: [order]
+            })
+            .then((res: any): any => this.buildMany(res));
     }
 
-    public async update(conditions: Partial<Model>, data: Partial<Model>): Promise<void> {
+    public async upsert(search: Partial<ModelClass>, data: Partial<ModelClass>): Promise<void> {
+        return this.findOne(search).then(
+            (row): Promise<any> => {
+                return row ? this.update(search, data) : this.create(data);
+            }
+        );
+    }
+
+    public async create(data: Partial<ModelClass>): Promise<ModelClass> {
         const db = await this.getDbInstance();
-        return db[this.model].update(data, {
+        return db[this.modelName]
+            .create(data, { transaction: await this.getDbTransaction() })
+            .then((res: any): any => this.build(res));
+    }
+
+    public async update(conditions: Partial<ModelClass>, data: Partial<ModelClass>): Promise<void> {
+        const db = await this.getDbInstance();
+        return db[this.modelName].update(data, {
             where: conditions,
             transaction: await this.getDbTransaction()
         });
     }
 
-    public async delete(conditions: Partial<Model>): Promise<void> {
+    public async delete(conditions: Partial<ModelClass>): Promise<void> {
         const db = await this.getDbInstance();
-        return db[this.model].delete({
+        return db[this.modelName].delete({
             where: conditions,
             transaction: await this.getDbTransaction()
         });
     }
 
     public async paginate(
-        conditions: Partial<Model>,
+        conditions: Partial<ModelClass>,
         { page = 1, per_page = 10, sort = DEFAULT_SORT },
         attributes?: attributes
-    ): Promise<{ data: Model[]; meta: IPagination }> {
+    ): Promise<{ data: ModelClass[]; meta: IPagination }> {
         const db = await this.getDbInstance();
         const order = sorter(sort);
-        return db[this.model]
+        return db[this.modelName]
             .findAndCountAll({
                 where: conditions,
                 attributes,
@@ -85,8 +110,11 @@ export default class SQLRepo<Model> extends BaseRepository {
                 offset: offset(page, per_page),
                 order: [order]
             })
-            .then(({ rows, count }: { rows: Model[]; count: number }): { data: Model[]; meta: IPagination } => ({
-                data: rows,
+            .then(({ rows, count }: { rows: ModelClass[]; count: number }): {
+                data: ModelClass[];
+                meta: IPagination;
+            } => ({
+                data: this.buildMany(rows),
                 meta: { page, per_page, total_page: Math.ceil(count / per_page), total_data: count }
             }));
     }

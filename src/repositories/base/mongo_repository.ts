@@ -1,14 +1,11 @@
 import BaseRepository from './base_repository';
-import { IContext, MakeAny } from '../../typings/common';
-// import { offset } from '../../utils/helpers';
-
-type Context = IContext | null;
+import { MakeAny } from '../../typings/common';
 
 export default class MongoRepo<Model> extends BaseRepository {
     protected collection: string;
 
-    public constructor(collection: string, context?: Context) {
-        super(context);
+    public constructor(collection: string) {
+        super();
         this.collection = collection;
     }
 
@@ -19,10 +16,7 @@ export default class MongoRepo<Model> extends BaseRepository {
 
     public async findAll(condition: MakeAny<Model>): Promise<Model[]> {
         const db = await this.getMongoInstance();
-        return db
-            .collection(this.collection)
-            .find(condition)
-            .toArray();
+        return db.collection(this.collection).find(condition).toArray();
     }
 
     public async createOne(payload: Partial<Model>): Promise<Model> {

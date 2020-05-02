@@ -4,16 +4,13 @@ import { IContext } from '../../typings/common';
 type Context = IContext | null;
 
 export class BaseRepository {
-    public context: Context;
     private db: any = null;
     private mongo: any = null;
     private redis: any = null;
     private firebase: any = null;
     private elastic: any = null;
 
-    public constructor(context: Context = null) {
-        this.context = context;
-    }
+    public constructor() {}
 
     public async getDbInstance(): Promise<any> {
         if (!this.db) {
