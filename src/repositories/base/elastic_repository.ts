@@ -1,14 +1,13 @@
 import BaseRepository from './base_repository';
-import { IContext, IPagination, IObject } from '../../typings/common';
-import { offset } from '../../utils/helpers';
+import { IContext } from '../../typings/common';
 
 type Context = IContext | null;
 
-export default class ElasticRepo<Model> extends BaseRepository {
+export default class ElasticRepo<Model = any> extends BaseRepository {
     protected index: string;
 
-    public constructor(index: string, context?: Context) {
-        super(context);
+    public constructor(index: string) {
+        super();
         this.index = index;
     }
 }

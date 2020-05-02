@@ -1,3 +1,5 @@
+import { BaseModelClass } from './base/base_model';
+
 export interface User {
     id: string;
     name: string;
@@ -108,3 +110,5 @@ export class UserModel {
         console.table(this);
     }
 }
+
+export const UserClass: BaseModelClass = UserModel;

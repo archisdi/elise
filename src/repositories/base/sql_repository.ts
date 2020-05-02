@@ -1,11 +1,10 @@
 import BaseRepository from './base_repository';
-import { IContext, IPagination } from '../../typings/common';
+import { IPagination } from '../../typings/common';
 import { offset, sorter } from '../../utils/helpers';
 import { BaseModelClass } from '../../models/base/base_model';
 import { HttpError } from 'tymon';
 
 type attributes = string[] | undefined;
-type Context = IContext | null;
 
 const DEFAULT_SORT = '-created_at';
 
@@ -13,8 +12,8 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
     protected modelName: string;
     protected model: BaseModelClass<ModelClass>;
 
-    public constructor(model: string, modelClass: BaseModelClass<ModelClass>, context?: Context) {
-        super(context);
+    public constructor(model: string, modelClass: BaseModelClass<ModelClass>) {
+        super();
         this.modelName = model;
         this.model = modelClass;
     }
@@ -68,8 +67,7 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
     public async upsert(search: Partial<ModelClass>, data: Partial<ModelClass>): Promise<void> {
         return this.findOne(search).then(
             (row): Promise<any> => {
-                const payload = { ...data, created_by: this.context ? this.context.user_id : null };
-                return row ? this.update(search, payload) : this.create(payload);
+                return row ? this.update(search, data) : this.create(data);
             }
         );
     }

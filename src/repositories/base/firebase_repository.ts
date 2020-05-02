@@ -1,14 +1,13 @@
 import BaseRepository from './base_repository';
-import { IContext, IPagination, IObject } from '../../typings/common';
-import { offset } from '../../utils/helpers';
+import { IContext } from '../../typings/common';
 
 type Context = IContext | null;
 
 export default class FirebaseRepo<Model> extends BaseRepository {
     protected ref: string;
 
-    public constructor(ref: string, context?: Context) {
-        super(context);
+    public constructor(ref: string) {
+        super();
         this.ref = ref;
     }
 

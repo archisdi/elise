@@ -1,13 +1,10 @@
 import BaseRepository from './base_repository';
-import { IContext } from '../../typings/common';
-
-type Context = IContext | null;
 
 export default class RedisRepo extends BaseRepository {
     protected model: any;
 
-    public constructor(model: string, context?: Context) {
-        super(context);
+    public constructor(model: string) {
+        super();
         this.model = model;
     }
 
