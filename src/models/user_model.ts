@@ -1,61 +1,44 @@
-export default function (sequelize: any, dataTypes: any): any {
-    const member = sequelize.define(
-        'User',
-        {
-            id: {
-                type: dataTypes.UUID,
-                defaultValue: dataTypes.UUIDV4,
-                allowNull: false,
-                primaryKey: true
-            },
-            name: {
-                type: dataTypes.STRING(255),
-                allowNull: false
-            },
-            username: {
-                type: dataTypes.STRING(255),
-                allowNull: false,
-                unique: true
-            },
-            password: {
-                type: dataTypes.STRING(255),
-                allowNull: false
-            },
-            refresh_token: {
-                type: dataTypes.STRING(255),
-                allowNull: true
-            },
-            token_validity: {
-                type: dataTypes.DATE,
-                allowNull: true
-            },
-            created_at: {
-                type: dataTypes.DATE,
-                allowNull: true
-            },
-            updated_at: {
-                type: dataTypes.DATE,
-                allowNull: true
-            },
-            deleted_at: {
-                type: dataTypes.DATE,
-                allowNull: true
-            }
-        },
-        {
-            tableName: 'users',
-            freezeTableName: true,
-            underscored: true,
-            paranoid: true /** Soft deletes */
-        }
-    );
+import { User } from 'src/typings/models/user';
 
-    member.associate = (models: any): void => {
-        // Member.belongsTo(models.model_name, {
-        //     foreignKey: 'model_name_id',
-        //     targetKey: 'id'
-        // });
-    };
+export class UserModel {
+    private id: string;
+    private name: string;
+    private _username: string;
+    private _password: string;
+    private refresh_token: string;
+    private token_validity: string;
+    private created_at: string;
+    private updated_at: string;
+    private deleted_at: string;
 
-    return member;
+    public constructor(data: User) {
+        this.id = data.id;
+        this.name = data.name;
+        this._username = data.username;
+        this._password = data.password;
+        this.refresh_token = data.refresh_token;
+        this.token_validity = data.token_validity;
+        this.created_at = data.created_at;
+        this.updated_at = data.updated_at;
+        this.deleted_at = data.deleted_at;
+    }
+
+    public get password(): string {
+        return this._password;
+    }
+
+    public set password(value: string) {
+        this._password = value;
+    }
+
+    public get username(): string {
+        return this._username;
+    }
+    public set username(value: string) {
+        this._username = value;
+    }
+
+    public print(): void {
+        console.table(this);
+    }
 }

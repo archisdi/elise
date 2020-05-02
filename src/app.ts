@@ -34,7 +34,7 @@ class App {
         HttpError.initialize();
         DBContext.initialize({
             connection_string: String(process.env.DB_CONNECTION_STRING),
-            models_path: '/src/models'
+            models_path: '/database/models'
         });
     }
 
