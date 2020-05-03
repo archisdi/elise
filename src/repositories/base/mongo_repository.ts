@@ -1,12 +1,12 @@
 import BaseRepository from './base_repository';
 import { MakeAny } from '../../typings/common';
-import { BaseMongoModelClass } from 'src/models/base/base_model';
+import { BaseMongoModelInterface } from 'src/models/base/base_model';
 
 export default class MongoRepo<ModelClass> extends BaseRepository {
     protected collection: string;
-    protected model: BaseMongoModelClass<ModelClass>;
+    protected model: BaseMongoModelInterface<ModelClass>;
 
-    public constructor(model: BaseMongoModelClass<ModelClass>) {
+    public constructor(model: BaseMongoModelInterface<ModelClass>) {
         super();
         this.model = model;
         this.collection = this.model.collectionName();
