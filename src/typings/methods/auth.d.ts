@@ -3,4 +3,6 @@ export interface LoginHandlerInput {
         username: string;
         password: string;
     };
+    query: {};
+    params: {};
 }

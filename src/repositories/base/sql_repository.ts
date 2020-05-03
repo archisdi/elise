@@ -1,7 +1,7 @@
 import BaseRepository from './base_repository';
 import { IPagination } from '../../typings/common';
 import { offset, sorter } from '../../utils/helpers';
-import { BaseModelClass } from '../../models/base/base_model';
+import { BaseSqlModelClass } from '../../models/base/base_model';
 import { HttpError } from 'tymon';
 
 type attributes = string[] | undefined;
@@ -10,9 +10,9 @@ const DEFAULT_SORT = '-created_at';
 
 export default class SQLRepo<ModelClass> extends BaseRepository {
     protected modelName: string;
-    protected model: BaseModelClass<ModelClass>;
+    protected model: BaseSqlModelClass<ModelClass>;
 
-    public constructor(modelClass: BaseModelClass<ModelClass>) {
+    public constructor(modelClass: BaseSqlModelClass<ModelClass>) {
         super();
         this.model = modelClass;
         this.modelName = modelClass.modelName();

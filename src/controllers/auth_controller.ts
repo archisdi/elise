@@ -9,10 +9,10 @@ import RepoService from 'src/utils/wrapper/repository';
 import { UserModel } from 'src/models/user_model';
 
 export default class AuthController extends BaseController {
-    public async login(data: IData, context: IContext): Promise<IHandlerOutput> {
+    public async login(data: LoginHandlerInput, context: IContext): Promise<IHandlerOutput> {
         const {
             body: { username, password }
-        }: LoginHandlerInput = data;
+        } = data;
 
         const userRepo = RepoService.getSql<UserModel>(UserModel);
         const user = await userRepo.findOne({ username });

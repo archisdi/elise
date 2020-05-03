@@ -1,4 +1,4 @@
-import { BaseModelClass, BaseModel } from './base/base_model';
+import { BaseSqlModelClass, BaseModel, BaseMongoModelClass } from './base/base_model';
 
 export interface UserDefinition {
     id: string;
@@ -37,6 +37,10 @@ export class UserModel implements BaseModel<UserDefinition> {
 
     public static modelName(): string {
         return 'User';
+    }
+
+    public static collectionName(): string {
+        return 'users';
     }
 
     public get password(): string {
@@ -125,4 +129,6 @@ export class UserModel implements BaseModel<UserDefinition> {
     }
 }
 
-export const UserClass: BaseModelClass<UserModel> = UserModel;
+export const UserSqlClass: BaseSqlModelClass<UserModel> = UserModel;
+
+export const UserMongoClass: BaseMongoModelClass<UserModel> = UserModel;

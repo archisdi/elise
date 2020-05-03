@@ -1,6 +1,11 @@
-export interface BaseModelClass<ClassModel = any> {
+export interface BaseSqlModelClass<ClassModel = any> {
     new (...param: any): ClassModel;
     modelName(): string;
+}
+
+export interface BaseMongoModelClass<ClassModel = any> {
+    new (...param: any): ClassModel;
+    collectionName(): string;
 }
 
 export interface BaseModel<Model> {
