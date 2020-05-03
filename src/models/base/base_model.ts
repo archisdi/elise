@@ -7,6 +7,7 @@ export interface BaseSqlModelClass<ClassModel = any> {
 export interface BaseMongoModelClass<ClassModel = any> {
     new (...param: any): ClassModel;
     collectionName(): string;
+    buildFromMongo(...params: any): ClassModel;
 }
 
 export interface BaseModel<Model> {

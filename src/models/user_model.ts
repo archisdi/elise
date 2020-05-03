@@ -162,6 +162,6 @@ export class UserModel implements BaseModel<UserDefinition> {
     }
 }
 
-export const UserSqlClass: BaseSqlModelClass<UserModel> = UserModel;
+// export const UserSqlClass: BaseSqlModelClass<UserModel> = UserModel;
 
-export const UserMongoClass: BaseMongoModelClass<UserModel> = UserModel;
+// export const UserMongoClass: BaseMongoModelClass<UserModel> = UserModel;
