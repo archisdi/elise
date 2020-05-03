@@ -1,4 +1,6 @@
 import { BaseSqlModelClass, BaseModel, BaseMongoModelClass } from './base/base_model';
+import jwt, { validatePassword } from '../libs/jwt';
+import { HttpError } from 'tymon';
 
 export interface UserDefinition {
     id: string;
@@ -23,16 +25,26 @@ export class UserModel implements BaseModel<UserDefinition> {
     private _updated_at: string;
     private _deleted_at: string;
 
-    public constructor(data: UserDefinition) {
-        this._id = data.id;
-        this._name = data.name;
-        this._username = data.username;
-        this._password = data.password;
-        this._refresh_token = data.refresh_token;
-        this._token_validity = data.token_validity;
-        this._created_at = data.created_at;
-        this._updated_at = data.updated_at;
-        this._deleted_at = data.deleted_at;
+    public constructor(
+        id: string,
+        name: string,
+        username: string,
+        password: string,
+        refreshToken: string,
+        tokenValidity: string,
+        createdAt: string,
+        updatedAt: string,
+        deletedAt: string
+    ) {
+        this._id = id;
+        this._name = name;
+        this._username = username;
+        this._password = password;
+        this._refresh_token = refreshToken;
+        this._token_validity = tokenValidity;
+        this._created_at = createdAt;
+        this._updated_at = updatedAt;
+        this._deleted_at = deletedAt;
     }
 
     public static modelName(): string {
@@ -41,6 +53,27 @@ export class UserModel implements BaseModel<UserDefinition> {
 
     public static collectionName(): string {
         return 'users';
+    }
+
+    public static buildFromSql(data: UserDefinition): UserModel {
+        return new UserModel(
+            data.id,
+            data.name,
+            data.username,
+            data.password,
+            data.refresh_token,
+            data.token_validity,
+            data.created_at,
+            data.updated_at,
+            data.deleted_at
+        );
+    }
+
+    public signJwtToken(password: string): string {
+        if (!validatePassword(password, this.password)) {
+            throw HttpError.NotAuthorized(null, 'CREDENTIAL_NOT_MATCH');
+        }
+        return jwt.generateToken({ user_id: this.username });
     }
 
     public get password(): string {

@@ -1,4 +1,4 @@
-import SQLRepo from 'src/repositories/base/sql_repository';
+import SQLRepo from '../../repositories/base/sql_repository';
 import { BaseSqlModelClass } from 'src/models/base/base_model';
 
 export default class RepoService {

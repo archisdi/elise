@@ -19,11 +19,11 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
     }
 
     private build(data: any): ModelClass {
-        return new this.model(data);
+        return this.model.buildFromSql(data);
     }
 
     private buildMany(datas: any[]): ModelClass[] {
-        return datas.map((data): ModelClass => new this.model(data));
+        return datas.map((data): ModelClass => this.build(data));
     }
 
     public async findId(id: string, attributes?: attributes): Promise<ModelClass | null> {
