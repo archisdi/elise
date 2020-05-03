@@ -1,6 +1,6 @@
 import { IContext, IData, IHandlerOutput } from 'src/typings/common';
 import AuthMiddleware from '../middlewares/auth';
-import UserRepository from '../repositories/user_repo';
+import UserRepository from '../repositories/user_sql_repo';
 import BaseController from './base/base_controller';
 
 export default class ProfileController extends BaseController {

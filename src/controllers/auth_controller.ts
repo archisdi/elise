@@ -3,28 +3,25 @@ import { HttpError } from 'tymon';
 import JWT, { validatePassword } from '../libs/jwt';
 import Validator from '../middlewares/request_validator';
 import BaseController from './base/base_controller';
-import { IContext, IData, IHandlerOutput } from '../typings/common';
+import { IContext, IHandlerOutput } from '../typings/common';
 import { LoginHandlerInput } from 'src/typings/methods/auth';
-import RepoService from 'src/utils/wrapper/repository';
+import RepoService from '../utils/wrapper/repository';
+import { UserModel } from '../models/user_model';
 
 export default class AuthController extends BaseController {
-    public async login(data: IData, context: IContext): Promise<IHandlerOutput> {
+    public async login(data: LoginHandlerInput, context: IContext): Promise<IHandlerOutput> {
         const {
             body: { username, password }
-        }: LoginHandlerInput = data;
+        } = data;
 
-        const userRepo = RepoService.get('User');
+        const userRepo = RepoService.getSql<UserModel>(UserModel);
         const user = await userRepo.findOne({ username });
 
         if (!user) {
             throw HttpError.NotAuthorized(null, 'CREDENTIAL_NOT_MATCH');
         }
 
-        if (!validatePassword(password, user.password)) {
-            throw HttpError.NotAuthorized(null, 'CREDENTIAL_NOT_MATCH');
-        }
-
-        const token = JWT.generateToken({ user_id: username });
+        const token = user.signJwtToken(password);
 
         return {
             message: 'authentication success',

@@ -3,6 +3,6 @@ import { UserModel } from '../models/user_model';
 
 export default class UserRepository extends SQLRepo<UserModel> {
     public constructor() {
-        super('User', UserModel);
+        super(UserModel);
     }
 }
