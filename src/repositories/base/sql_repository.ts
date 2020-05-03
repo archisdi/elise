@@ -12,10 +12,10 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
     protected modelName: string;
     protected model: BaseModelClass<ModelClass>;
 
-    public constructor(model: string, modelClass: BaseModelClass<ModelClass>) {
+    public constructor(modelClass: BaseModelClass<ModelClass>) {
         super();
-        this.modelName = model;
         this.model = modelClass;
+        this.modelName = modelClass.modelName();
     }
 
     private build(data: any): ModelClass {

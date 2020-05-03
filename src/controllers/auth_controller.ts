@@ -6,6 +6,7 @@ import BaseController from './base/base_controller';
 import { IContext, IData, IHandlerOutput } from '../typings/common';
 import { LoginHandlerInput } from 'src/typings/methods/auth';
 import RepoService from 'src/utils/wrapper/repository';
+import { UserModel } from 'src/models/user_model';
 
 export default class AuthController extends BaseController {
     public async login(data: IData, context: IContext): Promise<IHandlerOutput> {
@@ -13,7 +14,7 @@ export default class AuthController extends BaseController {
             body: { username, password }
         }: LoginHandlerInput = data;
 
-        const userRepo = RepoService.get('User');
+        const userRepo = RepoService.getSql<UserModel>(UserModel);
         const user = await userRepo.findOne({ username });
 
         if (!user) {

@@ -35,6 +35,10 @@ export class UserModel implements BaseModel<UserDefinition> {
         this._deleted_at = data.deleted_at;
     }
 
+    public static modelName(): string {
+        return 'User';
+    }
+
     public get password(): string {
         return this._password;
     }
