@@ -6,3 +6,8 @@ export interface LoginHandlerInput {
     query: {};
     params: {};
 }
+
+export interface LoginHandlerOutput {
+    token: string;
+    expires_in: number;
+}

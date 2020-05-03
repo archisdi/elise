@@ -29,9 +29,9 @@ export interface IData<Query = any, Params = any, Body = any> {
     body: Body;
 }
 
-export interface IHandlerOutput {
+export interface IHandlerOutput<DataOutput = any> {
     message?: string;
-    data?: any;
+    data?: DataOutput;
     status?: number;
     pagination?: IPagination;
 }

@@ -1,4 +1,4 @@
-import { BaseSqlModelClass, BaseModel, BaseMongoModelClass } from './base/base_model';
+import { BaseSqlModelInterface, BaseModelInterface, BaseMongoModelInterface, BaseModel } from './base/base_model';
 import jwt, { validatePassword } from '../libs/jwt';
 import { HttpError } from 'tymon';
 
@@ -14,7 +14,7 @@ export interface UserDefinition {
     deleted_at: string;
 }
 
-export class UserModel implements BaseModel<UserDefinition> {
+export class UserModel extends BaseModel implements BaseModelInterface<UserDefinition> {
     private _id: string;
     private _name: string;
     private _username: string;
@@ -24,6 +24,8 @@ export class UserModel implements BaseModel<UserDefinition> {
     private _created_at: string;
     private _updated_at: string;
     private _deleted_at: string;
+
+    protected hidden = ['password', 'deleted_at'];
 
     public constructor(
         id: string,
@@ -36,6 +38,7 @@ export class UserModel implements BaseModel<UserDefinition> {
         updatedAt: string,
         deletedAt: string
     ) {
+        super();
         this._id = id;
         this._name = name;
         this._username = username;
@@ -147,8 +150,8 @@ export class UserModel implements BaseModel<UserDefinition> {
         this._deleted_at = value;
     }
 
-    public toJson(): UserDefinition {
-        return {
+    public toJson(): Partial<UserDefinition> {
+        const data: { [x: string]: any } = {
             id: this._id,
             name: this._name,
             username: this._username,
@@ -159,9 +162,13 @@ export class UserModel implements BaseModel<UserDefinition> {
             updated_at: this._updated_at,
             deleted_at: this._deleted_at
         };
+        this.hidden?.forEach((param): void => {
+            delete data[param];
+        });
+        return data;
     }
 }
 
-export const UserSqlClass: BaseSqlModelClass<UserModel> = UserModel;
+// export const UserSqlClass: BaseSqlModelClass<UserModel> = UserModel;
 
-export const UserMongoClass: BaseMongoModelClass<UserModel> = UserModel;
+// export const UserMongoClass: BaseMongoModelClass<UserModel> = UserModel;
