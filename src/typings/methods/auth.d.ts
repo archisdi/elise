@@ -9,5 +9,6 @@ export interface LoginHandlerInput {
 
 export interface LoginHandlerOutput {
     token: string;
+    refresh_token: string;
     expires_in: number;
 }

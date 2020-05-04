@@ -1,6 +1,6 @@
 import { Router, RequestHandler } from 'express';
 import { methodHandler as MethodHandler } from '../../typings/common';
-import ExpressWrapper from '../../utils/wrapper/express';
+import ExpressWrapper from '../../utils/factory/handler';
 
 type AllowedMethod = 'get' | 'post' | 'put' | 'delete';
 type MiddleWare = RequestHandler | RequestHandler[];

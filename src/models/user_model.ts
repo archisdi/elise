@@ -1,6 +1,7 @@
 import { BaseSqlModelInterface, BaseModelInterface, BaseMongoModelInterface, BaseModel } from './base/base_model';
 import jwt, { validatePassword } from '../libs/jwt';
 import { HttpError } from 'tymon';
+import RepoService from '../utils/factory/repository';
 
 export interface UserDefinition {
     id: string;
@@ -14,7 +15,7 @@ export interface UserDefinition {
     deleted_at: string;
 }
 
-export class UserModel extends BaseModel implements BaseModelInterface<UserDefinition> {
+export class UserModel extends BaseModel<UserModel> implements BaseModelInterface<UserDefinition> {
     private _id: string;
     private _name: string;
     private _username: string;
@@ -38,7 +39,7 @@ export class UserModel extends BaseModel implements BaseModelInterface<UserDefin
         updatedAt: string,
         deletedAt: string
     ) {
-        super();
+        super(UserModel);
         this._id = id;
         this._name = name;
         this._username = username;
@@ -76,6 +77,9 @@ export class UserModel extends BaseModel implements BaseModelInterface<UserDefin
         if (!validatePassword(password, this.password)) {
             throw HttpError.NotAuthorized(null, 'CREDENTIAL_NOT_MATCH');
         }
+        const { token, valid_until } = jwt.generateRefreshToken();
+        this.refresh_token = token;
+        this.token_validity = valid_until;
         return jwt.generateToken({ user_id: this.username });
     }
 
@@ -150,7 +154,12 @@ export class UserModel extends BaseModel implements BaseModelInterface<UserDefin
         this._deleted_at = value;
     }
 
-    public toJson(): Partial<UserDefinition> {
+    public toJson(
+        { isProtected, withTimestamp }: { isProtected?: boolean; withTimestamp?: boolean } = {
+            isProtected: true,
+            withTimestamp: true
+        }
+    ): Partial<UserDefinition> {
         const data: { [x: string]: any } = {
             id: this._id,
             name: this._name,
@@ -162,10 +171,13 @@ export class UserModel extends BaseModel implements BaseModelInterface<UserDefin
             updated_at: this._updated_at,
             deleted_at: this._deleted_at
         };
-        this.hidden?.forEach((param): void => {
-            delete data[param];
-        });
+        if (isProtected) this.removeHidden(data);
+        if (!withTimestamp) this.removeTimestamps(data);
         return data;
+    }
+
+    public async save(): Promise<void> {
+        await this.repo.upsert({ id: this.id }, this.toJson({ isProtected: false, withTimestamp: false }));
     }
 }
 
