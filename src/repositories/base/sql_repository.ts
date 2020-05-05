@@ -15,7 +15,7 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
     public constructor(modelClass: BaseSqlModelInterface<ModelClass>) {
         super();
         this.model = modelClass;
-        this.modelName = modelClass.modelName();
+        this.modelName = modelClass.modelName;
     }
 
     private build(data: any): ModelClass {
