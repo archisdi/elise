@@ -1,10 +1,19 @@
 import SQLRepo from '../../repositories/base/sql_repository';
-import { BaseSqlModelInterface } from 'src/models/base/base_model';
+import { BaseSqlModelInterface, BaseMongoModelInterface } from 'src/models/base/base_model';
 import RedisRepo from '../../repositories/base/redis_repository';
+import MongoRepo from '../../repositories/base/mongo_repository';
 
 export default class RepoService {
     public static getSql<ModelClass>(modelClass: BaseSqlModelInterface<ModelClass>): SQLRepo<ModelClass> {
         return new (class Repository extends SQLRepo<ModelClass> {
+            public constructor() {
+                super(modelClass);
+            }
+        })();
+    }
+
+    public static getMongo<ModelClass>(modelClass: BaseMongoModelInterface<ModelClass>): MongoRepo<ModelClass> {
+        return new (class Repository extends MongoRepo<ModelClass> {
             public constructor() {
                 super(modelClass);
             }
