@@ -1,6 +1,6 @@
 import BaseRepository from './base_repository';
 
-export default class RedisRepo extends BaseRepository {
+export default class RedisRepo<Model = any> extends BaseRepository {
     protected model: any;
 
     public constructor(model: string) {
@@ -8,7 +8,7 @@ export default class RedisRepo extends BaseRepository {
         this.model = model;
     }
 
-    private parse(serialize: string): object | string {
+    private parse(serialize: any): Model {
         try {
             return JSON.parse(serialize);
         } catch (error) {
@@ -16,12 +16,14 @@ export default class RedisRepo extends BaseRepository {
         }
     }
 
-    public async get(key: string): Promise<object | string> {
+    public async get(key: string): Promise<Model | null> {
         const redisClient = await this.getRedisInstance();
-        return redisClient.get(`${this.model}-${key}`).then((res: string): object | string => this.parse(res));
+        return redisClient
+            .get(`${this.model}-${key}`)
+            .then((res: string): Model | null => (res ? this.parse(res) : null));
     }
 
-    public async set(key: string, payload: any, expires?: number): Promise<void> {
+    public async set(key: string, payload: Model, expires?: number): Promise<void> {
         const redisClient = await this.getRedisInstance();
         const cacheKey = `${this.model}-${key}`;
 
