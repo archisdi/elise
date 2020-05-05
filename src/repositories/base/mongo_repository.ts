@@ -9,7 +9,7 @@ export default class MongoRepo<ModelClass> extends BaseRepository {
     public constructor(model: BaseMongoModelInterface<ModelClass>) {
         super();
         this.model = model;
-        this.collection = this.model.collectionName();
+        this.collection = this.model.collectionName;
     }
 
     private build(data: any): ModelClass {

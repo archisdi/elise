@@ -51,13 +51,9 @@ export class UserModel extends BaseModel<UserModel> implements BaseModelInterfac
         this._deleted_at = deletedAt;
     }
 
-    public static modelName(): string {
-        return 'User';
-    }
+    public static modelName = 'User';
 
-    public static collectionName(): string {
-        return 'users';
-    }
+    public static collectionName = 'users';
 
     public static buildFromSql(data: UserDefinition): UserModel {
         return new UserModel(

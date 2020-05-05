@@ -3,13 +3,13 @@ import SQLRepo from '../../repositories/base/sql_repository';
 
 export interface BaseSqlModelInterface<ClassModel = any> {
     new (...param: any): ClassModel;
-    modelName(): string;
+    modelName: string;
     buildFromSql(...params: any): ClassModel;
 }
 
 export interface BaseMongoModelInterface<ClassModel = any> {
     new (...param: any): ClassModel;
-    collectionName(): string;
+    collectionName: string;
     buildFromMongo(...params: any): ClassModel;
 }
 
