@@ -76,7 +76,7 @@ export class UserModel extends BaseModel<UserModel> implements BaseModelInterfac
         const { token, valid_until } = jwt.generateRefreshToken();
         this.refresh_token = token;
         this.token_validity = valid_until;
-        return jwt.generateToken({ user_id: this.username });
+        return jwt.generateToken({ user_id: this.id, username: this.username });
     }
 
     public get password(): string {
@@ -174,6 +174,12 @@ export class UserModel extends BaseModel<UserModel> implements BaseModelInterfac
 
     public async save(): Promise<void> {
         await this.repo.upsert({ id: this.id }, this.toJson({ isProtected: false, withTimestamp: false }));
+    }
+
+    public async cache(): Promise<void> {
+        const redisRepo = RepoService.getRedis<UserDefinition>('user');
+        const payload = this.toJson({ isProtected: false, withTimestamp: true }) as UserDefinition;
+        await redisRepo.set(this.id, payload, 300);
     }
 }
 

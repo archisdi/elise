@@ -16,14 +16,14 @@ export default class RedisRepo<Model = any> extends BaseRepository {
         }
     }
 
-    public async get(key: string): Promise<Model | null> {
+    public async get(key: string): Promise<Partial<Model> | null> {
         const redisClient = await this.getRedisInstance();
         return redisClient
             .get(`${this.model}-${key}`)
             .then((res: string): Model | null => (res ? this.parse(res) : null));
     }
 
-    public async set(key: string, payload: Model, expires?: number): Promise<void> {
+    public async set(key: string, payload: Partial<Model>, expires?: number): Promise<void> {
         const redisClient = await this.getRedisInstance();
         const cacheKey = `${this.model}-${key}`;
 

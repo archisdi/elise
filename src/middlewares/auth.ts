@@ -11,7 +11,7 @@ const jwtExpiredMessage = 'jwt expired';
 
 const generateContext = async (payload: ITokenable): Promise<IContext> => {
     return {
-        username: payload.user_id,
+        username: payload.username,
         user_id: payload.user_id
     };
 };

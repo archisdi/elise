@@ -21,7 +21,9 @@ export default class AuthController extends BaseController {
         }
 
         const jwtToken = user.signJwtToken(password);
+
         await user.save();
+        await user.cache();
 
         return {
             message: 'authentication success',

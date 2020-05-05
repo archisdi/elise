@@ -15,4 +15,5 @@ export interface ICredential {
 
 export interface ITokenable {
     user_id: string;
+    username: string;
 }

@@ -1,6 +1,6 @@
 import SQLRepo from '../../repositories/base/sql_repository';
 import { BaseSqlModelInterface } from 'src/models/base/base_model';
-import RedisRepo from 'src/repositories/base/redis_repository';
+import RedisRepo from '../../repositories/base/redis_repository';
 
 export default class RepoService {
     public static getSql<ModelClass>(modelClass: BaseSqlModelInterface<ModelClass>): SQLRepo<ModelClass> {

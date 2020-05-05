@@ -2,6 +2,8 @@ import { IContext, IData, IHandlerOutput } from 'src/typings/common';
 import AuthMiddleware from '../middlewares/auth';
 import UserRepository from '../repositories/user_sql_repo';
 import BaseController from './base/base_controller';
+import RepoService from '../utils/factory/repository';
+import { UserDefinition } from 'src/models/user_model';
 
 export default class ProfileController extends BaseController {
     public constructor() {
@@ -11,12 +13,18 @@ export default class ProfileController extends BaseController {
 
     public async getProfile(data: IData, context: IContext): Promise<IHandlerOutput> {
         const userRepo = new UserRepository();
+        const userRedisRepo = RepoService.getRedis<UserDefinition>('user');
 
-        const user = await userRepo.findOneOrFail({ username: context.username });
+        /** simulate caching */
+        let user = await userRedisRepo.get(context.user_id);
+        if (!user) {
+            const userModel = await userRepo.findOneOrFail({ username: context.username });
+            user = userModel.toJson();
+        }
 
         return {
             message: 'profile data retrieved',
-            data: user.toJson()
+            data: user
         };
     }
 

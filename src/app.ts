@@ -1,4 +1,4 @@
-import { HttpError, DBContext } from 'tymon';
+import { HttpError, DBContext, RedisContext } from 'tymon';
 import { Application } from 'express';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
@@ -35,6 +35,9 @@ class App {
         DBContext.initialize({
             connection_string: String(process.env.DB_CONNECTION_STRING),
             models_path: '/database/models'
+        });
+        RedisContext.initialize({
+            connection_string: String(process.env.REDIS_CONNECTION_STRING)
         });
     }
 
