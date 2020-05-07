@@ -32,19 +32,19 @@
     "@types/sinon": "^7.0.13",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",
-    "ava": "^2.2.0",
-    "eslint": "^6.1.0",
+    "ava": "^3.8.1",
+    "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-prettier": "^3.1.0",
     "install": "^0.12.2",
     "nodemon": "^1.19.1",
     "npm": "^6.10.1",
     "nyc": "^14.1.1",
+    "prettier": "^2.0.2",
     "sequelize-cli": "^5.5.0",
     "sinon": "^7.3.2",
     "ts-node": "^8.3.0",
-    "typescript": "^3.8.3",
-    "prettier": "^2.0.2"
+    "typescript": "^3.8.3"
   },
   "dependencies": {
     "@hapi/joi": "^15.1.0",
