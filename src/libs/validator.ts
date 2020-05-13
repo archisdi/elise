@@ -27,6 +27,11 @@ export default (input: object, schema: string, options: object = defaultOptions)
             detail[item.context.key] = item.message.replace(/"/g, '');
             return detail;
         }, {});
-        throw HttpError.UnprocessableEntity('error validating fields', COMMON_ERRORS.VALIDATION_ERROR, details);
+        throw new HttpError.HttpError({
+            message: 'error validating fields',
+            http_status: 422,
+            name: COMMON_ERRORS.VALIDATION_ERROR,
+            data: details
+        });
     });
 };

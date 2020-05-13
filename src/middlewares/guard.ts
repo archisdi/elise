@@ -4,7 +4,7 @@ import { COMMON_ERRORS } from '../utils/constant';
 
 export default (req: Request, res: Response, next: NextFunction): void => {
     if (req.query.secret !== process.env.API_SECRET && req.headers.secret !== process.env.API_SECRET) {
-        return next(HttpError.Unauthorized(COMMON_ERRORS.TOKEN_INVALID));
+        return next(HttpError.UnauthorizedError('token invalid', COMMON_ERRORS.TOKEN_INVALID));
     }
 
     return next();

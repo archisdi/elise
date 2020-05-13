@@ -20,7 +20,7 @@ export default async (req: Request, res: Response, next: NextFunction): Promise<
     try {
         const token: string | undefined = req.headers.authorization;
         if (!token) {
-            throw HttpError.NotAuthorized('token not provided', COMMON_ERRORS.TOKEN_INVALID);
+            throw HttpError.UnauthorizedError('token not provided', COMMON_ERRORS.TOKEN_INVALID);
         }
 
         try {
@@ -32,7 +32,7 @@ export default async (req: Request, res: Response, next: NextFunction): Promise<
                     ? ['token expired', COMMON_ERRORS.TOKEN_EXPIRED]
                     : ['token invalid', COMMON_ERRORS.TOKEN_INVALID];
 
-            throw HttpError.NotAuthorized(...message);
+            throw HttpError.UnauthorizedError(message[0], message[1]);
         }
 
         return next();

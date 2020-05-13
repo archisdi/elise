@@ -61,3 +61,7 @@ export interface IHttpOutput {
 export type MakeAny<T> = {
     [P in keyof T]?: any;
 };
+
+export type BasicType<T> = {
+    [P in keyof T]?: P extends string | number | boolean ? T[P] : never;
+};

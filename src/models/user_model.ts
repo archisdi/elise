@@ -71,7 +71,7 @@ export class UserModel extends BaseModel<UserModel> implements BaseModelInterfac
 
     public signJwtToken(password: string): string {
         if (!validatePassword(password, this.password)) {
-            throw HttpError.NotAuthorized(null, 'CREDENTIAL_NOT_MATCH');
+            throw HttpError.UnauthorizedError('credential not match', 'CREDENTIAL_NOT_MATCH');
         }
         const { token, valid_until } = jwt.generateRefreshToken();
         this.refresh_token = token;

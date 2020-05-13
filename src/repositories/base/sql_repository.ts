@@ -1,6 +1,6 @@
 import BaseRepository from './base_repository';
-import { IPagination } from '../../typings/common';
-import { offset, sorter } from '../../utils/helpers';
+import { IPagination, BasicType, IObject } from '../../typings/common';
+import { offset, sorter, trimObjectKey } from '../../utils/helpers';
 import { BaseSqlModelInterface } from '../../models/base/base_model';
 import { HttpError } from 'tymon';
 
@@ -26,45 +26,52 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
         return datas.map((data): ModelClass => this.build(data));
     }
 
+    private trim = (object: IObject): IObject => {
+        Object.keys(object).forEach((key: string): void => {
+            object[key] === undefined && delete object[key];
+        });
+        return object;
+    };
+
     public async findId(id: string, attributes?: attributes): Promise<ModelClass | null> {
         const db = await this.getDbInstance();
-        return db[this.modelName].findOne({ where: { id }, attributes }).then((res: any): any => this.build(res));
+        return db.model[this.modelName].findOne({ where: { id }, attributes }).then((res: any): any => this.build(res));
     }
 
-    public async findOne(conditions: Partial<ModelClass>, attributes?: attributes): Promise<ModelClass | null> {
+    public async findOne(conditions: BasicType<ModelClass>, attributes?: attributes): Promise<ModelClass | null> {
         const db = await this.getDbInstance();
-        return db[this.modelName]
-            .findOne({ where: conditions, attributes })
+        return db.model[this.modelName]
+            .findOne({ where: this.trim(conditions), attributes })
             .then((res: any): any => (res ? this.build(res) : null));
     }
 
-    public async findOneOrFail(conditions: Partial<ModelClass>, attributes?: attributes): Promise<ModelClass> {
+    public async findOneOrFail(conditions: BasicType<ModelClass>, attributes?: attributes): Promise<ModelClass> {
         return this.findOne(conditions, attributes).then(
             (res: any): ModelClass => {
-                if (!res) throw HttpError.NotFound(`${this.modelName.toUpperCase()}_NOT_FOUND`);
+                if (!res) throw HttpError.NotFoundError(`${this.modelName.toUpperCase()}_NOT_FOUND`);
                 return this.build(res);
             }
         );
     }
 
     public async findAll(
-        conditions: Partial<ModelClass>,
+        conditions: BasicType<ModelClass>,
         sort: string = DEFAULT_SORT,
         attributes?: attributes
     ): Promise<ModelClass[]> {
         const db = await this.getDbInstance();
         const order = sorter(sort);
 
-        return db[this.modelName]
+        return db.model[this.modelName]
             .findAll({
-                where: conditions,
+                where: this.trim(conditions),
                 attributes,
-                order: [order]
+                order: order
             })
             .then((res: any): any => this.buildMany(res));
     }
 
-    public async upsert(search: Partial<ModelClass>, data: Partial<ModelClass>): Promise<void> {
+    public async upsert(search: BasicType<ModelClass>, data: BasicType<ModelClass>): Promise<void> {
         return this.findOne(search).then(
             (row): Promise<any> => {
                 return row ? this.update(search, data) : this.create(data);
@@ -72,48 +79,45 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
         );
     }
 
-    public async create(data: Partial<ModelClass>): Promise<ModelClass> {
+    public async create(data: BasicType<ModelClass>): Promise<ModelClass> {
         const db = await this.getDbInstance();
-        return db[this.modelName]
+        return db.model[this.modelName]
             .create(data, { transaction: await this.getDbTransaction() })
             .then((res: any): any => this.build(res));
     }
 
-    public async update(conditions: Partial<ModelClass>, data: Partial<ModelClass>): Promise<void> {
+    public async update(conditions: BasicType<ModelClass>, data: BasicType<ModelClass>): Promise<[number, any]> {
         const db = await this.getDbInstance();
-        return db[this.modelName].update(data, {
-            where: conditions,
+        return db.model[this.modelName].update(data, {
+            where: this.trim(conditions),
             transaction: await this.getDbTransaction()
         });
     }
 
-    public async delete(conditions: Partial<ModelClass>): Promise<void> {
+    public async delete(conditions: BasicType<ModelClass>): Promise<number> {
         const db = await this.getDbInstance();
-        return db[this.modelName].delete({
-            where: conditions,
+        return db.model[this.modelName].destroy({
+            where: this.trim(conditions),
             transaction: await this.getDbTransaction()
         });
     }
 
     public async paginate(
-        conditions: Partial<ModelClass>,
+        conditions: BasicType<ModelClass>,
         { page = 1, per_page = 10, sort = DEFAULT_SORT },
         attributes?: attributes
     ): Promise<{ data: ModelClass[]; meta: IPagination }> {
         const db = await this.getDbInstance();
         const order = sorter(sort);
-        return db[this.modelName]
+        return db.model[this.modelName]
             .findAndCountAll({
-                where: conditions,
+                where: this.trim(conditions),
                 attributes,
                 limit: per_page,
                 offset: offset(page, per_page),
-                order: [order]
+                order: order
             })
-            .then(({ rows, count }: { rows: ModelClass[]; count: number }): {
-                data: ModelClass[];
-                meta: IPagination;
-            } => ({
+            .then(({ rows, count }): { data: ModelClass[]; meta: IPagination } => ({
                 data: this.buildMany(rows),
                 meta: { page, per_page, total_page: Math.ceil(count / per_page), total_data: count }
             }));

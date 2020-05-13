@@ -1,20 +1,20 @@
-import { DBContext, MongoContext, RedisContext, FirebaseContext, ElasticContext } from 'tymon';
-import { IContext } from '../../typings/common';
-
-type Context = IContext | null;
+import { MongoContext, RedisContext, FirebaseContext, ElasticContext } from 'tymon';
+import { DBInstance, getInstance as getDBInstance, getTransaction as getDbTransaction } from 'tymon/modules/db';
 
 export class BaseRepository {
-    private db: any = null;
+    private db: DBInstance | null;
     private mongo: any = null;
     private redis: any = null;
     private firebase: any = null;
     private elastic: any = null;
 
-    public constructor() {}
+    public constructor() {
+        this.db = null;
+    }
 
-    public async getDbInstance(): Promise<any> {
+    public async getDbInstance(): Promise<DBInstance> {
         if (!this.db) {
-            this.db = await DBContext.getInstance();
+            this.db = await getDBInstance();
         }
         return this.db;
     }
@@ -48,7 +48,7 @@ export class BaseRepository {
     }
 
     public async getDbTransaction(): Promise<any> {
-        return DBContext.getTransaction();
+        return getDbTransaction();
     }
 }
 

@@ -38,10 +38,7 @@ export const sorter = (sort: string = '-created_at'): string[] => {
     return [sortString, sortMethod];
 };
 
-export const timestamp = (): string =>
-    moment()
-        .utc()
-        .toISOString();
+export const timestamp = (): string => moment().utc().toISOString();
 
 export default {
     timestamp,

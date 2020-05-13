@@ -2,10 +2,10 @@ import { HttpError } from 'tymon';
 
 import Validator from '../middlewares/request_validator';
 import BaseController from './base/base_controller';
-import { IContext, IHandlerOutput } from '../typings/common';
+import { IContext, IHandlerOutput, BasicType } from '../typings/common';
 import { LoginHandlerInput, LoginHandlerOutput } from 'src/typings/methods/auth';
 import RepoService from '../utils/factory/repository';
-import { UserModel } from '../models/user_model';
+import { UserModel, UserDefinition } from '../models/user_model';
 
 export default class AuthController extends BaseController {
     public async login(data: LoginHandlerInput, context: IContext): Promise<IHandlerOutput<LoginHandlerOutput>> {
@@ -17,7 +17,7 @@ export default class AuthController extends BaseController {
         const user = await userRepo.findOne({ username });
 
         if (!user) {
-            throw HttpError.NotAuthorized(null, 'CREDENTIAL_NOT_MATCH');
+            throw HttpError.UnauthorizedError('credential not match', 'CREDENTIAL_NOT_MATCH');
         }
 
         const jwtToken = user.signJwtToken(password);

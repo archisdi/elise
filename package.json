@@ -44,7 +44,7 @@
     "sequelize-cli": "^5.5.0",
     "sinon": "^7.3.2",
     "ts-node": "^8.3.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.2"
   },
   "dependencies": {
     "@hapi/joi": "^15.1.0",
@@ -59,7 +59,7 @@
     "moment": "^2.24.0",
     "randomstring": "^1.1.5",
     "sequelize": "^5.10.1",
-    "tymon": "git+https://github.com/archisdi/tymon.git",
+    "tymon": "git+https://github.com/archisdi/tymon.git#develop-2.0",
     "uuid": "^3.3.2"
   },
   "ava": {
