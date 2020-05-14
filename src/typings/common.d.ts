@@ -30,9 +30,7 @@ export interface IData<Query = any, Params = any, Body = any> {
 }
 
 export interface IHandlerOutput<DataOutput = any> {
-    message?: string;
     data?: DataOutput;
-    status?: number;
     pagination?: IPagination;
 }
 

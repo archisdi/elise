@@ -17,16 +17,9 @@ export default (method: methodHandler): RequestHandler => async (
         const data: IData = parseInput(req);
         const context: IContext = req && req.context;
 
-        const { message = 'success', data: outData = {}, status = OK, pagination }: IHandlerOutput = await method(
-            data,
-            context
-        );
+        const { data: outData = {}, pagination }: IHandlerOutput = await method(data, context);
 
         return res.status(OK).json({
-            meta: {
-                user_message: message,
-                code: status
-            },
             data: outData,
             pagination
         });

@@ -26,7 +26,6 @@ export default class AuthController extends BaseController {
         await Promise.all([user.save(), user.cache()]);
 
         return {
-            message: 'authentication success',
             data: {
                 token: jwtToken,
                 refresh_token: user.refresh_token,

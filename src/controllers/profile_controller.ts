@@ -23,7 +23,6 @@ export default class ProfileController extends BaseController {
         }
 
         return {
-            message: 'profile data retrieved',
             data: user
         };
     }

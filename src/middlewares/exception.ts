@@ -11,9 +11,9 @@ export default (err: any, req: Request, res: Response, next: NextFunction): obje
 
     const response = {
         error_name: httpStatus === INTERNAL_SERVER_ERROR ? COMMON_ERRORS.SERVER_ERROR : name,
-        error_message: message || null,
-        error_data: data || null,
+        error_message: message,
         error_code: code || httpStatus,
+        error_data: data,
         stack
     };
 
