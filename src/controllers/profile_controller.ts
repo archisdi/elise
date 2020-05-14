@@ -1,9 +1,9 @@
-import { IContext, IData, IHandlerOutput } from 'src/typings/common';
+import { IContext, IData } from 'src/typings/common';
 import AuthMiddleware from '../middlewares/auth';
 import UserRepository from '../repositories/user_sql_repo';
 import BaseController from './base/base_controller';
 import RepoService from '../utils/factory/repository';
-import { UserDefinition } from 'src/models/user_model';
+import { UserDefinition, UserModel } from 'src/models/user_model';
 
 export default class ProfileController extends BaseController {
     public constructor() {
@@ -11,7 +11,7 @@ export default class ProfileController extends BaseController {
         this.setMiddleware(AuthMiddleware);
     }
 
-    public async getProfile(data: IData, context: IContext): Promise<IHandlerOutput> {
+    public async getProfile(data: IData, context: IContext): Promise<Partial<UserModel>> {
         const userRepo = new UserRepository();
         const userRedisRepo = RepoService.getRedis<UserDefinition>('user');
 
@@ -22,9 +22,7 @@ export default class ProfileController extends BaseController {
             user = userModel.toJson();
         }
 
-        return {
-            data: user
-        };
+        return user;
     }
 
     protected setRoutes(): void {

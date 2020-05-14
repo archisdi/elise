@@ -2,13 +2,13 @@ import { HttpError } from 'tymon';
 
 import Validator from '../middlewares/request_validator';
 import BaseController from './base/base_controller';
-import { IContext, IHandlerOutput, BasicType } from '../typings/common';
+import { IContext } from '../typings/common';
 import { LoginHandlerInput, LoginHandlerOutput } from 'src/typings/methods/auth';
 import RepoService from '../utils/factory/repository';
 import { UserModel } from '../models/user_model';
 
 export default class AuthController extends BaseController {
-    public async login(data: LoginHandlerInput, context: IContext): Promise<IHandlerOutput<LoginHandlerOutput>> {
+    public async login(data: LoginHandlerInput, context: IContext): Promise<LoginHandlerOutput> {
         const {
             body: { username, password }
         } = data;
@@ -26,11 +26,9 @@ export default class AuthController extends BaseController {
         await Promise.all([user.save(), user.cache()]);
 
         return {
-            data: {
-                token: jwtToken,
-                refresh_token: user.refresh_token,
-                expires_in: Number(process.env.JWT_LIFETIME)
-            }
+            token: jwtToken,
+            refresh_token: user.refresh_token,
+            expires_in: Number(process.env.JWT_LIFETIME)
         };
         // Wrap in try/catch block if transaction is needed
     }

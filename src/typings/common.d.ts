@@ -29,12 +29,7 @@ export interface IData<Query = any, Params = any, Body = any> {
     body: Body;
 }
 
-export interface IHandlerOutput<DataOutput = any> {
-    data?: DataOutput;
-    pagination?: IPagination;
-}
-
-export type methodHandler = (data: IData, context: IContext) => Promise<IHandlerOutput>;
+export type methodHandler = (data: IData, context: IContext) => Promise<any>;
 
 export interface IHttpError {
     message: string;
