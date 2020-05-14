@@ -59,7 +59,7 @@
     "moment": "^2.24.0",
     "randomstring": "^1.1.5",
     "sequelize": "^5.10.1",
-    "tymon": "git+https://github.com/archisdi/tymon.git#develop-2.0",
+    "tymon": "git+https://github.com/archisdi/tymon.git#2.0",
     "uuid": "^3.3.2"
   },
   "ava": {
