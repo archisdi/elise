@@ -150,12 +150,7 @@ export class UserModel extends BaseModel<UserModel> implements BaseModelInterfac
         this._deleted_at = value;
     }
 
-    public toJson(
-        { isProtected, withTimestamp }: { isProtected?: boolean; withTimestamp?: boolean } = {
-            isProtected: true,
-            withTimestamp: true
-        }
-    ): Partial<UserDefinition> {
+    public toJson(isProtected: boolean = true, withTimestamp: boolean = true): Partial<UserDefinition> {
         const data: { [x: string]: any } = {
             id: this._id,
             name: this._name,
@@ -173,16 +168,12 @@ export class UserModel extends BaseModel<UserModel> implements BaseModelInterfac
     }
 
     public async save(): Promise<void> {
-        await this.repo.upsert({ id: this.id }, this.toJson({ isProtected: false, withTimestamp: false }));
+        await this.repo.upsert({ id: this.id }, this.toJson(false, false));
     }
 
     public async cache(): Promise<void> {
         const redisRepo = RepoService.getRedis<UserDefinition>('user');
-        const payload = this.toJson({ isProtected: false, withTimestamp: true }) as UserDefinition;
+        const payload = this.toJson() as UserDefinition;
         await redisRepo.set(this.id, payload, 300);
     }
 }
-
-// export const UserSqlClass: BaseSqlModelClass<UserModel> = UserModel;
-
-// export const UserMongoClass: BaseMongoModelClass<UserModel> = UserModel;

@@ -14,7 +14,7 @@ export interface BaseMongoModelInterface<ClassModel = any> {
 }
 
 export interface BaseModelInterface<Model> {
-    toJson(): Partial<Model>;
+    toJson(t: boolean, s: boolean): Partial<Model>;
     save(): Promise<void>;
 }
 

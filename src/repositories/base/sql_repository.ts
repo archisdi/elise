@@ -26,13 +26,6 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
         return datas.map((data): ModelClass => this.build(data));
     }
 
-    private trim = (object: IObject): IObject => {
-        Object.keys(object).forEach((key: string): void => {
-            object[key] === undefined && delete object[key];
-        });
-        return object;
-    };
-
     public async findId(id: string, attributes?: attributes): Promise<ModelClass | null> {
         const db = await this.getDbInstance();
         return db.model[this.modelName].findOne({ where: { id }, attributes }).then((res: any): any => this.build(res));
@@ -41,7 +34,7 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
     public async findOne(conditions: BasicType<ModelClass>, attributes?: attributes): Promise<ModelClass | null> {
         const db = await this.getDbInstance();
         return db.model[this.modelName]
-            .findOne({ where: this.trim(conditions), attributes })
+            .findOne({ where: conditions as any, attributes })
             .then((res: any): any => (res ? this.build(res) : null));
     }
 
@@ -64,7 +57,7 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
 
         return db.model[this.modelName]
             .findAll({
-                where: this.trim(conditions),
+                where: conditions as any,
                 attributes,
                 order: order
             })
@@ -89,7 +82,7 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
     public async update(conditions: BasicType<ModelClass>, data: BasicType<ModelClass>): Promise<[number, any]> {
         const db = await this.getDbInstance();
         return db.model[this.modelName].update(data, {
-            where: this.trim(conditions),
+            where: conditions as any,
             transaction: await this.getDbTransaction()
         });
     }
@@ -97,7 +90,7 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
     public async delete(conditions: BasicType<ModelClass>): Promise<number> {
         const db = await this.getDbInstance();
         return db.model[this.modelName].destroy({
-            where: this.trim(conditions),
+            where: conditions as any,
             transaction: await this.getDbTransaction()
         });
     }
@@ -111,7 +104,7 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
         const order = sorter(sort);
         return db.model[this.modelName]
             .findAndCountAll({
-                where: this.trim(conditions),
+                where: conditions as any,
                 attributes,
                 limit: per_page,
                 offset: offset(page, per_page),

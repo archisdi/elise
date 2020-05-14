@@ -5,7 +5,7 @@ import BaseController from './base/base_controller';
 import { IContext, IHandlerOutput, BasicType } from '../typings/common';
 import { LoginHandlerInput, LoginHandlerOutput } from 'src/typings/methods/auth';
 import RepoService from '../utils/factory/repository';
-import { UserModel, UserDefinition } from '../models/user_model';
+import { UserModel } from '../models/user_model';
 
 export default class AuthController extends BaseController {
     public async login(data: LoginHandlerInput, context: IContext): Promise<IHandlerOutput<LoginHandlerOutput>> {
@@ -22,8 +22,8 @@ export default class AuthController extends BaseController {
 
         const jwtToken = user.signJwtToken(password);
 
-        await user.save();
-        await user.cache();
+        /** save and cache */
+        await Promise.all([user.save(), user.cache()]);
 
         return {
             message: 'authentication success',
