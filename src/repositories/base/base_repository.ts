@@ -6,13 +6,17 @@ import { ElasticInstance, getInstance as getElasticInstance } from 'tymon/module
 
 export class BaseRepository {
     private db: DBInstance | null;
-    private mongo: MongoInstance | null = null;
-    private redis: RedisInstance | null = null;
-    private firebase: FirebaseInstance | null = null;
-    private elastic: ElasticInstance | null = null;
+    private mongo: MongoInstance | null;
+    private redis: RedisInstance | null;
+    private firebase: FirebaseInstance | null;
+    private elastic: ElasticInstance | null;
 
     public constructor() {
         this.db = null;
+        this.mongo = null;
+        this.redis = null;
+        this.firebase = null;
+        this.elastic = null;
     }
 
     public async getDbInstance(): Promise<DBInstance> {
