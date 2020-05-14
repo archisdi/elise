@@ -20,7 +20,7 @@ export default class RedisRepo<Model = any> extends BaseRepository {
         const redisClient = await this.getRedisInstance();
         return redisClient
             .get(`${this.model}-${key}`)
-            .then((res: string): Model | null => (res ? this.parse(res) : null));
+            .then((res: string | null): Model | null => (res ? this.parse(res) : null));
     }
 
     public async set(key: string, payload: Partial<Model>, expires?: number): Promise<void> {

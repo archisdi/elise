@@ -1,11 +1,12 @@
-import { RedisContext, FirebaseContext, ElasticContext } from 'tymon';
+import { FirebaseContext, ElasticContext } from 'tymon';
 import { DBInstance, getInstance as getDBInstance, getTransaction as getDbTransaction } from 'tymon/modules/db';
 import { MongoInstance, getInstance as getMongoInstance } from 'tymon/modules/mongodb';
+import { RedisInstance, getInstance as getRedisInstance } from 'tymon/modules/redis';
 
 export class BaseRepository {
     private db: DBInstance | null;
     private mongo: MongoInstance | null = null;
-    private redis: any = null;
+    private redis: RedisInstance | null = null;
     private firebase: any = null;
     private elastic: any = null;
 
@@ -27,9 +28,9 @@ export class BaseRepository {
         return this.mongo;
     }
 
-    public async getRedisInstance(): Promise<any> {
+    public async getRedisInstance(): Promise<RedisInstance> {
         if (!this.redis) {
-            this.redis = await RedisContext.getInstance();
+            this.redis = await getRedisInstance();
         }
         return this.redis;
     }
