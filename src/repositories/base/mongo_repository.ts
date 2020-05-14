@@ -53,14 +53,20 @@ export default class MongoRepo<ModelClass> extends BaseRepository {
             .then((res: any): any[] => this.buildMany(res.ops));
     }
 
-    public async updateOne(condition: MakeAny<ModelClass>, payload: Partial<ModelClass>): Promise<void> {
+    public async updateOne(condition: MakeAny<ModelClass>, payload: Partial<ModelClass>): Promise<number> {
         const db = await this.getMongoInstance();
-        return db.collection(this.collection).updateOne(condition, { $set: payload });
+        return db
+            .collection(this.collection)
+            .updateOne(condition, { $set: payload })
+            .then(({ result }): number => result.nModified);
     }
 
-    public async updateMany(condition: MakeAny<ModelClass>, payload: Partial<ModelClass>): Promise<void> {
+    public async updateMany(condition: MakeAny<ModelClass>, payload: Partial<ModelClass>): Promise<number> {
         const db = await this.getMongoInstance();
-        return db.collection(this.collection).update(condition, { $set: payload });
+        return db
+            .collection(this.collection)
+            .updateMany(condition, { $set: payload })
+            .then(({ result }): number => result.nModified);
     }
 
     public async upsert(condition: MakeAny<ModelClass>, payload: Partial<ModelClass>): Promise<void> {
