@@ -1,21 +1,10 @@
-import { BaseSqlModelInterface, BaseModelInterface, BaseMongoModelInterface, BaseModel } from './base/base_model';
+import { BaseModelInterface, BaseModel } from './base/base_model';
 import jwt, { validatePassword } from '../libs/jwt';
 import { HttpError } from 'tymon';
 import RepoService from '../utils/factory/repository';
+import { BasicType } from 'src/typings/common';
 
-export interface UserDefinition {
-    id: string;
-    name: string;
-    username: string;
-    password: string;
-    refresh_token: string;
-    token_validity: string;
-    created_at: string;
-    updated_at: string;
-    deleted_at: string;
-}
-
-export class UserModel extends BaseModel<UserModel> implements BaseModelInterface<UserDefinition> {
+export class UserModel extends BaseModel<UserModel> implements BaseModelInterface<BasicType<UserModel>> {
     private _id: string;
     private _name: string;
     private _username: string;
@@ -55,7 +44,7 @@ export class UserModel extends BaseModel<UserModel> implements BaseModelInterfac
 
     public static collectionName = 'users';
 
-    public static buildFromSql(data: UserDefinition): UserModel {
+    public static buildFromSql(data: any): UserModel {
         return new UserModel(
             data.id,
             data.name,
@@ -150,7 +139,7 @@ export class UserModel extends BaseModel<UserModel> implements BaseModelInterfac
         this._deleted_at = value;
     }
 
-    public toJson(isProtected: boolean = true, withTimestamp: boolean = true): Partial<UserDefinition> {
+    public toJson(isProtected: boolean = true, withTimestamp: boolean = true): Partial<UserModel> {
         const data: { [x: string]: any } = {
             id: this._id,
             name: this._name,
@@ -172,8 +161,8 @@ export class UserModel extends BaseModel<UserModel> implements BaseModelInterfac
     }
 
     public async cache(): Promise<void> {
-        const redisRepo = RepoService.getRedis<UserDefinition>('user');
-        const payload = this.toJson() as UserDefinition;
+        const redisRepo = RepoService.getRedis<UserModel>('user');
+        const payload = this.toJson() as Partial<UserModel>;
         await redisRepo.set(this.id, payload, 300);
     }
 }

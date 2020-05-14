@@ -20,13 +20,13 @@ export default class FirebaseRepo<Model> extends BaseRepository {
             .then((res: any): Model => res.val());
     }
 
-    public async create(id: string, data: Partial<Model>): Promise<Model> {
+    public async create(id: string, data: Partial<Model>): Promise<void> {
         const fb = await this.getFirebaseInstance();
         const db = await fb.database();
         return db.ref(`${this.ref}${id}`).set(data);
     }
 
-    public async update(id: string, data: Partial<Model>): Promise<Model> {
+    public async update(id: string, data: Partial<Model>): Promise<void> {
         const fb = await this.getFirebaseInstance();
         const db = await fb.database();
         return db.ref(`${this.ref}/${id}`).update(data);
