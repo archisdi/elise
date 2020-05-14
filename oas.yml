@@ -1,0 +1,73 @@
+openapi: '3.0.2'
+info:
+  title: Elise REST API Server
+  version: '1.0'
+servers:
+  - url: http://localhost:3001
+    description: Local server
+tags:
+  - name: Auth
+  - name: Profile
+paths:
+  /auth/login:
+    post:
+      description: Request jwt bearer token from a credential
+      tags:
+        - Auth
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                properties:
+                  token:
+                    type: string
+                  refresh_token:
+                    type: string
+                  expires_in:
+                    type: integer
+  /profile:
+    get:
+      description: Get profile attributes
+      tags:
+        - Profile
+      security:
+        - JWT: []
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  username:
+                    type: string
+                  refresh_token:
+                    type: string
+                  token_validity:
+                    type: string
+                  created_at:
+                    type: string
+                  updated_at:
+                    type: string
+
+components:
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
