@@ -1,6 +1,6 @@
 'use strict';
 
-const tableName = 'users';
+const tableName = 'posts';
 
 module.exports = {
     up: (queryInterface, dataTypes) => queryInterface.createTable(tableName, {

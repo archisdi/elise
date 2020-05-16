@@ -51,10 +51,10 @@ module.exports = function (sequelize, dataTypes) {
     );
 
     member.associate = (models) => {
-        Member.HasMany(models.model_name, {
-            sourceKey: 'id',
-            targetKey: 'author_id'
-        });
+        // member.hasMany(models.Post, {
+        //     sourceKey: 'id',
+        //     targetKey: 'author_id'
+        // });
     };
 
     return member;

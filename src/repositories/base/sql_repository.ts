@@ -3,6 +3,7 @@ import { IPagination, BasicType, IObject } from '../../typings/common';
 import { offset, sorter, trimObjectKey } from '../../utils/helpers';
 import { BaseSqlModelInterface } from '../../models/base/base_model';
 import { HttpError } from 'tymon';
+import { OrderItem } from 'sequelize/types';
 
 type attributes = string[] | undefined;
 
@@ -59,7 +60,7 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
             .findAll({
                 where: conditions as any,
                 attributes,
-                order: order
+                order: [order as OrderItem]
             })
             .then((res: any): any => this.buildMany(res));
     }
@@ -108,7 +109,7 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
                 attributes,
                 limit: per_page,
                 offset: offset(page, per_page),
-                order: order
+                order: [order as OrderItem]
             })
             .then(({ rows, count }): { data: ModelClass[]; meta: IPagination } => ({
                 data: this.buildMany(rows),

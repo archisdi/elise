@@ -29,10 +29,10 @@ export const sorter = (sort: string = '-created_at'): string[] => {
     let sortMethod;
 
     if (sortString.charAt(0) === '-') {
-        sortMethod = 'desc';
+        sortMethod = 'DESC';
         sortString = sort.substr(1);
     } else {
-        sortMethod = 'asc';
+        sortMethod = 'ASC';
     }
 
     return [sortString, sortMethod];

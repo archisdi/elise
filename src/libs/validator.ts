@@ -8,6 +8,12 @@ const schemas: { [s: string]: Joi.ObjectSchema } = {
             username: Joi.string().required(),
             password: Joi.string().required()
         }).required()
+    }),
+    createPost: Joi.object({
+        body: Joi.object({
+            title: Joi.string().min(4).max(50).required(),
+            content: Joi.string().min(10).required()
+        }).required()
     })
 };
 

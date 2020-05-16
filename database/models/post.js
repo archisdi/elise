@@ -1,5 +1,5 @@
 module.exports = function (sequelize, dataTypes) {
-    const member = sequelize.define(
+    const post = sequelize.define(
         'Post',
         {
             id: {
@@ -41,12 +41,12 @@ module.exports = function (sequelize, dataTypes) {
         }
     );
 
-    member.associate = (models) => {
-        Member.belongsTo(models.User, {
-            foreignKey: 'author_id',
-            targetKey: 'id'
-        });
+    post.associate = (models) => {
+        // post.belongsTo(models.User, {
+        //     foreignKey: 'author_id',
+        //     targetKey: 'id'
+        // });
     };
 
-    return member;
+    return post;
 }

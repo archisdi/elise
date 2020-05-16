@@ -10,6 +10,7 @@ import ProfileController from './controllers/profile_controller';
 
 import ExceptionHandler from './middlewares/exception';
 import NotFoundHandler from './middlewares/not_found';
+import PostController from './controllers/post_controller';
 
 class App {
     private app: Application;
@@ -28,6 +29,7 @@ class App {
     private setupControllers(): void {
         this.app.use('/auth', new AuthController().getRoutes());
         this.app.use('/profile', new ProfileController().getRoutes());
+        this.app.use('/post', new PostController().getRoutes());
     }
 
     private setupModules(): void {
