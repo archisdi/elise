@@ -3,7 +3,7 @@ import Validator from '../middlewares/request_validator';
 import { PostModel } from '../models/post_model';
 import RepoService from '../utils/factory/repository';
 import BaseController from './base/base_controller';
-import AuthMiddleware from '../middlewares/auth';
+import AuthMiddleware from '../middlewares/jwt_auth';
 
 export default class PostController extends BaseController {
     public constructor() {

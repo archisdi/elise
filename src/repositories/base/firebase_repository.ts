@@ -1,5 +1,4 @@
 import BaseRepository from './base_repository';
-import { IContext } from '../../typings/common';
 
 export default class FirebaseRepo<Model> extends BaseRepository {
     protected ref: string;

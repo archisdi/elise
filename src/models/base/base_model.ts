@@ -14,6 +14,12 @@ export interface StaticMongoModel<ClassModel = any> {
     buildFromMongo(...params: any): ClassModel;
 }
 
+export interface StaticRedisModel<ClassModel = any> {
+    new (...param: any): ClassModel;
+    cacheName: string;
+    buildFromRedis(...params: any): ClassModel;
+}
+
 export interface GeneralModelInterface<Model> {
     toJson(t: boolean, s: boolean): Partial<Model>;
     save(): Promise<void>;

@@ -1,5 +1,5 @@
 import SQLRepo from '../../repositories/base/sql_repository';
-import { StaticSqlModel, StaticMongoModel } from 'src/models/base/base_model';
+import { StaticSqlModel, StaticMongoModel, StaticRedisModel } from 'src/models/base/base_model';
 import RedisRepo from '../../repositories/base/redis_repository';
 import MongoRepo from '../../repositories/base/mongo_repository';
 
@@ -20,10 +20,10 @@ export default class RepoService {
         })();
     }
 
-    public static getRedis<Model>(modelName: string): RedisRepo<Model> {
-        return new (class Repository extends RedisRepo<Model> {
+    public static getRedis<ModelClass>(modelClass: StaticRedisModel<ModelClass>): RedisRepo<ModelClass> {
+        return new (class Repository extends RedisRepo<ModelClass> {
             public constructor() {
-                super(modelName);
+                super(modelClass.cacheName);
             }
         })();
     }

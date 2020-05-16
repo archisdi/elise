@@ -1,9 +1,9 @@
 import { IContext, IData } from 'src/typings/common';
-import AuthMiddleware from '../middlewares/auth';
+import AuthMiddleware from '../middlewares/jwt_auth';
 import UserRepository from '../repositories/user_sql_repo';
 import BaseController from './base/base_controller';
 import RepoService from '../utils/factory/repository';
-import { UserModel } from 'src/models/user_model';
+import { UserModel } from '../models/user_model';
 
 export default class ProfileController extends BaseController {
     public constructor() {
@@ -13,7 +13,7 @@ export default class ProfileController extends BaseController {
 
     public async getProfile(data: IData, context: IContext): Promise<Partial<UserModel>> {
         const userRepo = new UserRepository();
-        const userRedisRepo = RepoService.getRedis<Partial<UserModel>>('user');
+        const userRedisRepo = RepoService.getRedis(UserModel);
 
         /** simulate caching */
         let user = await userRedisRepo.get(context.user_id);

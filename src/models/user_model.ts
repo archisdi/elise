@@ -45,10 +45,25 @@ export class UserModel extends SqlModel<UserModel> {
     }
 
     public static modelName = 'User';
-
     public static collectionName = 'users';
+    public static cacheName = 'user';
 
     public static buildFromSql(data: any): UserModel {
+        return new UserModel(
+            data.id,
+            data.name,
+            data.username,
+            data.password,
+            data.refresh_token,
+            data.token_validity,
+            data.created_at,
+            data.updated_at,
+            data.deleted_at,
+            data.posts
+        );
+    }
+
+    public static buildFromRedis(data: any): UserModel {
         return new UserModel(
             data.id,
             data.name,
@@ -170,7 +185,7 @@ export class UserModel extends SqlModel<UserModel> {
     }
 
     public async cache(): Promise<void> {
-        const redisRepo = RepoService.getRedis<UserModel>('user');
+        const redisRepo = RepoService.getRedis(UserModel);
         const payload = this.toJson() as Partial<UserModel>;
         await redisRepo.set(this.id, payload, 300);
     }
