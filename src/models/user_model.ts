@@ -1,11 +1,11 @@
-import { BaseModelInterface, BaseModel } from './base/base_model';
+import { GeneralModelInterface, SqlModel } from './base/base_model';
 import jwt, { validatePassword } from '../libs/jwt';
 import { HttpError } from 'tymon';
 import RepoService from '../utils/factory/repository';
 import { BasicType, OptionalRelation } from 'src/typings/common';
 import { PostModel } from './post_model';
 
-export class UserModel extends BaseModel<UserModel> implements BaseModelInterface<BasicType<UserModel>> {
+export class UserModel extends SqlModel<UserModel> {
     private _id: string;
     private _name: string;
     private _username: string;

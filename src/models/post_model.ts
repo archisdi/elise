@@ -1,7 +1,6 @@
-import { BasicType } from 'src/typings/common';
-import { BaseModel, BaseModelInterface } from './base/base_model';
+import { SqlModel } from './base/base_model';
 
-export class PostModel extends BaseModel<PostModel> implements BaseModelInterface<BasicType<PostModel>> {
+export class PostModel extends SqlModel<PostModel> {
     private _id: string;
     private _author_id: string;
     private _title: string;

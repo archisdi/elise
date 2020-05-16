@@ -1,7 +1,7 @@
 import BaseRepository from './base_repository';
 import { IPagination, BasicType, IObject } from '../../typings/common';
 import { offset, sorter, trimObjectKey } from '../../utils/helpers';
-import { BaseSqlModelInterface } from '../../models/base/base_model';
+import { StaticSqlModel } from '../../models/base/base_model';
 import { HttpError } from 'tymon';
 import { OrderItem } from 'sequelize/types';
 
@@ -11,9 +11,9 @@ const DEFAULT_SORT = '-created_at';
 
 export default class SQLRepo<ModelClass> extends BaseRepository {
     protected modelName: string;
-    protected model: BaseSqlModelInterface<ModelClass>;
+    protected model: StaticSqlModel<ModelClass>;
 
-    public constructor(modelClass: BaseSqlModelInterface<ModelClass>) {
+    public constructor(modelClass: StaticSqlModel<ModelClass>) {
         super();
         this.model = modelClass;
         this.modelName = modelClass.modelName;
