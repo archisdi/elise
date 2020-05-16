@@ -1,6 +1,6 @@
 module.exports = function (sequelize, dataTypes) {
     const member = sequelize.define(
-        'User',
+        'Post',
         {
             id: {
                 type: dataTypes.UUID,
@@ -8,26 +8,17 @@ module.exports = function (sequelize, dataTypes) {
                 allowNull: false,
                 primaryKey: true
             },
-            name: {
-                type: dataTypes.STRING(255),
-                allowNull: false
-            },
-            username: {
-                type: dataTypes.STRING(255),
+            author_id: {
+                type: dataTypes.UUID,
                 allowNull: false,
-                unique: true
             },
-            password: {
+            title: {
                 type: dataTypes.STRING(255),
                 allowNull: false
             },
-            refresh_token: {
-                type: dataTypes.STRING(255),
-                allowNull: true
-            },
-            token_validity: {
-                type: dataTypes.DATE,
-                allowNull: true
+            content: {
+                type: dataTypes.TEXT,
+                allowNull: false,
             },
             created_at: {
                 type: dataTypes.DATE,
@@ -43,7 +34,7 @@ module.exports = function (sequelize, dataTypes) {
             }
         },
         {
-            tableName: 'users',
+            tableName: 'posts',
             freezeTableName: true,
             underscored: true,
             paranoid: true /** Soft deletes */
@@ -51,9 +42,9 @@ module.exports = function (sequelize, dataTypes) {
     );
 
     member.associate = (models) => {
-        Member.HasMany(models.model_name, {
-            sourceKey: 'id',
-            targetKey: 'author_id'
+        Member.belongsTo(models.User, {
+            foreignKey: 'author_id',
+            targetKey: 'id'
         });
     };
 

@@ -18,7 +18,7 @@ export interface BaseModelInterface<Model> {
     save(): Promise<void>;
 }
 
-export class BaseModel<ModelClass> {
+export abstract class BaseModel<ModelClass> {
     protected hidden?: string[];
     protected fillable?: string[];
     protected repo: SQLRepo<ModelClass>;

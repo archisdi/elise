@@ -2,7 +2,8 @@ import { BaseModelInterface, BaseModel } from './base/base_model';
 import jwt, { validatePassword } from '../libs/jwt';
 import { HttpError } from 'tymon';
 import RepoService from '../utils/factory/repository';
-import { BasicType } from 'src/typings/common';
+import { BasicType, OptionalRelation } from 'src/typings/common';
+import { PostModel } from './post_model';
 
 export class UserModel extends BaseModel<UserModel> implements BaseModelInterface<BasicType<UserModel>> {
     private _id: string;
@@ -14,6 +15,7 @@ export class UserModel extends BaseModel<UserModel> implements BaseModelInterfac
     private _created_at: string;
     private _updated_at: string;
     private _deleted_at: string;
+    private _posts: PostModel[];
 
     protected hidden = ['password', 'deleted_at'];
 
@@ -26,7 +28,8 @@ export class UserModel extends BaseModel<UserModel> implements BaseModelInterfac
         tokenValidity: string,
         createdAt: string,
         updatedAt: string,
-        deletedAt: string
+        deletedAt: string,
+        posts: OptionalRelation
     ) {
         super(UserModel);
         this._id = id;
@@ -38,6 +41,7 @@ export class UserModel extends BaseModel<UserModel> implements BaseModelInterfac
         this._created_at = createdAt;
         this._updated_at = updatedAt;
         this._deleted_at = deletedAt;
+        this._posts = posts ? posts.map((item): PostModel => PostModel.buildFromSql(item)) : [];
     }
 
     public static modelName = 'User';
@@ -54,7 +58,8 @@ export class UserModel extends BaseModel<UserModel> implements BaseModelInterfac
             data.token_validity,
             data.created_at,
             data.updated_at,
-            data.deleted_at
+            data.deleted_at,
+            data.posts
         );
     }
 
@@ -137,6 +142,10 @@ export class UserModel extends BaseModel<UserModel> implements BaseModelInterfac
 
     public set deleted_at(value: string) {
         this._deleted_at = value;
+    }
+
+    public get posts(): PostModel[] {
+        return this._posts;
     }
 
     public toJson(isProtected: boolean = true, withTimestamp: boolean = true): Partial<UserModel> {

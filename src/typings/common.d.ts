@@ -58,3 +58,5 @@ export type MakeAny<T> = {
 export type BasicType<T> = {
     [P in keyof T]?: P extends string | number | boolean ? T[P] : never;
 };
+
+export type OptionalRelation = object[] | undefined;
