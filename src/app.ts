@@ -12,6 +12,8 @@ import ExceptionHandler from './middlewares/exception';
 import NotFoundHandler from './middlewares/not_found';
 import PostController from './controllers/post_controller';
 
+import GraphQLModule from './graphql';
+
 class App {
     private app: Application;
     private port: number = 3000;
@@ -30,6 +32,7 @@ class App {
         this.app.use('/auth', new AuthController().getRoutes());
         this.app.use('/profile', new ProfileController().getRoutes());
         this.app.use('/post', new PostController().getRoutes());
+        this.app.use('/graphql', GraphQLModule);
     }
 
     private setupModules(): void {
