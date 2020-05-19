@@ -33,6 +33,6 @@ export default class AuthController extends BaseController {
     }
 
     public setRoutes(): void {
-        this.addRoute('post', '/login', this.login, Validator('login'));
+        this.addRoute<LoginHandlerOutput>('post', '/login', this.login, Validator('login'));
     }
 }

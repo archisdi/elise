@@ -1,6 +1,6 @@
 import { RequestHandler, Router } from 'express';
 import ExpressWrapper from '../../factories/handler';
-import { methodHandler as MethodHandler } from '../../typings/common';
+import { MethodHandler } from '../../typings/common';
 
 type AllowedMethod = 'get' | 'post' | 'put' | 'delete';
 type MiddleWare = RequestHandler | RequestHandler[];
@@ -22,10 +22,10 @@ export default class BaseController {
         }
     }
 
-    protected addRoute(
+    protected addRoute<DataOutput = any>(
         httpMethod: AllowedMethod,
         path: string = '/',
-        handler: MethodHandler,
+        handler: MethodHandler<DataOutput>,
         middlewares: MiddleWare = []
     ): void {
         const routeMiddleware: RequestHandler[] = middlewares instanceof Array ? middlewares : [middlewares];

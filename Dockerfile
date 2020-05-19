@@ -12,7 +12,6 @@ RUN rm -rf ./node_modules
 RUN npm ci --only=production --quiet
 
 RUN cp -a ./node_modules ./build
-RUN cp -a ./storage ./build
 RUN cp ./.env ./build
 
 # release

@@ -1,6 +1,6 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 import { OK } from 'http-status-codes';
-import { IContext, IData, methodHandler } from '../typings/common';
+import { IContext, IData, MethodHandler } from '../typings/common';
 
 const parseInput = (req: Request): IData => ({
     query: req.query,
@@ -8,7 +8,7 @@ const parseInput = (req: Request): IData => ({
     body: req.body
 });
 
-export default (method: methodHandler): RequestHandler => async (
+export const HandlerFactory = (method: MethodHandler): RequestHandler => async (
     req: Request,
     res: Response,
     next: NextFunction
@@ -22,3 +22,5 @@ export default (method: methodHandler): RequestHandler => async (
         return next(err);
     }
 };
+
+export default HandlerFactory;

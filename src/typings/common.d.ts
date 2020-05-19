@@ -1,5 +1,3 @@
-import { Router } from 'express';
-
 declare module '*.json' {
     const value: any;
     export default value;
@@ -29,7 +27,7 @@ export interface IData<Query = any, Params = any, Body = any> {
     body: Body;
 }
 
-export type methodHandler = (data: IData, context: IContext) => Promise<any>;
+export type MethodHandler<HandlerOutput = any> = (data: IData, context: IContext) => Promise<HandlerOutput>;
 
 export interface IHttpError {
     message: string;
