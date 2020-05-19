@@ -1,8 +1,8 @@
-import { GeneralModelInterface, SqlModel } from './base/base_model';
-import jwt, { validatePassword } from '../libs/jwt';
+import { SqlModel } from './base/base_model';
+import jwt, { validatePassword } from '../utils/jwt';
 import { HttpError } from 'tymon';
-import RepoService from '../utils/factory/repository';
-import { BasicType, OptionalRelation } from 'src/typings/common';
+import RepoFactory from '../factories/repository';
+import { OptionalRelation } from 'src/typings/common';
 import { PostModel } from './post_model';
 
 export class UserModel extends SqlModel<UserModel> {
@@ -185,7 +185,7 @@ export class UserModel extends SqlModel<UserModel> {
     }
 
     public async cache(): Promise<void> {
-        const redisRepo = RepoService.getRedis(UserModel);
+        const redisRepo = RepoFactory.getRedis(UserModel);
         const payload = this.toJson() as Partial<UserModel>;
         await redisRepo.set(this.id, payload, 300);
     }

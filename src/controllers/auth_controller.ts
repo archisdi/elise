@@ -1,11 +1,10 @@
-import { HttpError } from 'tymon';
-
-import Validator from '../middlewares/request_validator';
-import BaseController from './base/base_controller';
-import { IContext } from '../typings/common';
 import { LoginHandlerInput, LoginHandlerOutput } from 'src/typings/methods/auth';
-import RepoService from '../utils/factory/repository';
+import { HttpError } from 'tymon';
+import RepoFactory from '../factories/repository';
+import Validator from '../middlewares/request_validator';
 import { UserModel } from '../models/user_model';
+import { IContext } from '../typings/common';
+import BaseController from './base/base_controller';
 
 export default class AuthController extends BaseController {
     public async login(data: LoginHandlerInput, context: IContext): Promise<LoginHandlerOutput> {
@@ -13,7 +12,7 @@ export default class AuthController extends BaseController {
             body: { username, password }
         } = data;
 
-        const userRepo = RepoService.getSql(UserModel);
+        const userRepo = RepoFactory.getSql(UserModel);
         const user = await userRepo.findOne({ username });
 
         if (!user) {

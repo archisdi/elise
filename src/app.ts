@@ -1,18 +1,15 @@
-import { DBContext, RedisContext } from 'tymon';
-import { Application } from 'express';
-import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import * as helmet from 'helmet';
 import * as cors from 'cors';
-
+import * as express from 'express';
+import { Application } from 'express';
+import * as helmet from 'helmet';
+import { DBContext, RedisContext } from 'tymon';
 import AuthController from './controllers/auth_controller';
+import PostController from './controllers/post_controller';
 import ProfileController from './controllers/profile_controller';
-
+import GraphQLModule from './graphql';
 import ExceptionHandler from './middlewares/exception';
 import NotFoundHandler from './middlewares/not_found';
-import PostController from './controllers/post_controller';
-
-import GraphQLModule from './graphql';
 
 class App {
     private app: Application;

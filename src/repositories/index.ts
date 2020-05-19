@@ -1,6 +1,6 @@
 import * as fs from 'fs';
-import * as path from 'path';
 import * as _ from 'lodash';
+import * as path from 'path';
 
 interface IObjectString {
     [s: string]: string;

@@ -1,8 +1,8 @@
 import { DBInstance, getInstance as getDBInstance, getTransaction as getDbTransaction } from 'tymon/modules/db';
-import { MongoInstance, getInstance as getMongoInstance } from 'tymon/modules/mongodb';
-import { RedisInstance, getInstance as getRedisInstance } from 'tymon/modules/redis';
-import { FirebaseInstance, getInstance as getFirebaseInstance } from 'tymon/modules/firebase';
 import { ElasticInstance, getInstance as getElasticInstance } from 'tymon/modules/elastic';
+import { FirebaseInstance, getInstance as getFirebaseInstance } from 'tymon/modules/firebase';
+import { getInstance as getMongoInstance, MongoInstance } from 'tymon/modules/mongodb';
+import { getInstance as getRedisInstance, RedisInstance } from 'tymon/modules/redis';
 
 export class BaseRepository {
     private db: DBInstance | null;

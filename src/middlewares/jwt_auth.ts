@@ -1,11 +1,11 @@
 /// <reference types="../typings/express" />
 
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { HttpError } from 'tymon';
-import JWT from '../libs/jwt';
-import { IContext } from '../typings/common';
 import { ITokenable } from '../typings/auth';
+import { IContext } from '../typings/common';
 import { COMMON_ERRORS } from '../utils/constant';
+import JWT from '../utils/jwt';
 
 const jwtExpiredMessage = 'jwt expired';
 

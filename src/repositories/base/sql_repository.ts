@@ -1,9 +1,9 @@
-import BaseRepository from './base_repository';
-import { IPagination, BasicType, IObject } from '../../typings/common';
-import { offset, sorter, trimObjectKey } from '../../utils/helpers';
-import { StaticSqlModel } from '../../models/base/base_model';
-import { HttpError } from 'tymon';
 import { OrderItem } from 'sequelize/types';
+import { HttpError } from 'tymon';
+import { StaticSqlModel } from '../../models/base/base_model';
+import { BasicType, IPagination } from '../../typings/common';
+import { offset, sorter } from '../../utils/helpers';
+import BaseRepository from './base_repository';
 
 type attributes = string[] | undefined;
 

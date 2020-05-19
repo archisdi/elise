@@ -1,6 +1,6 @@
 import * as Joi from '@hapi/joi';
 import { HttpError } from 'tymon';
-import { COMMON_ERRORS } from '../utils/constant';
+import { COMMON_ERRORS } from './constant';
 
 const schemas: { [s: string]: Joi.ObjectSchema } = {
     login: Joi.object({

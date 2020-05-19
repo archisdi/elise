@@ -1,6 +1,6 @@
 import BaseRepository from './base_repository';
 import { MakeAny } from '../../typings/common';
-import { StaticMongoModel } from 'src/models/base/base_model';
+import { StaticMongoModel } from '../../models/base/base_model';
 
 export default class MongoRepo<ModelClass> extends BaseRepository {
     protected collection: string;

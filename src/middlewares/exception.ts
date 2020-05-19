@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-import { HttpError } from 'tymon/modules/http_error';
+import { NextFunction, Request, Response } from 'express';
 import { INTERNAL_SERVER_ERROR } from 'http-status-codes';
+import { HttpError } from 'tymon/modules/http_error';
 import { COMMON_ERRORS } from '../utils/constant';
 
 export default (err: any, req: Request, res: Response, next: NextFunction): object => {

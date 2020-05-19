@@ -1,4 +1,4 @@
-import RepoService from '../../utils/factory/repository';
+import RepoFactory from '../../factories/repository';
 import SQLRepo from '../../repositories/base/sql_repository';
 import { BasicType } from 'src/typings/common';
 
@@ -31,7 +31,7 @@ export abstract class SqlModel<ModelClass> implements GeneralModelInterface<Basi
     protected repo: SQLRepo<ModelClass>;
 
     public constructor(model: StaticSqlModel<ModelClass>) {
-        this.repo = RepoService.getSql(model);
+        this.repo = RepoFactory.getSql(model);
     }
 
     protected removeTimestamps(data: { [s: string]: any }): void {

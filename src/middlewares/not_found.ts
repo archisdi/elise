@@ -1,4 +1,4 @@
-import { Response, Request, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { HttpError } from 'tymon';
 import { COMMON_ERRORS } from '../utils/constant';
 

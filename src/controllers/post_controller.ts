@@ -1,9 +1,9 @@
 import { IContext, IData } from 'src/typings/common';
+import RepoFactory from '../factories/repository';
+import AuthMiddleware from '../middlewares/jwt_auth';
 import Validator from '../middlewares/request_validator';
 import { PostModel } from '../models/post_model';
-import RepoService from '../utils/factory/repository';
 import BaseController from './base/base_controller';
-import AuthMiddleware from '../middlewares/jwt_auth';
 
 export default class PostController extends BaseController {
     public constructor() {
@@ -12,7 +12,7 @@ export default class PostController extends BaseController {
     }
 
     public async createPost(data: IData, context: IContext): Promise<{ id: string }> {
-        const postRepo = RepoService.getSql(PostModel);
+        const postRepo = RepoFactory.getSql(PostModel);
         const post = await postRepo.create({
             ...data.body,
             author_id: context.user_id
@@ -23,7 +23,7 @@ export default class PostController extends BaseController {
     }
 
     public async getPostList(data: IData, context: IContext): Promise<any> {
-        const postRepo = RepoService.getSql(PostModel);
+        const postRepo = RepoFactory.getSql(PostModel);
         const posts = await postRepo.paginate(
             { author_id: context.user_id },
             { page: 1, per_page: 10, sort: '-created_at' }

@@ -1,5 +1,5 @@
-import { GraphQLObjectType, GraphQLString, GraphQLSchema } from 'graphql';
-import RepoService from '../utils/factory/repository';
+import { GraphQLObjectType, GraphQLSchema, GraphQLString } from 'graphql';
+import RepoFactory from '../factories/repository';
 import { PostModel } from '../models/post_model';
 import { UserModel } from '../models/user_model';
 
@@ -30,7 +30,7 @@ export const PostType = new GraphQLObjectType({
         author: {
             type: AuthorType,
             resolve(parentValue: any, args: any): any {
-                const userRepo = RepoService.getSql(UserModel);
+                const userRepo = RepoFactory.getSql(UserModel);
                 return userRepo.findOne({ id: parentValue.author_id }).then((res): any => (res ? res.toJson() : null));
             }
         },
@@ -52,7 +52,7 @@ const RootQuery = new GraphQLObjectType({
                 id: { type: GraphQLString }
             },
             resolve(parentValue, args): any {
-                const postRepo = RepoService.getSql(PostModel);
+                const postRepo = RepoFactory.getSql(PostModel);
                 return postRepo.findOne({ id: args.id }).then((res): any => (res ? res.toJson() : null));
             }
         }
