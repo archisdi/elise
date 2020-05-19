@@ -180,13 +180,15 @@ export class UserModel extends SqlModel<UserModel> {
         return data;
     }
 
-    public async save(): Promise<void> {
-        await this.repo.upsert({ id: this.id }, this.toJson(false, false));
+    public async save({ cache }: { cache: boolean } = { cache: true }): Promise<void> {
+        await this.repo
+            .upsert({ id: this.id }, this.toJson(false, true))
+            .then((): any => (cache ? this.cache() : null));
     }
 
     public async cache(): Promise<void> {
         const redisRepo = RepoFactory.getRedis(UserModel);
-        const payload = this.toJson() as Partial<UserModel>;
+        const payload = this.toJson(false, true) as Partial<UserModel>;
         await redisRepo.set(this.id, payload, 300);
     }
 }

@@ -22,7 +22,7 @@ export default class AuthController extends BaseController {
         const jwtToken = user.signJwtToken(password);
 
         /** save and cache */
-        await Promise.all([user.save(), user.cache()]);
+        await user.save({ cache: true });
 
         return {
             token: jwtToken,
