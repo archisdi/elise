@@ -34,8 +34,15 @@ export default class PostController extends BaseController {
         };
     }
 
+    public async getPostDetail(data: IData, context: IContext): Promise<any> {
+        const postRepo = RepoFactory.getSql(PostModel);
+        const post = await postRepo.findOneOrFail({ id: data.params.id, author_id: context.user_id });
+        return post.toJson();
+    }
+
     public setRoutes(): void {
-        this.addRoute('get', '/', this.getPostList);
         this.addRoute('post', '/', this.createPost, Validator('createPost'));
+        this.addRoute('get', '/', this.getPostList);
+        this.addRoute('get', '/:id', this.getPostDetail);
     }
 }
