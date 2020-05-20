@@ -5,7 +5,7 @@ import { MethodHandler } from '../../typings/common';
 type AllowedMethod = 'get' | 'post' | 'put' | 'delete';
 type MiddleWare = RequestHandler | RequestHandler[];
 
-export default class BaseController {
+export default abstract class BaseController {
     private routes: Router;
     private middlewares: RequestHandler[];
 
@@ -36,8 +36,9 @@ export default class BaseController {
         this.routes.use(path, controller.getRoutes());
     }
 
+    // Override
     protected setRoutes(): void {
-        /** routes definitions */
+        throw new Error('route is not set');
     }
 
     public getRoutes(): Router {

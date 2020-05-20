@@ -4,6 +4,7 @@ import AuthMiddleware from '../middlewares/jwt_auth';
 import Validator from '../middlewares/request_validator';
 import { PostModel } from '../models/post_model';
 import BaseController from './base/base_controller';
+import PostTransformer from '../transformers/post_transformer';
 
 export default class PostController extends BaseController {
     public constructor() {
@@ -17,9 +18,7 @@ export default class PostController extends BaseController {
             ...data.body,
             author_id: context.user_id
         });
-        return {
-            id: post.id
-        };
+        return PostTransformer.PostDetail(post);
     }
 
     public async getPostList(data: IData, context: IContext): Promise<any> {
@@ -28,16 +27,18 @@ export default class PostController extends BaseController {
             { author_id: context.user_id },
             { page: 1, per_page: 10, sort: '-created_at' }
         );
-        return {
-            content: posts.data.map((item): any => item.toJson()),
-            pagination: posts.meta
-        };
+
+        return PostTransformer.PostList(posts.data, posts.meta);
     }
 
     public async getPostDetail(data: IData, context: IContext): Promise<any> {
         const postRepo = RepoFactory.getSql(PostModel);
-        const post = await postRepo.findOneOrFail({ id: data.params.id, author_id: context.user_id });
-        return post.toJson();
+        const post = await postRepo.findOneOrFail({
+            id: data.params.id,
+            author_id: context.user_id
+        });
+
+        return PostTransformer.PostDetail(post);
     }
 
     public setRoutes(): void {

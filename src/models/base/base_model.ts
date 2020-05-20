@@ -47,7 +47,7 @@ export abstract class SqlModel<ModelClass> implements GeneralModelInterface<Basi
     }
 
     // Overriding
-    public toJson(isProtected: boolean = true, withTimestamp: boolean = true): any {
+    public toJson(): any {
         throw new Error('toJson method is not implemented');
     }
 
