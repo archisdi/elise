@@ -21,11 +21,11 @@ export class UserModel extends Entity<UserProperties> {
         super(props);
     }
 
-    public static repo = RepoFactory.getSql(UserModel);
-
     public static modelName = 'User';
     public static collectionName = 'users';
     public static cacheName = 'user';
+
+    public static repo = RepoFactory.getSql(UserModel);
 
     public static buildFromSql(data: UserProperties): UserModel {
         return new UserModel({
