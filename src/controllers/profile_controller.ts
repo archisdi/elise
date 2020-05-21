@@ -11,12 +11,10 @@ export default class ProfileController extends BaseController {
     }
 
     public async getProfile(data: IData, context: IContext): Promise<any> {
-        const userRepo = RepoFactory.getSql(UserModel);
-
         /** simulate caching */
         let user = await UserModel.findFromCache(context.user_id);
         if (!user) {
-            user = await userRepo.findOneOrFail({ username: context.username });
+            user = await UserModel.repo.findOneOrFail({ username: context.username });
         }
 
         return user.toJson();

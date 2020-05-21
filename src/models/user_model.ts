@@ -21,6 +21,8 @@ export class UserModel extends Entity<UserProperties> {
         super(props);
     }
 
+    public static repo = RepoFactory.getSql(UserModel);
+
     public static modelName = 'User';
     public static collectionName = 'users';
     public static cacheName = 'user';
@@ -152,9 +154,9 @@ export class UserModel extends Entity<UserProperties> {
         await redisRepo.set(this.id, payload, 300);
     }
 
-    public static async findFromCache(id: string): Promise<UserModel> {
+    public static async findFromCache(id: string): Promise<UserModel | null> {
         const redisRepo = RepoFactory.getRedis(UserModel);
         const user = await redisRepo.get(id);
-        return this.buildFromRedis(user);
+        return user ? this.buildFromRedis(user) : null;
     }
 }
