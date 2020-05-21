@@ -1,7 +1,7 @@
 import { LoginRequest, LoginReponse } from 'src/typings/endpoints';
 import { HttpError } from 'tymon';
 import RepoFactory from '../factories/repository';
-import Validator from '../middlewares/request_validator';
+import RequestValidator from '../middlewares/request_validator';
 import { UserModel } from '../models/user_model';
 import { IContext } from '../typings/common';
 import BaseController from './base/base_controller';
@@ -33,6 +33,6 @@ export default class AuthController extends BaseController {
     }
 
     public setRoutes(): void {
-        this.addRoute<LoginReponse>('post', '/login', this.login, Validator('login'));
+        this.addRoute<LoginReponse>('post', '/login', this.login, RequestValidator('login'));
     }
 }

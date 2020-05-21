@@ -1,7 +1,7 @@
 import { IContext, IData } from 'src/typings/common';
 import RepoFactory from '../factories/repository';
 import AuthMiddleware from '../middlewares/jwt_auth';
-import Validator from '../middlewares/request_validator';
+import RequestValidator from '../middlewares/request_validator';
 import { PostModel } from '../models/post_model';
 import BaseController from './base/base_controller';
 import PostTransformer from '../transformers/post_transformer';
@@ -42,7 +42,7 @@ export default class PostController extends BaseController {
     }
 
     public setRoutes(): void {
-        this.addRoute('post', '/', this.createPost, Validator('createPost'));
+        this.addRoute('post', '/', this.createPost, RequestValidator('createPost'));
         this.addRoute('get', '/', this.getPostList);
         this.addRoute('get', '/:id', this.getPostDetail);
     }

@@ -191,4 +191,10 @@ export class UserModel extends SqlModel<UserModel> {
         const payload = this.toJson(false, true) as Partial<UserModel>;
         await redisRepo.set(this.id, payload, 300);
     }
+
+    public static async findFromCache(id: string): Promise<UserModel> {
+        const redisRepo = RepoFactory.getRedis(UserModel);
+        const user = await redisRepo.get(id);
+        return this.buildFromRedis(user);
+    }
 }
