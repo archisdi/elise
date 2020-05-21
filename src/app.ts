@@ -7,7 +7,7 @@ import { DBContext, RedisContext } from 'tymon';
 import AuthController from './controllers/auth_controller';
 import PostController from './controllers/post_controller';
 import ProfileController from './controllers/profile_controller';
-import GraphQLModule from './graphql';
+import GraphQL from './graphql';
 import ExceptionHandler from './middlewares/exception';
 import NotFoundHandler from './middlewares/not_found';
 
@@ -29,7 +29,7 @@ class App {
         this.app.use('/auth', new AuthController().getRoutes());
         this.app.use('/profile', new ProfileController().getRoutes());
         this.app.use('/post', new PostController().getRoutes());
-        this.app.use('/graphql', GraphQLModule);
+        this.app.use('/graphql', new GraphQL({ enable_graphiql: true, is_protected: true }).getInstance());
     }
 
     private setupModules(): void {
