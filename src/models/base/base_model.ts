@@ -1,6 +1,5 @@
 import RepoFactory from '../../factories/repository';
 import SQLRepo from '../../repositories/base/sql_repository';
-import { BasicType } from 'src/typings/common';
 
 export interface StaticSqlModel<ClassModel = any> {
     new (...param: any): ClassModel;
@@ -20,12 +19,7 @@ export interface StaticRedisModel<ClassModel = any> {
     buildFromRedis(...params: any): ClassModel;
 }
 
-export interface GeneralModelInterface<Model> {
-    toJson(t: boolean, s: boolean): Partial<Model>;
-    save(): Promise<void>;
-}
-
-export abstract class SqlModel<ModelClass> implements GeneralModelInterface<BasicType<ModelClass>> {
+export abstract class SqlModel<ModelClass> {
     protected hidden?: string[];
     protected fillable?: string[];
     protected repo: SQLRepo<ModelClass>;
@@ -46,13 +40,6 @@ export abstract class SqlModel<ModelClass> implements GeneralModelInterface<Basi
         });
     }
 
-    // Overriding
-    public toJson(): any {
-        throw new Error('toJson method is not implemented');
-    }
-
-    // Overriding
-    public async save(): Promise<void> {
-        throw new Error('save method is not implemented');
-    }
+    public abstract toJson(): {};
+    public abstract save(): {};
 }
