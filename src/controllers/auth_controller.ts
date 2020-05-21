@@ -1,4 +1,4 @@
-import { LoginHandlerInput, LoginHandlerOutput } from 'src/typings/methods/auth';
+import { LoginRequest, LoginReponse } from 'src/typings/endpoints';
 import { HttpError } from 'tymon';
 import RepoFactory from '../factories/repository';
 import Validator from '../middlewares/request_validator';
@@ -7,18 +7,18 @@ import { IContext } from '../typings/common';
 import BaseController from './base/base_controller';
 
 export default class AuthController extends BaseController {
-    public async login(data: LoginHandlerInput, context: IContext): Promise<LoginHandlerOutput> {
+    public async login(data: LoginRequest, context: IContext): Promise<LoginReponse> {
         const {
             body: { username, password }
         } = data;
 
         const userRepo = RepoFactory.getSql(UserModel);
         const user = await userRepo.findOne({ username });
-
         if (!user) {
             throw HttpError.UnauthorizedError('credential not match', 'CREDENTIAL_NOT_MATCH');
         }
 
+        /** sign token if credential correct */
         const jwtToken = user.signJwtToken(password);
 
         /** save and cache */
@@ -33,6 +33,6 @@ export default class AuthController extends BaseController {
     }
 
     public setRoutes(): void {
-        this.addRoute<LoginHandlerOutput>('post', '/login', this.login, Validator('login'));
+        this.addRoute<LoginReponse>('post', '/login', this.login, Validator('login'));
     }
 }

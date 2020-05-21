@@ -24,6 +24,7 @@ const generateRepoPath = (): IObjectString => {
     }
     return paths;
 };
+
 class RepoFactory {
     private context: any;
     private instance: { [s: string]: any };

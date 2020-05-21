@@ -1,13 +1,13 @@
 import { OrderItem } from 'sequelize/types';
 import { HttpError } from 'tymon';
 import { StaticSqlModel } from '../../models/base/base_model';
-import { BasicType, IPagination } from '../../typings/common';
+import { Attributes, BasicType, IPagination, QueryOptions } from '../../typings/common';
 import { offset, sorter } from '../../utils/helpers';
 import BaseRepository from './base_repository';
 
-type attributes = string[] | undefined;
-
-const DEFAULT_SORT = '-created_at';
+enum DEFAULT {
+    SORT = '-created_at'
+}
 
 export default class SQLRepo<ModelClass> extends BaseRepository {
     protected modelName: string;
@@ -27,19 +27,21 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
         return datas.map((data): ModelClass => this.build(data));
     }
 
-    public async findId(id: string, attributes?: attributes): Promise<ModelClass | null> {
+    public async findById(id: string, attributes?: Attributes): Promise<ModelClass | null> {
         const db = await this.getDbInstance();
-        return db.model[this.modelName].findOne({ where: { id }, attributes }).then((res: any): any => this.build(res));
+        return db.model[this.modelName]
+            .findOne({ where: { id }, attributes })
+            .then((res: any): any => (res ? this.build(res) : null));
     }
 
-    public async findOne(conditions: BasicType<ModelClass>, attributes?: attributes): Promise<ModelClass | null> {
+    public async findOne(conditions: BasicType<ModelClass>, attributes?: Attributes): Promise<ModelClass | null> {
         const db = await this.getDbInstance();
         return db.model[this.modelName]
             .findOne({ where: conditions as any, attributes })
             .then((res: any): any => (res ? this.build(res) : null));
     }
 
-    public async findOneOrFail(conditions: BasicType<ModelClass>, attributes?: attributes): Promise<ModelClass> {
+    public async findOneOrFail(conditions: BasicType<ModelClass>, attributes?: Attributes): Promise<ModelClass> {
         return this.findOne(conditions, attributes).then(
             (res: any): ModelClass => {
                 if (!res) throw HttpError.NotFoundError(`${this.modelName.toUpperCase()}_NOT_FOUND`);
@@ -50,8 +52,7 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
 
     public async findAll(
         conditions: BasicType<ModelClass>,
-        sort: string = DEFAULT_SORT,
-        attributes?: attributes
+        { sort = DEFAULT.SORT, attributes }: QueryOptions
     ): Promise<ModelClass[]> {
         const db = await this.getDbInstance();
         const order = sorter(sort);
@@ -98,8 +99,7 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
 
     public async paginate(
         conditions: BasicType<ModelClass>,
-        { page = 1, per_page = 10, sort = DEFAULT_SORT },
-        attributes?: attributes
+        { page = 1, per_page = 10, sort = DEFAULT.SORT, attributes }: QueryOptions
     ): Promise<{ data: ModelClass[]; meta: IPagination }> {
         const db = await this.getDbInstance();
         const order = sorter(sort);

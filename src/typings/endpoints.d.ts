@@ -1,4 +1,4 @@
-export interface LoginHandlerInput {
+export interface LoginRequest {
     body: {
         username: string;
         password: string;
@@ -7,7 +7,7 @@ export interface LoginHandlerInput {
     params: {};
 }
 
-export interface LoginHandlerOutput {
+export interface LoginReponse {
     token: string;
     refresh_token: string;
     expires_in: number;

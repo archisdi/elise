@@ -58,3 +58,12 @@ export type BasicType<T> = {
 };
 
 export type OptionalRelation = object[] | undefined;
+
+export type Attributes = string[];
+
+export interface QueryOptions {
+    page?: number;
+    per_page?: number;
+    sort?: string;
+    attributes?: Attributes;
+}

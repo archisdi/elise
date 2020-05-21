@@ -1,5 +1,5 @@
 import { RequestHandler, Router } from 'express';
-import ExpressWrapper from '../../factories/handler';
+import HandlerFactory from '../../factories/handler';
 import { MethodHandler } from '../../typings/common';
 
 type AllowedMethod = 'get' | 'post' | 'put' | 'delete';
@@ -29,7 +29,7 @@ export default abstract class BaseController {
         middlewares: MiddleWare = []
     ): void {
         const routeMiddleware: RequestHandler[] = middlewares instanceof Array ? middlewares : [middlewares];
-        this.routes[httpMethod](path, [...this.middlewares, ...routeMiddleware], ExpressWrapper(handler));
+        this.routes[httpMethod](path, [...this.middlewares, ...routeMiddleware], HandlerFactory(handler));
     }
 
     protected addChildController(path: string = '/', controller: { getRoutes(): Router }): void {

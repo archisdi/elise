@@ -14,8 +14,8 @@ export const HandlerFactory = (method: MethodHandler): RequestHandler => async (
     next: NextFunction
 ): Promise<Response | void> => {
     try {
-        const data: IData = parseInput(req);
-        const context: IContext = req && req.context;
+        const data = parseInput(req);
+        const context: IContext = req?.context;
         const outData: any = await method(data, context);
         return res.status(OK).json(outData);
     } catch (err) {
