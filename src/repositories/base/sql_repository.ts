@@ -5,9 +5,9 @@ import { Attributes, BasicType, IPagination, QueryOptions } from '../../typings/
 import { offset, sorter } from '../../utils/helpers';
 import BaseRepository from './base_repository';
 
-enum DEFAULT {
-    SORT = '-created_at'
-}
+const DEFAULT = {
+    SORT: '-created_at'
+};
 
 export default class SQLRepo<ModelClass> extends BaseRepository {
     protected modelName: string;

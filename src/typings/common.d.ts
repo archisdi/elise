@@ -67,3 +67,10 @@ export interface QueryOptions {
     sort?: string;
     attributes?: Attributes;
 }
+
+export interface BaseModel {
+    id: string;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string;
+}

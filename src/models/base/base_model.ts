@@ -1,6 +1,3 @@
-import RepoFactory from '../../factories/repository';
-import SQLRepo from '../../repositories/base/sql_repository';
-
 export interface StaticSqlModel<ClassModel = any> {
     new (...param: any): ClassModel;
     modelName: string;
@@ -19,27 +16,28 @@ export interface StaticRedisModel<ClassModel = any> {
     buildFromRedis(...params: any): ClassModel;
 }
 
-export abstract class SqlModel<ModelClass> {
-    protected hidden?: string[];
-    protected fillable?: string[];
-    protected repo: SQLRepo<ModelClass>;
+export abstract class Entity<P> {
+    protected readonly props: P;
+    protected readonly hidden: string[] = [];
 
-    public constructor(model: StaticSqlModel<ModelClass>) {
-        this.repo = RepoFactory.getSql(model);
+    public constructor(props: P) {
+        this.props = props;
     }
 
-    protected removeTimestamps(data: { [s: string]: any }): void {
-        delete data['created_at'];
-        delete data['updated_at'];
-        delete data['deleted_at'];
+    public toJson(option?: { withHidden?: boolean; withTimeStamps?: boolean }): Partial<P> {
+        const data: any = this.props;
+        if (!option?.withHidden) {
+            this.hidden.forEach((prop): void => {
+                delete data[prop];
+            });
+        }
+        if (!option?.withTimeStamps) {
+            delete data['created_at'];
+            delete data['updated_at'];
+            delete data['deleted_at'];
+        }
+        return data;
     }
 
-    protected removeHidden(data: { [s: string]: any }): void {
-        this.hidden?.forEach((param): void => {
-            delete data[param];
-        });
-    }
-
-    public abstract toJson(): {};
     public abstract save(): {};
 }

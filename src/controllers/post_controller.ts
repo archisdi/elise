@@ -18,6 +18,7 @@ export default class PostController extends BaseController {
             ...data.body,
             author_id: context.user_id
         });
+
         return PostTransformer.PostDetail(post);
     }
 
