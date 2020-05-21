@@ -19,15 +19,15 @@ export default class AuthController extends BaseController {
         }
 
         /** sign token if credential correct */
-        const jwtToken = user.signJwtToken(password);
+        const { token, lifetime } = user.signJwtToken(password);
 
         /** save and cache */
         await user.save({ cache: true });
 
         return {
-            token: jwtToken,
+            token: token,
             refresh_token: user.refresh_token,
-            expires_in: Number(process.env.JWT_LIFETIME)
+            expires_in: lifetime
         };
         // Wrap in try/catch block if transaction is needed
     }

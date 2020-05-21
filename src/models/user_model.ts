@@ -78,7 +78,7 @@ export class UserModel extends SqlModel<UserModel> {
         );
     }
 
-    public signJwtToken(password: string): string {
+    public signJwtToken(password: string): { token: string; lifetime: number } {
         if (!validatePassword(password, this.password)) {
             throw HttpError.UnauthorizedError('credential not match', 'CREDENTIAL_NOT_MATCH');
         }
