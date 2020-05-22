@@ -1,4 +1,4 @@
-import { Entity } from './base/base_model';
+import { Model } from './base/base_model';
 import { BaseModel } from 'src/typings/common';
 import RepoFactory from '../factories/repository';
 
@@ -8,7 +8,7 @@ export interface PostProperties extends BaseModel {
     content: string;
 }
 
-export class PostModel extends Entity<PostProperties> {
+export class PostModel extends Model<PostProperties> {
     public constructor(props: PostProperties) {
         super(props);
     }
@@ -86,7 +86,6 @@ export class PostModel extends Entity<PostProperties> {
     }
 
     public async save(): Promise<void> {
-        const repo = RepoFactory.getSql(PostModel);
-        return repo.upsert({ id: this.id }, this.toJson({ withHidden: true }));
+        return PostModel.repo.upsert({ id: this.id }, this.toJson({ withHidden: true }));
     }
 }

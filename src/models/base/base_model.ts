@@ -16,7 +16,7 @@ export interface StaticRedisModel<ClassModel = any> {
     buildFromRedis(...params: any): ClassModel;
 }
 
-export abstract class Entity<P> {
+export abstract class Model<P> {
     protected readonly props: P;
     protected readonly hidden: string[] = [];
 

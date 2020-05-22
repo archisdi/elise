@@ -2,14 +2,14 @@
 
 import { NextFunction, Request, Response } from 'express';
 import { HttpError } from 'tymon';
-import { ITokenable } from '../typings/auth';
+import { Tokenable } from '../typings/auth';
 import { IContext } from '../typings/common';
 import { COMMON_ERRORS } from '../utils/constant';
 import JWT from '../utils/jwt';
 
-const jwtExpiredMessage = 'jwt expired';
+const JWT_EXPIRED_MESSAGE = 'jwt expired';
 
-const generateContext = async (payload: ITokenable): Promise<IContext> => {
+const generateContext = async (payload: Tokenable): Promise<IContext> => {
     return {
         username: payload.username,
         user_id: payload.user_id
@@ -24,11 +24,11 @@ export default async (req: Request, res: Response, next: NextFunction): Promise<
         }
 
         try {
-            const tokenPayload: ITokenable = await JWT.verifyToken(token);
+            const tokenPayload: Tokenable = await JWT.verifyToken(token);
             req.context = await generateContext(tokenPayload);
         } catch (err) {
             const message =
-                err.message === jwtExpiredMessage
+                err.message === JWT_EXPIRED_MESSAGE
                     ? ['token expired', COMMON_ERRORS.TOKEN_EXPIRED]
                     : ['token invalid', COMMON_ERRORS.TOKEN_INVALID];
 

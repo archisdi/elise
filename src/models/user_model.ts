@@ -1,4 +1,4 @@
-import { Entity } from './base/base_model';
+import { Model } from './base/base_model';
 import jwt, { validatePassword } from '../utils/jwt';
 import { HttpError } from 'tymon';
 import RepoFactory from '../factories/repository';
@@ -14,7 +14,7 @@ export interface UserProperties extends BaseModel {
     posts: PostProperties[];
 }
 
-export class UserModel extends Entity<UserProperties> {
+export class UserModel extends Model<UserProperties> {
     protected hidden = ['password', 'deleted_at'];
 
     public constructor(props: UserProperties) {
@@ -143,9 +143,8 @@ export class UserModel extends Entity<UserProperties> {
     }
 
     public async save({ cache }: { cache: boolean } = { cache: true }): Promise<void> {
-        const repo = RepoFactory.getSql(UserModel);
         const payload = this.toJson({ withHidden: true, withTimeStamps: false }) as Partial<UserModel>;
-        await repo.upsert({ id: this.id }, payload).then((): any => (cache ? this.cache() : null));
+        await UserModel.repo.upsert({ id: this.id }, payload).then((): any => (cache ? this.cache() : null));
     }
 
     public async cache(): Promise<void> {

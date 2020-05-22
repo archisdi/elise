@@ -2,13 +2,13 @@ import * as jwt from 'jsonwebtoken';
 import * as random from 'randomstring';
 import * as moment from 'moment';
 import * as bcrypt from 'bcryptjs';
-import { IRefreshToken, ITokenable } from '../typings/auth';
+import { RefreshToken, Tokenable } from '../typings/auth';
 
 const SALT = 10;
 const REFRESH_TOKEN_LENGTH = 50;
 const REFRESH_TOKEN_LIFETIME = 7; // days
 
-export const generateToken = (credentials: ITokenable): { token: string; lifetime: number } => {
+export const generateToken = (credentials: Tokenable): { token: string; lifetime: number } => {
     const lifetime = Number(process.env.JWT_LIFETIME);
     const token = jwt.sign(credentials, String(process.env.JWT_SECRET), { expiresIn: lifetime });
     return {
@@ -21,7 +21,7 @@ export const verifyToken = (token: string): any => {
     return jwt.verify(token, String(process.env.JWT_SECRET));
 };
 
-export const generateRefreshToken = (): IRefreshToken => {
+export const generateRefreshToken = (): RefreshToken => {
     return {
         token: random.generate(REFRESH_TOKEN_LENGTH),
         valid_until: moment().add(REFRESH_TOKEN_LIFETIME, 'days').utc().format()
