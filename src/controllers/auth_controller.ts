@@ -5,6 +5,7 @@ import RequestValidator from '../middlewares/request_validator';
 import { UserModel } from '../models/user_model';
 import { IContext } from '../typings/common';
 import BaseController from './base/base_controller';
+import { SCHEMA } from '../utils/validator';
 
 export default class AuthController extends BaseController {
     public async login(data: LoginRequest, context: IContext): Promise<LoginReponse> {
@@ -33,6 +34,6 @@ export default class AuthController extends BaseController {
     }
 
     public setRoutes(): void {
-        this.addRoute<LoginReponse>('post', '/login', this.login, RequestValidator('login'));
+        this.addRoute<LoginReponse>('post', '/login', this.login, RequestValidator(SCHEMA.LOGIN));
     }
 }

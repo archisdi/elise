@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from 'express';
-import Validator from '../utils/validator';
+import { NextFunction, Request, Response, RequestHandler } from 'express';
+import Validator, { SCHEMA } from '../utils/validator';
 
-export default (schema: string): any => (req: Request, res: Response, next: NextFunction): any => {
+export default (schema: SCHEMA): any => (req: Request, res: Response, next: NextFunction): RequestHandler => {
     const { query, params, body } = req;
 
     return Validator({ query, params, body }, schema)

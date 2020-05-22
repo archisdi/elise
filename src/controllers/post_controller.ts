@@ -5,6 +5,7 @@ import RequestValidator from '../middlewares/request_validator';
 import { PostModel } from '../models/post_model';
 import BaseController from './base/base_controller';
 import PostTransformer from '../transformers/post_transformer';
+import { SCHEMA } from '../utils/validator';
 
 export default class PostController extends BaseController {
     public constructor() {
@@ -43,7 +44,7 @@ export default class PostController extends BaseController {
     }
 
     public setRoutes(): void {
-        this.addRoute('post', '/', this.createPost, RequestValidator('createPost'));
+        this.addRoute('post', '/', this.createPost, RequestValidator(SCHEMA.CREATE_POST));
         this.addRoute('get', '/', this.getPostList);
         this.addRoute('get', '/:id', this.getPostDetail);
     }
