@@ -1,6 +1,6 @@
 {
-  "name": "exprestful-typed",
-  "version": "1.0.0",
+  "name": "elise",
+  "version": "2.1.0",
   "description": "rest api made with node, express, and typescript",
   "repository": "https://github.com/archisdi/expRESTful-typed",
   "main": "index.js",
@@ -15,7 +15,7 @@
     "migrate:refresh": "./scripts/migration/refresh.sh",
     "db:seed": "./scripts/migration/seed.sh"
   },
-  "author": "archie isdiningrat",
+  "author": "Archie Isdiningrat",
   "license": "ISC",
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

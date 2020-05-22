@@ -3,6 +3,7 @@ import App from './app';
 
 /**  */
 ((): void => {
+    /** load envs */
     env.config();
 
     /** parse envs */

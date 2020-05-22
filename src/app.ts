@@ -1,7 +1,6 @@
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
-import { Application } from 'express';
 import * as helmet from 'helmet';
 import { DBContext, RedisContext } from 'tymon';
 import AuthController from './controllers/auth_controller';
@@ -12,8 +11,8 @@ import ExceptionHandler from './middlewares/exception';
 import NotFoundHandler from './middlewares/not_found';
 
 class App {
-    private app: Application;
-    private port: number = 3000;
+    private app: express.Application;
+    private port: number;
 
     public constructor(port: number) {
         this.app = express();

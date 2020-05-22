@@ -1,11 +1,11 @@
-import { LoginRequest, LoginReponse } from 'src/typings/endpoints';
+import { LoginReponse, LoginRequest } from 'src/typings/endpoints';
 import { HttpError } from 'tymon';
 import RepoFactory from '../factories/repository';
 import RequestValidator from '../middlewares/request_validator';
 import { UserModel } from '../models/user_model';
 import { IContext } from '../typings/common';
-import BaseController from './base/base_controller';
 import { SCHEMA } from '../utils/validator';
+import BaseController from './base/base_controller';
 
 export default class AuthController extends BaseController {
     public async login(data: LoginRequest, context: IContext): Promise<LoginReponse> {

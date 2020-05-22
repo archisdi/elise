@@ -5,8 +5,8 @@ declare module '*.json' {
 
 declare function require(name: string): any;
 
-export interface IObject {
-    [s: string]: any;
+export interface IObject<D = any> {
+    [s: string]: D;
 }
 
 export interface IPagination {

@@ -3,9 +3,9 @@ import RepoFactory from '../factories/repository';
 import AuthMiddleware from '../middlewares/jwt_auth';
 import RequestValidator from '../middlewares/request_validator';
 import { PostModel } from '../models/post_model';
-import BaseController from './base/base_controller';
 import PostTransformer from '../transformers/post_transformer';
 import { SCHEMA } from '../utils/validator';
+import BaseController from './base/base_controller';
 
 export default class PostController extends BaseController {
     public constructor() {

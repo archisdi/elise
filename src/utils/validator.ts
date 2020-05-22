@@ -1,13 +1,14 @@
 import * as Joi from '@hapi/joi';
 import { HttpError } from 'tymon';
 import { COMMON_ERRORS } from './constant';
+import { IObject } from 'src/typings/common';
 
 export enum SCHEMA {
     LOGIN = 'login',
     CREATE_POST = 'create_post'
 }
 
-const schemas: { [s: string]: Joi.ObjectSchema } = {
+const schemas: IObject<Joi.ObjectSchema> = {
     [SCHEMA.LOGIN]: Joi.object({
         body: Joi.object({
             username: Joi.string().required(),
@@ -22,7 +23,7 @@ const schemas: { [s: string]: Joi.ObjectSchema } = {
     })
 };
 
-const defaultOptions: object = {
+const defaultOptions: IObject = {
     stripUnknown: {
         arrays: false,
         objects: true
@@ -30,7 +31,7 @@ const defaultOptions: object = {
     abortEarly: false
 };
 
-export default (input: object, schema: SCHEMA, options: object = defaultOptions): any => {
+export default (input: IObject, schema: SCHEMA, options: IObject = defaultOptions): any => {
     const scheme: Joi.ObjectSchema = schemas[schema];
 
     return Joi.validate(input, scheme, options).catch((err): void => {
