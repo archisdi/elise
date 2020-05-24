@@ -6,6 +6,7 @@ import { PostModel } from '../models/post_model';
 import PostTransformer from '../transformers/post_transformer';
 import { SCHEMA } from '../utils/validator';
 import BaseController from './base/base_controller';
+import { UpdatePostRequest, UpdatePostResponse } from 'src/typings/endpoints';
 
 export default class PostController extends BaseController {
     public constructor() {
@@ -43,9 +44,23 @@ export default class PostController extends BaseController {
         return PostTransformer.PostDetail(post);
     }
 
+    public async updatePost(data: UpdatePostRequest, context: IContext): Promise<UpdatePostResponse> {
+        const { body } = data;
+
+        const post = await PostModel.repo.findOneOrFail({ id: data.params.id, author_id: context.user_id });
+
+        post.update(body);
+        post.save();
+
+        return {
+            id: post.id
+        };
+    }
+
     public setRoutes(): void {
         this.addRoute('post', '/', this.createPost, RequestValidator(SCHEMA.CREATE_POST));
         this.addRoute('get', '/', this.getPostList);
         this.addRoute('get', '/:id', this.getPostDetail);
+        this.addRoute('put', '/:id', this.updatePost, RequestValidator(SCHEMA.UPDATE_POST));
     }
 }

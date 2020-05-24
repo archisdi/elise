@@ -5,7 +5,8 @@ import { IObject } from 'src/typings/common';
 
 export enum SCHEMA {
     LOGIN = 'login',
-    CREATE_POST = 'create_post'
+    CREATE_POST = 'create_post',
+    UPDATE_POST = 'update_post'
 }
 
 const schemas: IObject<Joi.ObjectSchema> = {
@@ -19,6 +20,15 @@ const schemas: IObject<Joi.ObjectSchema> = {
         body: Joi.object({
             title: Joi.string().min(4).max(50).required(),
             content: Joi.string().min(10).required()
+        }).required()
+    }),
+    [SCHEMA.UPDATE_POST]: Joi.object({
+        body: Joi.object({
+            title: Joi.string().min(4).max(50).optional(),
+            content: Joi.string().min(10).optional()
+        }).required(),
+        params: Joi.object({
+            id: Joi.string().required()
         }).required()
     })
 };

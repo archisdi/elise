@@ -17,8 +17,8 @@ export interface StaticRedisModel<ClassModel = any> {
 }
 
 export abstract class Model<P> {
-    protected readonly props: P;
-    protected readonly hidden: string[] = [];
+    protected props: P;
+    protected hidden: string[] = [];
 
     public constructor(props: P) {
         this.props = props;
@@ -37,6 +37,13 @@ export abstract class Model<P> {
             delete data['deleted_at'];
         }
         return data;
+    }
+
+    public update(data: Partial<P>): void {
+        this.props = {
+            ...this.props,
+            ...data
+        };
     }
 
     public abstract save(): {};

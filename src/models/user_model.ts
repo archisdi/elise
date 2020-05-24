@@ -1,4 +1,4 @@
-import { BaseModel } from 'src/typings/common';
+import { BaseModel, BasicType } from 'src/typings/common';
 import { HttpError } from 'tymon';
 import RepoFactory from '../factories/repository';
 import JWT from '../utils/jwt';
@@ -11,7 +11,7 @@ export interface UserProperties extends BaseModel {
     password: string;
     refresh_token: string;
     token_validity: string;
-    posts: PostProperties[];
+    posts?: PostProperties[];
 }
 
 export class UserModel extends Model<UserProperties> {
@@ -139,7 +139,7 @@ export class UserModel extends Model<UserProperties> {
     }
 
     public get posts(): PostModel[] {
-        return this.props.posts.map((post): PostModel => new PostModel(post));
+        return this.props.posts?.map((post): PostModel => new PostModel(post)) || [];
     }
 
     public async save({ cache }: { cache: boolean } = { cache: true }): Promise<void> {
