@@ -49,8 +49,8 @@ export default class PostController extends BaseController {
 
         const post = await PostModel.repo.findOneOrFail({ id: data.params.id, author_id: context.user_id });
 
-        post.update(body);
-        post.save();
+        await post.update(body, { save: true });
+        // await post.save();
 
         return {
             id: post.id

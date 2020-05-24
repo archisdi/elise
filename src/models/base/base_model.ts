@@ -39,11 +39,15 @@ export abstract class Model<P> {
         return data;
     }
 
-    public update(data: Partial<P>): void {
+    public async update(data: Partial<P>, options?: { save: boolean }): Promise<void> {
         this.props = {
             ...this.props,
             ...data
         };
+
+        if (options?.save) {
+            await this.save();
+        }
     }
 
     public abstract save(): {};
