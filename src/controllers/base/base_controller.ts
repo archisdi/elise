@@ -11,16 +11,19 @@ export interface StaticBaseController {
 
 interface ControllerOptions {
     path: string;
+    middleware?: MiddleWare;
 }
 
 export default abstract class BaseController {
     private _routes: Router;
-    private _middlewares: RequestHandler[];
+    private _middlewares: RequestHandler[] = [];
     private _path: string;
 
-    public constructor({ path }: ControllerOptions) {
+    public constructor({ path, middleware }: ControllerOptions) {
         this._path = path;
-        this._middlewares = [];
+        if (middleware) {
+            this.setMiddleware(middleware);
+        }
         this._routes = Router({ mergeParams: true });
         this.setRoutes();
     }

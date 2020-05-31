@@ -48,7 +48,7 @@ export default abstract class BaseApp {
         this.app.use(ExceptionHandler);
     }
 
-    protected start(): void {
+    public start(): void {
         this.app.listen(this.port, (): void => {
             console.info('server started on port: ' + this.port);
         });

@@ -10,8 +10,7 @@ import { UpdatePostRequest, UpdatePostResponse } from 'src/typings/endpoints';
 
 export default class PostController extends BaseController {
     public constructor() {
-        super({ path: '/post' });
-        this.setMiddleware(AuthMiddleware);
+        super({ path: '/post', middleware: AuthMiddleware });
     }
 
     public async createPost(data: IData, context: IContext): Promise<{ id: string }> {
