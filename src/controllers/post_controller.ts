@@ -10,7 +10,7 @@ import { UpdatePostRequest, UpdatePostResponse } from 'src/typings/endpoints';
 
 export default class PostController extends BaseController {
     public constructor() {
-        super();
+        super({ path: '/post' });
         this.setMiddleware(AuthMiddleware);
     }
 

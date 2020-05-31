@@ -5,20 +5,31 @@ import { MethodHandler } from '../../typings/common';
 type AllowedMethod = 'get' | 'post' | 'put' | 'delete';
 type MiddleWare = RequestHandler | RequestHandler[];
 
-export default abstract class BaseController {
-    private routes: Router;
-    private middlewares: RequestHandler[];
+export interface StaticBaseController {
+    new (...param: any): BaseController;
+}
 
-    public constructor() {
-        this.routes = Router({ mergeParams: true });
-        this.middlewares = [];
+interface ControllerOptions {
+    path: string;
+}
+
+export default abstract class BaseController {
+    private _routes: Router;
+    private _middlewares: RequestHandler[];
+    private _path: string;
+
+    public constructor({ path }: ControllerOptions) {
+        this._path = path;
+        this._middlewares = [];
+        this._routes = Router({ mergeParams: true });
+        this.setRoutes();
     }
 
     protected setMiddleware(middleware: MiddleWare): void {
         if (middleware instanceof Array) {
-            this.middlewares = middleware;
+            this._middlewares = middleware;
         } else {
-            this.middlewares.push(middleware);
+            this._middlewares.push(middleware);
         }
     }
 
@@ -29,20 +40,21 @@ export default abstract class BaseController {
         middlewares: MiddleWare = []
     ): void {
         const routeMiddleware: RequestHandler[] = middlewares instanceof Array ? middlewares : [middlewares];
-        this.routes[httpMethod](path, [...this.middlewares, ...routeMiddleware], HandlerFactory(handler));
+        this.routes[httpMethod](path, [...this._middlewares, ...routeMiddleware], HandlerFactory(handler));
     }
 
-    protected addChildController(path: string = '/', controller: { getRoutes(): Router }): void {
-        this.routes.use(path, controller.getRoutes());
+    protected addChildController(controller: StaticBaseController): void {
+        const ctrl = new controller();
+        this.routes.use(ctrl.path, ctrl.routes);
     }
 
-    // Override
-    protected setRoutes(): void {
-        throw new Error('route is not set');
+    abstract setRoutes(): void;
+
+    public get routes(): Router {
+        return this._routes;
     }
 
-    public getRoutes(): Router {
-        this.setRoutes();
-        return this.routes;
+    public get path(): string {
+        return this._path;
     }
 }
