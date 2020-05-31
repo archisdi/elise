@@ -6,7 +6,7 @@ import BaseController from './base/base_controller';
 
 export default class ProfileController extends BaseController {
     public constructor() {
-        super();
+        super({ path: '/profile' });
         this.setMiddleware(AuthMiddleware);
     }
 
@@ -20,7 +20,7 @@ export default class ProfileController extends BaseController {
         return user.toJson();
     }
 
-    protected setRoutes(): void {
+    public setRoutes(): void {
         this.addRoute('get', '/', this.getProfile);
 
         /** nested controllers */

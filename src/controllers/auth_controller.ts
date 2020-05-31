@@ -8,6 +8,10 @@ import { SCHEMA } from '../utils/validator';
 import BaseController from './base/base_controller';
 
 export default class AuthController extends BaseController {
+    public constructor() {
+        super({ path: '/auth' });
+    }
+
     public async login(data: LoginRequest, context: IContext): Promise<LoginReponse> {
         const {
             body: { username, password }
