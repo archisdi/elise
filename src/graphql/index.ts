@@ -1,7 +1,7 @@
-import * as ExpressGraphQL from 'express-graphql';
 import { RequestHandler } from 'express';
-import schema from './schema';
+import * as ExpressGraphQL from 'express-graphql';
 import AuthMiddleware from '../middlewares/jwt_auth';
+import Endpoints from './endpoint';
 
 interface GraphQLOptions {
     enable_graphiql: boolean;
@@ -16,7 +16,7 @@ export default class GraphQL {
         this.is_protected = options.is_protected;
         this.instance = ExpressGraphQL({
             graphiql: options.enable_graphiql,
-            schema
+            schema: Endpoints
         });
     }
 
