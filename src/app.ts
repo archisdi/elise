@@ -14,7 +14,13 @@ export default class App extends BaseApp {
         this.addController(AuthController);
         this.addController(ProfileController);
         this.addController(PostController);
-        this.app.use('/graphql', new GraphQL({ enable_graphiql: true, is_protected: true }).getInstance());
+
+        /** Register GraphQL */
+        const GraphQLModule = new GraphQL({
+            enable_graphiql: true /** ui interface */,
+            is_protected: true /** jwt protected */
+        });
+        this.app.use('/graphql', GraphQLModule.getInstance());
     }
 
     public setSingletons(): void {
