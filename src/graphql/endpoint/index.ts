@@ -1,13 +1,13 @@
 import { GraphQLObjectType, GraphQLSchema } from 'graphql';
 import PostEndpoint from './post';
 
-export const Query = new GraphQLObjectType({
-    name: 'Endpoints',
+export const QueryEndpoints = new GraphQLObjectType({
+    name: 'QueryEndpoints',
     fields: {
         post: PostEndpoint
     }
 });
 
 export default new GraphQLSchema({
-    query: Query
+    query: QueryEndpoints
 });
