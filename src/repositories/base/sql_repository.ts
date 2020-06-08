@@ -97,6 +97,17 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
         });
     }
 
+    public async increment(
+        conditions: BasicType<ModelClass>,
+        fields: { [P in keyof BasicType<ModelClass>]?: number }
+    ): Promise<any> {
+        const db = await this.getDbInstance();
+        return db.model[this.modelName].increment(fields, {
+            where: conditions as any,
+            transaction: await this.getDbTransaction()
+        });
+    }
+
     public async paginate(
         conditions: BasicType<ModelClass>,
         { page = 1, per_page = 10, sort = DEFAULT.SORT, attributes }: QueryOptions
