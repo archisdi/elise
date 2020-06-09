@@ -99,7 +99,7 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
 
     public async increment(
         conditions: BasicType<ModelClass>,
-        fields: { [P in keyof BasicType<ModelClass>]?: number }
+        fields: { [P in keyof ModelClass]?: P extends number ? number : never }
     ): Promise<any> {
         const db = await this.getDbInstance();
         return db.model[this.modelName].increment(fields, {
