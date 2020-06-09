@@ -5,3 +5,8 @@ export enum COMMON_ERRORS {
     TOKEN_EXPIRED = 'TOKEN_EXPIRED',
     ROUTE_NOT_FOUND = 'ROUTE_NOT_FOUND'
 }
+
+export enum EVENT_NAMES {
+    USER_LOGIN = 'user-login',
+    POST_CREATED = 'post-created'
+}

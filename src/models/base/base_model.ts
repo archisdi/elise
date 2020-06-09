@@ -24,7 +24,7 @@ export abstract class Model<P> {
         this.props = props;
     }
 
-    public toJson(option?: { withHidden?: boolean; withTimeStamps?: boolean }): Partial<P> {
+    public toJson(option?: { withHidden?: boolean; withTimeStamps?: boolean }): P {
         const data: any = this.props;
         if (!option?.withHidden) {
             this.hidden.forEach((prop): void => {
