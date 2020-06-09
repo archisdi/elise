@@ -1,12 +1,12 @@
 import { LoginReponse, LoginRequest } from 'src/typings/endpoints';
 import { HttpError } from 'tymon';
 import Events from '../events';
-import { UserLoginEventPayload } from '../events/user_login';
+import { UserLoginEventPayload } from '../events/handlers/user_login';
 import RepoFactory from '../factories/repository';
 import RequestValidator from '../middlewares/request_validator';
 import { UserModel } from '../models/user_model';
 import { IContext } from '../typings/common';
-import { EVENTS } from '../utils/constant';
+import { EVENT_NAMES } from '../utils/constant';
 import { SCHEMA } from '../utils/validator';
 import BaseController from './base/base_controller';
 
@@ -33,7 +33,7 @@ export default class AuthController extends BaseController {
         await user.save({ cache: true });
 
         /** dispatch event */
-        await Events.dispatch<UserLoginEventPayload>(EVENTS.USER_LOGIN, { user: user.toJson() });
+        await Events.dispatch<UserLoginEventPayload>(EVENT_NAMES.USER_LOGIN, { user: user.toJson() });
 
         return {
             token: token,

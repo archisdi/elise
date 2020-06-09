@@ -6,6 +6,7 @@ export enum COMMON_ERRORS {
     ROUTE_NOT_FOUND = 'ROUTE_NOT_FOUND'
 }
 
-export enum EVENTS {
-    USER_LOGIN = 'user-login'
+export enum EVENT_NAMES {
+    USER_LOGIN = 'user-login',
+    POST_CREATED = 'post-created'
 }
