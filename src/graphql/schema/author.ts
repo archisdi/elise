@@ -1,6 +1,6 @@
 import { GraphQLObjectType, GraphQLString } from 'graphql';
-import RepoFactory from 'src/repositories';
-import { UserModel } from 'src/models/user_model';
+import RepoFactory from '../../repositories';
+import { UserModel } from '../../models/user_model';
 
 export const AuthorGraphQL = new GraphQLObjectType({
     name: 'Author',
