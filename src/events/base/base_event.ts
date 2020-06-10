@@ -4,7 +4,7 @@ export default abstract class BaseEvent<PayloadData = any> {
     protected _queue: Bull.Queue;
     protected _eventName: string;
 
-    public constructor(eventName: string, isConsumer?: boolean) {
+    public constructor(eventName: string) {
         this._eventName = eventName;
         this._queue = new Bull(eventName, String(process.env.QUEUE_WORKER_CONNECTION_STRING));
         this._queue.process(this.handler);

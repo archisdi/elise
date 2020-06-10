@@ -6,12 +6,13 @@ export interface PostCreatedPayload {
     post: PostProperties;
 }
 
-export default class PostCreatedEvent extends BaseEvent<PostCreatedPayload> {
+export default class PostCreatedEvent extends BaseEvent {
     public constructor() {
         super(EVENT_NAMES.POST_CREATED);
     }
 
-    protected async handler({ data }: { data: PostCreatedPayload }): Promise<void> {
+    protected async handler(payload: { data: PostCreatedPayload }): Promise<void> {
+        const { data } = payload;
         console.info(`post with id ${data.post.id} created`);
     }
 }

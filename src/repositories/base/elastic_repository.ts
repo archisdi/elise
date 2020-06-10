@@ -1,10 +1,7 @@
-import BaseRepository from './base_repository';
-
-export default class ElasticRepo<Model = any> extends BaseRepository {
+export default class ElasticsearchRepo {
     protected index: string;
 
     public constructor(index: string) {
-        super();
         this.index = index;
     }
 }

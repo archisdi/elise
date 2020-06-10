@@ -1,16 +1,14 @@
-import BaseRepository from './base_repository';
+import FirebaseContext from 'tymon/modules/firebase';
 
-export default class FirebaseRepo<Model> extends BaseRepository {
-    protected ref: string;
+export default class RealtimeDBRepo<Model> {
+    private ref: string;
 
     public constructor(ref: string) {
-        super();
         this.ref = ref;
     }
 
     public async find(id: string): Promise<Model | undefined> {
-        const fb = await this.getFirebaseInstance();
-        const db = await fb.database();
+        const db = FirebaseContext.getInstance().database();
         return db
             .ref(`${this.ref}/${id}`)
             .once('value')
@@ -18,20 +16,17 @@ export default class FirebaseRepo<Model> extends BaseRepository {
     }
 
     public async create(id: string, data: Partial<Model>): Promise<void> {
-        const fb = await this.getFirebaseInstance();
-        const db = await fb.database();
+        const db = await FirebaseContext.getInstance().database();
         return db.ref(`${this.ref}${id}`).set(data);
     }
 
     public async update(id: string, data: Partial<Model>): Promise<void> {
-        const fb = await this.getFirebaseInstance();
-        const db = await fb.database();
+        const db = await FirebaseContext.getInstance().database();
         return db.ref(`${this.ref}/${id}`).update(data);
     }
 
     public async remove(id: string): Promise<void> {
-        const fb = await this.getFirebaseInstance();
-        const db = await fb.database();
+        const db = await FirebaseContext.getInstance().database();
         return db.ref(`${this.ref}/${id}`).remove();
     }
 }

@@ -3,18 +3,17 @@ import { HttpError } from 'tymon';
 import { StaticSqlModel } from '../../models/base/base_model';
 import { Attributes, BasicType, IPagination, QueryOptions } from '../../typings/common';
 import { offset, sorter } from '../../utils/helpers';
-import BaseRepository from './base_repository';
+import DBContext from 'tymon/modules/db';
 
 const DEFAULT = {
     SORT: '-created_at'
 };
 
-export default class SQLRepo<ModelClass> extends BaseRepository {
-    protected modelName: string;
-    protected model: StaticSqlModel<ModelClass>;
+export default class SQLRepo<ModelClass> {
+    private modelName: string;
+    private model: StaticSqlModel<ModelClass>;
 
     public constructor(modelClass: StaticSqlModel<ModelClass>) {
-        super();
         this.model = modelClass;
         this.modelName = modelClass.modelName;
     }
@@ -28,14 +27,14 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
     }
 
     public async findById(id: string, attributes?: Attributes): Promise<ModelClass | null> {
-        const db = await this.getDbInstance();
+        const db = DBContext.getInstance();
         return db.model[this.modelName]
             .findOne({ where: { id }, attributes })
             .then((res: any): any => (res ? this.build(res) : null));
     }
 
     public async findOne(conditions: BasicType<ModelClass>, attributes?: Attributes): Promise<ModelClass | null> {
-        const db = await this.getDbInstance();
+        const db = DBContext.getInstance();
         return db.model[this.modelName]
             .findOne({ where: conditions as any, attributes })
             .then((res: any): any => (res ? this.build(res) : null));
@@ -54,9 +53,8 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
         conditions: BasicType<ModelClass>,
         { sort = DEFAULT.SORT, attributes }: QueryOptions
     ): Promise<ModelClass[]> {
-        const db = await this.getDbInstance();
         const order = sorter(sort);
-
+        const db = DBContext.getInstance();
         return db.model[this.modelName]
             .findAll({
                 where: conditions as any,
@@ -75,25 +73,25 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
     }
 
     public async create(data: BasicType<ModelClass>): Promise<ModelClass> {
-        const db = await this.getDbInstance();
+        const db = DBContext.getInstance();
         return db.model[this.modelName]
-            .create(data, { transaction: await this.getDbTransaction() })
+            .create(data, { transaction: await DBContext.getTransaction() })
             .then((res: any): any => this.build(res));
     }
 
     public async update(conditions: BasicType<ModelClass>, data: BasicType<ModelClass>): Promise<[number, any]> {
-        const db = await this.getDbInstance();
+        const db = DBContext.getInstance();
         return db.model[this.modelName].update(data, {
             where: conditions as any,
-            transaction: await this.getDbTransaction()
+            transaction: await DBContext.getTransaction()
         });
     }
 
     public async delete(conditions: BasicType<ModelClass>): Promise<number> {
-        const db = await this.getDbInstance();
+        const db = DBContext.getInstance();
         return db.model[this.modelName].destroy({
             where: conditions as any,
-            transaction: await this.getDbTransaction()
+            transaction: await DBContext.getTransaction()
         });
     }
 
@@ -101,10 +99,10 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
         conditions: BasicType<ModelClass>,
         fields: { [P in keyof ModelClass]?: P extends number ? number : never }
     ): Promise<any> {
-        const db = await this.getDbInstance();
+        const db = DBContext.getInstance();
         return db.model[this.modelName].increment(fields, {
             where: conditions as any,
-            transaction: await this.getDbTransaction()
+            transaction: await DBContext.getTransaction()
         });
     }
 
@@ -112,8 +110,8 @@ export default class SQLRepo<ModelClass> extends BaseRepository {
         conditions: BasicType<ModelClass>,
         { page = 1, per_page = 10, sort = DEFAULT.SORT, attributes }: QueryOptions
     ): Promise<{ data: ModelClass[]; meta: IPagination }> {
-        const db = await this.getDbInstance();
         const order = sorter(sort);
+        const db = DBContext.getInstance();
         return db.model[this.modelName]
             .findAndCountAll({
                 where: conditions as any,

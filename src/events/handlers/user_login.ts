@@ -6,7 +6,7 @@ export interface UserLoginEventPayload {
     user: UserProperties;
 }
 
-export default class UserLoginEvent extends BaseEvent<UserLoginEventPayload> {
+export default class UserLoginEvent extends BaseEvent {
     public constructor() {
         super(EVENT_NAMES.USER_LOGIN);
     }
