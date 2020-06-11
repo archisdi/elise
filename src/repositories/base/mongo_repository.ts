@@ -2,11 +2,12 @@ import { MakeAny } from '../../typings/common';
 import { StaticMongoModel } from '../../models/base/base_model';
 import MongoContext from 'tymon/modules/mongodb';
 
-export default class MongoRepo<ModelClass> {
+export default class MongoRepo<ModelClass> extends MongoContext {
     private collection: string;
     private model: StaticMongoModel<ModelClass>;
 
     public constructor(model: StaticMongoModel<ModelClass>) {
+        super();
         this.model = model;
         this.collection = this.model.collectionName;
     }
@@ -20,7 +21,7 @@ export default class MongoRepo<ModelClass> {
     }
 
     public async findOne(condition: MakeAny<ModelClass>): Promise<ModelClass | null> {
-        const db = MongoContext.getInstance();
+        const db = MongoRepo.getInstance();
         return db
             .collection(this.collection)
             .findOne(condition)
@@ -28,7 +29,7 @@ export default class MongoRepo<ModelClass> {
     }
 
     public async findAll(condition: MakeAny<ModelClass>): Promise<ModelClass[]> {
-        const db = MongoContext.getInstance();
+        const db = MongoRepo.getInstance();
         return db
             .collection(this.collection)
             .find(condition)
@@ -37,7 +38,7 @@ export default class MongoRepo<ModelClass> {
     }
 
     public async createOne(payload: Partial<ModelClass>): Promise<ModelClass> {
-        const db = MongoContext.getInstance();
+        const db = MongoRepo.getInstance();
         return db
             .collection(this.collection)
             .insertOne(payload)
@@ -45,7 +46,7 @@ export default class MongoRepo<ModelClass> {
     }
 
     public async createMany(payloads: Partial<ModelClass>[]): Promise<ModelClass[]> {
-        const db = MongoContext.getInstance();
+        const db = MongoRepo.getInstance();
         return db
             .collection(this.collection)
             .insertMany(payloads)
@@ -53,7 +54,7 @@ export default class MongoRepo<ModelClass> {
     }
 
     public async updateOne(condition: MakeAny<ModelClass>, payload: Partial<ModelClass>): Promise<number> {
-        const db = MongoContext.getInstance();
+        const db = MongoRepo.getInstance();
         return db
             .collection(this.collection)
             .updateOne(condition, { $set: payload })
@@ -61,7 +62,7 @@ export default class MongoRepo<ModelClass> {
     }
 
     public async updateMany(condition: MakeAny<ModelClass>, payload: Partial<ModelClass>): Promise<number> {
-        const db = MongoContext.getInstance();
+        const db = MongoRepo.getInstance();
         return db
             .collection(this.collection)
             .updateMany(condition, { $set: payload })

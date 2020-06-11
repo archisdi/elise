@@ -1,9 +1,10 @@
 import RedisContext from 'tymon/modules/redis';
 
-export default class RedisRepo<Model = any> {
+export default class RedisRepo<Model = any> extends RedisContext {
     private model: string;
 
     public constructor(model: string) {
+        super();
         this.model = model;
     }
 
@@ -16,14 +17,14 @@ export default class RedisRepo<Model = any> {
     }
 
     public async get(key: string): Promise<Partial<Model> | null> {
-        const redisClient = RedisContext.getInstance();
+        const redisClient = RedisRepo.getInstance();
         return redisClient
             .get(`${this.model}-${key}`)
             .then((res: string | null): Model | null => (res ? this.parse(res) : null));
     }
 
     public async set(key: string, payload: Partial<Model>, expires?: number): Promise<void> {
-        const redisClient = RedisContext.getInstance();
+        const redisClient = RedisRepo.getInstance();
         const cacheKey = `${this.model}-${key}`;
 
         let cachePayload: string;
@@ -40,7 +41,7 @@ export default class RedisRepo<Model = any> {
     }
 
     public async delete(key: string): Promise<void> {
-        const redisClient = RedisContext.getInstance();
+        const redisClient = RedisRepo.getInstance();
         await redisClient.del(`${this.model}-${key}`);
     }
 }
