@@ -13,7 +13,7 @@ export class PostModel extends Model<PostProperties> {
         super(props);
     }
 
-    public static modelName: string = 'Post';
+    public static modelName = 'Post';
 
     public static repo = RepoFactory.getSql(PostModel);
 

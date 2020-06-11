@@ -3,7 +3,7 @@ import MongoRepo from '../repositories/base/mongo_repository';
 import RedisRepo from '../repositories/base/redis_repository';
 import SQLRepo from '../repositories/base/sql_repository';
 
-export default class RepoFactory {
+class RepoFactory {
     public static getSql<ModelClass>(modelClass: StaticSqlModel<ModelClass>): SQLRepo<ModelClass> {
         return new (class Repository extends SQLRepo<ModelClass> {
             public constructor() {
@@ -28,3 +28,5 @@ export default class RepoFactory {
         })();
     }
 }
+
+export default RepoFactory;
