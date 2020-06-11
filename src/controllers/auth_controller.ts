@@ -3,7 +3,6 @@ import { HttpError } from 'tymon';
 import Events from '../events';
 import { UserLoginEventPayload } from '../events/handlers/user_login';
 import RepoFactory from '../factories/repository';
-import RequestValidator from '../middlewares/request_validator';
 import { UserModel } from '../models/user_model';
 import { IContext } from '../typings/common';
 import { EVENT_NAMES } from '../utils/constant';
@@ -44,6 +43,6 @@ export default class AuthController extends BaseController {
     }
 
     public setRoutes(): void {
-        this.addRoute<LoginReponse>('post', '/login', this.login, RequestValidator(SCHEMA.LOGIN));
+        this.addRoute<LoginReponse>('post', '/login', this.login, { validate: SCHEMA.LOGIN });
     }
 }

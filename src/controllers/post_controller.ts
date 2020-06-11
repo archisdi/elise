@@ -1,7 +1,6 @@
 import { IContext, IData } from 'src/typings/common';
 import RepoFactory from '../factories/repository';
 import AuthMiddleware from '../middlewares/jwt_auth';
-import RequestValidator from '../middlewares/request_validator';
 import { PostModel } from '../models/post_model';
 import PostTransformer from '../transformers/post_transformer';
 import { SCHEMA } from '../utils/validator';
@@ -67,9 +66,9 @@ export default class PostController extends BaseController {
     }
 
     public setRoutes(): void {
-        this.addRoute('post', '/', this.createPost, RequestValidator(SCHEMA.CREATE_POST));
+        this.addRoute('post', '/', this.createPost, { validate: SCHEMA.CREATE_POST });
         this.addRoute('get', '/', this.getPostList);
-        this.addRoute('get', '/:id', this.getPostDetail);
-        this.addRoute('put', '/:id', this.updatePost, RequestValidator(SCHEMA.UPDATE_POST));
+        this.addRoute('get', '/:id', this.getPostDetail, { cache: true });
+        this.addRoute('put', '/:id', this.updatePost, { validate: SCHEMA.UPDATE_POST });
     }
 }

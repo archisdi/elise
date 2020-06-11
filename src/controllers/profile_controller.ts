@@ -1,5 +1,4 @@
 import { IContext, IData } from 'src/typings/common';
-import RepoFactory from '../factories/repository';
 import AuthMiddleware from '../middlewares/jwt_auth';
 import { UserModel } from '../models/user_model';
 import BaseController from './base/base_controller';
@@ -20,7 +19,8 @@ export default class ProfileController extends BaseController {
     }
 
     public setRoutes(): void {
-        this.addRoute('get', '/', this.getProfile);
+        /** router level caching */
+        this.addRoute('get', '/', this.getProfile, { cache: true });
 
         /** nested controllers */
         // this.addChildController(Controller);

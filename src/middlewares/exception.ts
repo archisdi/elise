@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { INTERNAL_SERVER_ERROR } from 'http-status-codes';
 import { HttpError } from 'tymon/modules/http_error';
 import { COMMON_ERRORS } from '../utils/constant';
 
-export default (err: any, req: Request, res: Response, next: NextFunction): object => {
+export default (err: HttpError, req: Request, res: Response): Response<Response> => {
     const { message, httpStatus = INTERNAL_SERVER_ERROR, name, data, code }: HttpError = err;
 
     let stack: any = err && err.stack;

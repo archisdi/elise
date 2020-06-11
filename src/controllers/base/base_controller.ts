@@ -1,6 +1,10 @@
 import { RequestHandler, Router } from 'express';
 import HandlerFactory from '../../factories/handler';
+import jwt_auth from '../../middlewares/jwt_auth';
+import request_validator from '../../middlewares/request_validator';
+import route_cache from '../../middlewares/route_cache';
 import { MethodHandler } from '../../typings/common';
+import { SCHEMA } from '../../utils/validator';
 
 type AllowedMethod = 'get' | 'post' | 'put' | 'delete';
 type MiddleWare = RequestHandler | RequestHandler[];
@@ -12,6 +16,13 @@ export interface StaticBaseController {
 interface ControllerOptions {
     path: string;
     middleware?: MiddleWare;
+}
+
+interface RouteOptions {
+    auth?: boolean;
+    cache?: boolean;
+    middlewares?: MiddleWare
+    validate?: SCHEMA
 }
 
 export default abstract class BaseController {
@@ -38,12 +49,26 @@ export default abstract class BaseController {
 
     protected addRoute<DataOutput = any>(
         httpMethod: AllowedMethod,
-        path: string = '/',
+        path = '/',
         handler: MethodHandler<DataOutput>,
-        middlewares: MiddleWare = []
+        options?: RouteOptions
     ): void {
+        const middlewares = options?.middlewares ? options.middlewares instanceof Array ? options.middlewares : [options.middlewares] : [];
+        
+        if (options?.auth) {
+            middlewares.push(jwt_auth);
+        }
+
+        if (options?.validate) {
+            middlewares.push(request_validator(options.validate));
+        }
+
+        if (options?.cache) {
+            middlewares.push(route_cache);
+        }
+
         const routeMiddleware: RequestHandler[] = middlewares instanceof Array ? middlewares : [middlewares];
-        this.routes[httpMethod](path, [...this._middlewares, ...routeMiddleware], HandlerFactory(handler));
+        this.routes[httpMethod](path, [...this._middlewares, ...routeMiddleware], HandlerFactory(handler, options?.cache));
     }
 
     protected addChildController(controller: StaticBaseController): void {
