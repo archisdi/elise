@@ -31,7 +31,11 @@
     "@types/randomstring": "^1.1.6",
     "@types/sequelize": "^4.28.3",
     "@types/sinon": "^7.0.13",
+    "@types/uuid": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^3.2.0",
+    "@typescript-eslint/parser": "^3.2.0",
     "ava": "^3.8.1",
+    "eslint": "^7.2.0",
     "install": "^0.12.2",
     "nodemon": "^1.19.1",
     "npm": "^6.10.1",
@@ -39,10 +43,7 @@
     "sequelize-cli": "^5.5.0",
     "sinon": "^7.3.2",
     "ts-node": "^8.3.0",
-    "typescript": "^3.9.2",
-    "@typescript-eslint/eslint-plugin": "^3.2.0",
-    "@typescript-eslint/parser": "^3.2.0",
-    "eslint": "^7.2.0"
+    "typescript": "^3.9.2"
   },
   "dependencies": {
     "@hapi/joi": "^15.1.0",

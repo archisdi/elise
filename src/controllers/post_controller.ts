@@ -1,12 +1,13 @@
 import { IContext, IData } from 'src/typings/common';
+import { UpdatePostRequest, UpdatePostResponse } from 'src/typings/endpoints';
+import { DBContext } from 'tymon';
+import PostCreatedEvent from '../events/post_created_event';
 import RepoFactory from '../factories/repository';
 import AuthMiddleware from '../middlewares/jwt_auth';
 import { PostModel } from '../models/post_model';
 import PostTransformer from '../transformers/post_transformer';
 import { SCHEMA } from '../utils/validator';
 import BaseController from './base/base_controller';
-import { UpdatePostRequest, UpdatePostResponse } from 'src/typings/endpoints';
-import { DBContext } from 'tymon';
 
 export default class PostController extends BaseController {
     public constructor() {
@@ -23,6 +24,10 @@ export default class PostController extends BaseController {
                 author_id: context.user_id
             });
 
+            /** dispatch async event */
+            await PostCreatedEvent.dispatch({ post: post.toJson() });
+
+            /** commit transaction */
             await DBContext.commit();
 
             return PostTransformer.PostDetail(post);

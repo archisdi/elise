@@ -3,7 +3,7 @@ import BaseApp from './base_app';
 import AuthController from './controllers/auth_controller';
 import PostController from './controllers/post_controller';
 import ProfileController from './controllers/profile_controller';
-import Events from './events';
+// import Events from './events';
 import GraphQL from './graphql';
 
 export default class App extends BaseApp {
@@ -32,6 +32,5 @@ export default class App extends BaseApp {
         RedisContext.initialize({
             connection_string: String(process.env.REDIS_CONNECTION_STRING)
         });
-        Events.initialize();
     }
 }
