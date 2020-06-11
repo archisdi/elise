@@ -7,6 +7,7 @@ import PostTransformer from '../transformers/post_transformer';
 import { SCHEMA } from '../utils/validator';
 import BaseController from './base/base_controller';
 import { UpdatePostRequest, UpdatePostResponse } from 'src/typings/endpoints';
+import { DBContext } from 'tymon';
 
 export default class PostController extends BaseController {
     public constructor() {
@@ -14,13 +15,22 @@ export default class PostController extends BaseController {
     }
 
     public async createPost(data: IData, context: IContext): Promise<{ id: string }> {
-        const postRepo = RepoFactory.getSql(PostModel);
-        const post = await postRepo.create({
-            ...data.body,
-            author_id: context.user_id
-        });
+        try {
+            await DBContext.startTransaction();
 
-        return PostTransformer.PostDetail(post);
+            const postRepo = RepoFactory.getSql(PostModel);
+            const post = await postRepo.create({
+                ...data.body,
+                author_id: context.user_id
+            });
+
+            await DBContext.commit();
+
+            return PostTransformer.PostDetail(post);
+        } catch (error) {
+            await DBContext.rollback();
+            throw error;
+        }
     }
 
     public async getPostList(data: IData, context: IContext): Promise<any> {

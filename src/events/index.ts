@@ -1,26 +1,28 @@
-import Event, { StaticEvent } from './base/base_event';
+import Event from './base/base_event';
 import { EVENT_NAMES } from 'src/utils/constant';
 import EventHandlers from './handlers';
 
-let instance: { [s: string]: Event };
+export type EventsInstance = { [s: string]: Event };
 
-export const initialize = (): void => {
-    instance = {};
-    for (const event of EventHandlers) {
-        const EventInstance = new event();
-        instance[EventInstance.event_name] = EventInstance;
+export class Events {
+    public static instance: EventsInstance;
+
+    public static initialize(): void {
+        this.instance = {};
+        for (const event of EventHandlers) {
+            const EventInstance = new event();
+            this.instance[EventInstance.event_name] = EventInstance;
+        }
     }
-};
-
-export const dispatch = async <Data = any>(event: EVENT_NAMES, data: Data): Promise<void> => {
-    if (!instance) {
-        throw new Error('Job not initialized');
+    
+    public static async dispatch<Data = any>(event: EVENT_NAMES, data: Data): Promise<void> {
+        if (!this.instance) {
+            throw new Error('Job not initialized');
+        }
+        await this.instance[event].dispatch(data);
+        console.info(`${event} dispatched`);
     }
-    await instance[event].dispatch(data);
-    console.info(`${event} dispatched`);
-};
+    
+}
 
-export default {
-    initialize,
-    dispatch
-};
+export default Events;
