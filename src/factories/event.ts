@@ -13,7 +13,7 @@ export const EventFactory = <dispatchPayload = any>(eventHandler: StaticEventHan
         }
     
         public static getInstance(): EventClass {
-            if (!this.instance) {                
+            if (!this.instance) {
                 this.instance = new EventClass();
             }
             return this.instance;

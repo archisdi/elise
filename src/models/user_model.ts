@@ -1,11 +1,11 @@
-import { BaseModel, BasicType } from 'src/typings/common';
+import { BaseProps, BasicType } from 'src/typings/common';
 import { HttpError } from 'tymon';
 import RepoFactory from '../factories/repository';
 import JWT from '../utils/jwt';
-import { Model } from './base/base_model';
+import { BaseModel } from './base/base_model';
 import { PostModel, PostProperties } from './post_model';
 
-export interface UserProperties extends BaseModel {
+export interface UserProperties extends BaseProps {
     name: string;
     username: string;
     password: string;
@@ -14,7 +14,7 @@ export interface UserProperties extends BaseModel {
     posts?: PostProperties[];
 }
 
-export class UserModel extends Model<UserProperties> {
+export class UserModel extends BaseModel<UserProperties> {
     protected hidden = ['password', 'deleted_at'];
 
     public constructor(props: UserProperties) {

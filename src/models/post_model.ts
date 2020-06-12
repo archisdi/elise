@@ -1,14 +1,14 @@
-import { Model } from './base/base_model';
-import { BaseModel } from 'src/typings/common';
+import { BaseModel } from './base/base_model';
+import { BaseProps } from 'src/typings/common';
 import RepoFactory from '../factories/repository';
 
-export interface PostProperties extends BaseModel {
+export interface PostProperties extends BaseProps {
     author_id: string;
     title: string;
     content: string;
 }
 
-export class PostModel extends Model<PostProperties> {
+export class PostModel extends BaseModel<PostProperties> {
     public constructor(props: PostProperties) {
         super(props);
     }

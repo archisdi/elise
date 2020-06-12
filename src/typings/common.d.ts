@@ -68,7 +68,7 @@ export interface QueryOptions {
     attributes?: Attributes;
 }
 
-export interface BaseModel {
+export interface BaseProps {
     id: string;
     created_at: string;
     updated_at: string;

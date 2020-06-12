@@ -16,7 +16,7 @@ export interface StaticRedisModel<ClassModel = any> {
     buildFromRedis(...params: any): ClassModel;
 }
 
-export abstract class Model<P> {
+export abstract class BaseModel<P> {
     protected props: P;
     protected hidden: string[] = [];
 
@@ -50,5 +50,5 @@ export abstract class Model<P> {
         }
     }
 
-    public abstract save(): {};
+    public abstract save(): Promise<void>;
 }
