@@ -1,17 +1,18 @@
-export interface StaticSqlModel<ClassModel = any> {
+export interface StaticBaseModel<ClassModel> {
     new (...param: any): ClassModel;
+}
+
+export interface StaticSqlModel<ClassModel = any> extends StaticBaseModel<ClassModel> {
     modelName: string;
     buildFromSql(...params: any): ClassModel;
 }
 
-export interface StaticMongoModel<ClassModel = any> {
-    new (...param: any): ClassModel;
+export interface StaticMongoModel<ClassModel = any> extends StaticBaseModel<ClassModel> {
     collectionName: string;
     buildFromMongo(...params: any): ClassModel;
 }
 
-export interface StaticRedisModel<ClassModel = any> {
-    new (...param: any): ClassModel;
+export interface StaticRedisModel<ClassModel = any> extends StaticBaseModel<ClassModel> {
     cacheName: string;
     buildFromRedis(...params: any): ClassModel;
 }
