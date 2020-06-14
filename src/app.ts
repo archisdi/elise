@@ -4,6 +4,9 @@ import AuthController from './controllers/auth_controller';
 import PostController from './controllers/post_controller';
 import ProfileController from './controllers/profile_controller';
 import GraphQL from './graphql';
+import RestfulControllerFactory from './factories/controller';
+import QuoteModel, { QuoteProps } from './models/quote_model';
+
 export default class App extends BaseApp {
     public constructor(port: number) {
         super(port);
@@ -13,6 +16,10 @@ export default class App extends BaseApp {
         this.addController(AuthController);
         this.addController(ProfileController);
         this.addController(PostController);
+
+        /** Auto Generated Crud Controller */
+        const QuoteController = RestfulControllerFactory<QuoteProps>(QuoteModel, { auth: true, path: '/quote' });
+        this.addController(QuoteController);
 
         /** Register GraphQL */
         const GraphQLModule = new GraphQL({

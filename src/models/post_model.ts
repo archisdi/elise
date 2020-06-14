@@ -89,3 +89,5 @@ export class PostModel extends BaseModel<PostProperties> {
         return PostModel.repo.upsert({ id: this.id }, this.toJson({ withHidden: true }));
     }
 }
+
+export default PostModel;

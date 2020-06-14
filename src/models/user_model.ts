@@ -159,3 +159,5 @@ export class UserModel extends BaseModel<UserProperties> {
         return user ? this.buildFromRedis(user) : null;
     }
 }
+
+export default UserModel;
