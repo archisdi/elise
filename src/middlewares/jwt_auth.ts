@@ -16,7 +16,7 @@ const generateContext = async (payload: Tokenable): Promise<IContext> => {
     };
 };
 
-export default async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const JwtMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const token: string | undefined = req.headers.authorization;
         if (!token) {
@@ -40,3 +40,6 @@ export default async (req: Request, res: Response, next: NextFunction): Promise<
         return next(err);
     }
 };
+
+
+export default JwtMiddleware;

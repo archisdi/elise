@@ -74,3 +74,7 @@ export interface BaseProps {
     updated_at: string;
     deleted_at: string;
 }
+
+export interface GenericStaticClass<ClassInstance> {
+    new(...params: any): ClassInstance
+}

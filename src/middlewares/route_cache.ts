@@ -3,7 +3,7 @@ import RedisRepo from '../repositories/base/redis_repository';
 import { IContext } from 'src/typings/common';
 import { OK } from 'http-status-codes';
 
-export default async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
+const RouteCache = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
     const PathCache = new RedisRepo<{ [s:string]: any }>('path');
 
     const context: IContext | null = req.context;
@@ -16,3 +16,6 @@ export default async (req: Request, res: Response, next: NextFunction): Promise<
 
     return next();
 };
+
+export default RouteCache;
+

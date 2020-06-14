@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, RequestHandler } from 'express';
 import Validator, { SCHEMA } from '../utils/validator';
 
-export default (schema: SCHEMA): any => (req: Request, res: Response, next: NextFunction): RequestHandler => {
+const RequestValidator = (schema: SCHEMA): any => (req: Request, res: Response, next: NextFunction): RequestHandler => {
     const { query, params, body } = req;
 
     return Validator({ query, params, body }, schema)
@@ -13,3 +13,6 @@ export default (schema: SCHEMA): any => (req: Request, res: Response, next: Next
         })
         .catch((err: Error): void => next(err));
 };
+
+
+export default RequestValidator;

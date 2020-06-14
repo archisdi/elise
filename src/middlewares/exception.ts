@@ -1,10 +1,10 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { INTERNAL_SERVER_ERROR } from 'http-status-codes';
 import { HttpError } from 'tymon/modules/http_error';
 import { COMMON_ERRORS } from '../utils/constant';
 
-export default (err: HttpError, req: Request, res: Response): Response<Response> => {
-    const { message, httpStatus = INTERNAL_SERVER_ERROR, name, data, code }: HttpError = err;
+const GlobalExceptionHandler = (err: HttpError, req: Request, res: Response, next: NextFunction): Response => {
+    const { message, httpStatus = INTERNAL_SERVER_ERROR, name, data, code } = err;
 
     let stack: any = err && err.stack;
     stack = stack ? stack.split('\n').map((item: any): string[] => item.trim()) : null;
@@ -19,3 +19,5 @@ export default (err: HttpError, req: Request, res: Response): Response<Response>
 
     return res.status(httpStatus).json(response);
 };
+
+export default GlobalExceptionHandler;

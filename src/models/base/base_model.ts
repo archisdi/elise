@@ -1,18 +1,16 @@
-export interface StaticBaseModel<ClassModel> {
-    new (...param: any): ClassModel;
-}
+import { GenericStaticClass } from 'src/typings/common';
 
-export interface StaticSqlModel<ClassModel = any> extends StaticBaseModel<ClassModel> {
+export interface StaticSqlModel<ClassModel = any> extends GenericStaticClass<ClassModel> {
     modelName: string;
     buildFromSql(...params: any): ClassModel;
 }
 
-export interface StaticMongoModel<ClassModel = any> extends StaticBaseModel<ClassModel> {
+export interface StaticMongoModel<ClassModel = any> extends GenericStaticClass<ClassModel> {
     collectionName: string;
     buildFromMongo(...params: any): ClassModel;
 }
 
-export interface StaticRedisModel<ClassModel = any> extends StaticBaseModel<ClassModel> {
+export interface StaticRedisModel<ClassModel = any> extends GenericStaticClass<ClassModel> {
     cacheName: string;
     buildFromRedis(...params: any): ClassModel;
 }

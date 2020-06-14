@@ -3,9 +3,9 @@ import * as cors from 'cors';
 import * as express from 'express';
 import * as helmet from 'helmet';
 
-import ExceptionHandler from './middlewares/exception';
-import NotFoundHandler from './middlewares/not_found';
 import { StaticBaseController } from './controllers/base/base_controller';
+import RouteNotFoundExceptionHandler from './middlewares/not_found';
+import GlobalExceptionHandler from './middlewares/exception';
 
 export default abstract class BaseApp {
     protected _app: express.Application;
@@ -14,13 +14,13 @@ export default abstract class BaseApp {
     public constructor(port: number) {
         this._app = express();
         this._port = port;
+        this.setSingletonModules();
         this.setPlugins();
-        this.setSingletons();
         this.setControllers();
         this.setExceptionHandlers();
     }
 
-    abstract setSingletons(): void;
+    abstract setSingletonModules(): void;
     abstract setControllers(): void;
 
     public get app(): express.Application {
@@ -44,8 +44,8 @@ export default abstract class BaseApp {
     }
 
     private setExceptionHandlers(): void {
-        this.app.use(NotFoundHandler);
-        this.app.use(ExceptionHandler);
+        this.app.use(RouteNotFoundExceptionHandler);
+        this.app.use(GlobalExceptionHandler);
     }
 
     public start(): void {
