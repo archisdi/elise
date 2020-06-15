@@ -1,21 +1,21 @@
-import { GenericStaticClass } from 'src/typings/common';
+import { GenericStaticClass, IObject } from 'src/typings/common';
 
-export interface StaticSqlModel<ClassModel = any> extends GenericStaticClass<ClassModel> {
+export interface StaticSqlModel<ClassModel = BaseModel> extends GenericStaticClass<ClassModel> {
     modelName: string;
     buildFromSql(...params: any): ClassModel;
 }
 
-export interface StaticMongoModel<ClassModel = any> extends GenericStaticClass<ClassModel> {
+export interface StaticMongoModel<ClassModel = BaseModel> extends GenericStaticClass<ClassModel> {
     collectionName: string;
     buildFromMongo(...params: any): ClassModel;
 }
 
-export interface StaticRedisModel<ClassModel = any> extends GenericStaticClass<ClassModel> {
+export interface StaticRedisModel<ClassModel = BaseModel> extends GenericStaticClass<ClassModel> {
     cacheName: string;
     buildFromRedis(...params: any): ClassModel;
 }
 
-export abstract class BaseModel<P> {
+export abstract class BaseModel<P = IObject> {
     protected props: P;
     protected hidden: string[] = [];
 

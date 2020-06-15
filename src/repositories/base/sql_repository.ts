@@ -1,6 +1,6 @@
 import { OrderItem } from 'sequelize/types';
 import { HttpError } from 'tymon';
-import { StaticSqlModel } from '../../models/base/base_model';
+import { StaticSqlModel, BaseModel } from '../../models/base/base_model';
 import { Attributes, BasicType, IPagination, QueryOptions } from '../../typings/common';
 import { offset, sorter } from '../../utils/helpers';
 import DBContext from 'tymon/modules/db';
@@ -9,7 +9,7 @@ const DEFAULT = {
     SORT: '-created_at'
 };
 
-export default class SQLRepo<ModelClass> extends DBContext {
+export default class SQLRepo<ModelClass extends BaseModel> extends DBContext {
     private modelName: string;
     private model: StaticSqlModel<ModelClass>;
 

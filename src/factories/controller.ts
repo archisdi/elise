@@ -18,7 +18,7 @@ export interface CrudController<ModelProperties> {
     delete(data: IData, context: IContext): Promise<void>
 }
 
-export const RestfulControllerFactory = <ModelClass extends StaticSqlModel<BaseModel<ModelClass>>>(Model: ModelClass, options: Opts): GenericStaticClass<BaseController> => {
+export const RestfulControllerFactory = <ModelClass extends StaticSqlModel<BaseModel>>(Model: ModelClass, options: Opts): GenericStaticClass<BaseController> => {
     type ModelProps = ConstructorParameters<typeof Model>[0];
 
     const InstanceName = Model.modelName.toUpperCase();
