@@ -50,4 +50,8 @@ export abstract class BaseModel<P> {
     }
 
     public abstract save(): Promise<void>;
+
+    public async validate(): Promise<void> {
+        throw new Error('Not Implemented');
+    }
 }

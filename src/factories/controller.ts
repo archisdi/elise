@@ -1,7 +1,7 @@
 import { HttpError } from 'tymon';
 import BaseController from '../controllers/base/base_controller';
 import jwt_auth from '../middlewares/jwt_auth';
-import { StaticSqlModel } from '../models/base/base_model';
+import { StaticSqlModel, BaseModel } from '../models/base/base_model';
 import { IContext, IData, IPagination, GenericStaticClass } from '../typings/common';
 import RepoFactory from './repository';
 
@@ -18,7 +18,11 @@ export interface CrudController<ModelProperties> {
     delete(data: IData, context: IContext): Promise<void>
 }
 
-export const RestfulControllerFactory = <ModelProps>(Model: StaticSqlModel, options: Opts): GenericStaticClass<BaseController> => {
+export const RestfulControllerFactory = <ModelClass extends StaticSqlModel<BaseModel<ModelClass>>>(Model: ModelClass, options: Opts): GenericStaticClass<BaseController> => {
+    type ModelProps = ConstructorParameters<typeof Model>[0];
+
+    const InstanceName = Model.modelName.toUpperCase();
+
     return class GeneratedController extends BaseController implements CrudController<ModelProps> {
         public constructor() {
             super({
@@ -27,10 +31,11 @@ export const RestfulControllerFactory = <ModelProps>(Model: StaticSqlModel, opti
             });
         }
 
-        public async create(data: IData, context: IContext): Promise<ModelProps> {
-            const ModelRepo = RepoFactory.getSql(Model);
-            const modelData = await ModelRepo.create(data.body);
-            return modelData.toJson();
+        public async create(data: IData<any, any, ModelProps>, context: IContext): Promise<ModelProps> {
+            const modelInstance = new Model(data.body);
+            await modelInstance.validate();
+            await modelInstance.save();
+            return modelInstance.toJson();
         }
 
         public async list(data: IData, context: IContext): Promise<{ data: ModelProps[]; pagination: IPagination }> {
@@ -46,14 +51,22 @@ export const RestfulControllerFactory = <ModelProps>(Model: StaticSqlModel, opti
             const ModelRepo = RepoFactory.getSql(Model);
             const modelData = await ModelRepo.findById(data.params.id);
             if (!modelData) {
-                throw HttpError.NotFoundError('DATA_NOT_FOUND');
+                throw HttpError.NotFoundError(`${InstanceName}_NOT_FOUND`);
             }
             return modelData.toJson();
         }
 
-        public async update(data: IData, context: IContext): Promise<void> {
+        public async update(data: IData<any, { id: string }, ModelProps>, context: IContext): Promise<void> {
             const ModelRepo = RepoFactory.getSql(Model);
-            await ModelRepo.update(data.params.id, data.body);
+            const modelInstance = await ModelRepo.findById(data.params.id);
+
+            if (!modelInstance) {
+                throw HttpError.NotFoundError(`${InstanceName}_NOT_FOUND`);
+            }
+
+            modelInstance.update(data.body);
+            await modelInstance.validate();
+            await modelInstance.save();
         }
 
         public async delete(data: IData, context: IContext): Promise<void> {

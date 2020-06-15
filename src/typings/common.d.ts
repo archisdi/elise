@@ -33,7 +33,7 @@ export interface IHttpError {
     message: string;
     name: string;
     status: number;
-    data?: object;
+    data?: IObject;
 }
 
 export interface IHttpOutput {
@@ -57,7 +57,7 @@ export type BasicType<T> = {
     [P in keyof T]?: P extends string | number | boolean ? T[P] : never;
 };
 
-export type OptionalRelation = object[] | undefined;
+export type OptionalRelation = IObject[] | undefined;
 
 export type Attributes = string[];
 
@@ -78,3 +78,5 @@ export interface BaseProps {
 export interface GenericStaticClass<ClassInstance> {
     new(...params: any): ClassInstance
 }
+
+export type ModelProperties<ModelClass extends GenericStaticClass<ModelClass>> = ConstructorParameters<ModelClass>[0];
