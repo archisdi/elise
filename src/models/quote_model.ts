@@ -36,11 +36,7 @@ export class QuoteModel extends BaseModel<QuoteProps> {
     }
 
     public async save(): Promise<void> {
-        if (this.id) {
-            await QuoteModel.repo.upsert({ id: this.id }, this.toJson({ withHidden: true, withTimeStamps: false }));
-        } else {
-            await QuoteModel.repo.create({});
-        }
+        await QuoteModel.repo.upsert({ id: this.id }, this.toJson({ removeTimestamps: true }));
     }
 
     public async validate(): Promise<void> {

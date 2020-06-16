@@ -9,6 +9,14 @@ export enum SCHEMA {
     UPDATE_POST = 'update_post'
 }
 
+export const COMMON_SCHEME = {
+    PAGINATION: Joi.object({
+        page: Joi.number().integer().positive().default(1).optional(),
+        per_page: Joi.number().integer().positive().default(10).optional(),
+        sort: Joi.string().optional().default('-created_at')
+    })
+};
+
 const schemas: IObject<Joi.ObjectSchema> = {
     [SCHEMA.LOGIN]: Joi.object({
         body: Joi.object({

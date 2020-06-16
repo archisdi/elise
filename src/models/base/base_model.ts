@@ -30,14 +30,14 @@ export abstract class BaseModel<P extends BaseProps = any> {
         if (!this.props.updated_at) this.props.updated_at = now;
     }
 
-    public toJson(option: { withHidden?: boolean; withTimeStamps?: boolean } = { withHidden: false, withTimeStamps: true }): P {
+    public toJson(option: { removeHidden?: boolean; removeTimestamps?: boolean } = { removeHidden: false, removeTimestamps: false }): P {
         const data: any = this.props;
-        if (!option?.withHidden) {
+        if (option.removeHidden) {
             this.hidden.forEach((prop): void => {
                 delete data[prop];
             });
         }
-        if (!option?.withTimeStamps) {
+        if (option.removeTimestamps) {
             delete data['created_at'];
             delete data['updated_at'];
             delete data['deleted_at'];

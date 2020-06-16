@@ -143,13 +143,13 @@ export class UserModel extends BaseModel<UserProperties> {
     }
 
     public async save({ cache }: { cache: boolean } = { cache: true }): Promise<void> {
-        const payload = this.toJson({ withHidden: true, withTimeStamps: false }) as Partial<UserModel>;
+        const payload = this.toJson() as Partial<UserModel>;
         await UserModel.repo.upsert({ id: this.id }, payload).then((): any => (cache ? this.cache() : null));
     }
 
     public async cache(): Promise<void> {
         const redisRepo = RepoFactory.getRedis(UserModel);
-        const payload = this.toJson({ withHidden: true, withTimeStamps: true }) as Partial<UserModel>;
+        const payload = this.toJson() as Partial<UserModel>;
         await redisRepo.set(this.id, payload, 300);
     }
 

@@ -1,8 +1,9 @@
 import { HttpError } from 'tymon';
 import BaseController from '../controllers/base/base_controller';
 import jwt_auth from '../middlewares/jwt_auth';
-import { StaticSqlModel, BaseModel } from '../models/base/base_model';
-import { IContext, IData, IPagination, GenericStaticClass } from '../typings/common';
+import { BaseModel, StaticSqlModel } from '../models/base/base_model';
+import { GenericStaticClass, IContext, IData, IPagination } from '../typings/common';
+import { COMMON_SCHEME, SchemeValidator } from '../utils/validator';
 import RepoFactory from './repository';
 
 interface Opts {
@@ -39,8 +40,10 @@ export const RestfulControllerFactory = <ModelClass extends StaticSqlModel<BaseM
         }
 
         public async list(data: IData, context: IContext): Promise<{ data: ModelProps[]; pagination: IPagination }> {
+            const query = await SchemeValidator(data.query, COMMON_SCHEME.PAGINATION);
+
             const ModelRepo = RepoFactory.getSql(Model);
-            const datas = await ModelRepo.paginate({}, data.query);
+            const datas = await ModelRepo.paginate({}, query);
             return {
                 data: datas.data.map(item => item.toJson()),
                 pagination: datas.meta
@@ -65,8 +68,7 @@ export const RestfulControllerFactory = <ModelClass extends StaticSqlModel<BaseM
             }
 
             /** auto validate and save */
-            modelInstance.update(data.body, { validate: true, save: true });
-
+            await modelInstance.update(data.body, { validate: true, save: true });
             return modelInstance.toJson();
         }
 

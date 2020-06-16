@@ -1,11 +1,11 @@
 import { IObject } from 'src/typings/common';
 import moment = require('moment');
 
-export const parseDataObject = (object: object): object => JSON.parse(JSON.stringify(object));
+export const parseDataObject = (object: IObject): IObject => JSON.parse(JSON.stringify(object));
 
-export const offset = (page: number = 1, per_page: number = 10): number => (page - 1) * per_page;
+export const offset = (page = 1, per_page = 10): number => (page - 1) * per_page;
 
-export const isEmptyObject = (object: object): boolean => !Object.keys(object).length;
+export const isEmptyObject = (object: IObject): boolean => !Object.keys(object).length;
 
 export const isEmptyArray = (array: any[]): boolean => array.length === 0;
 
@@ -24,7 +24,7 @@ export const stringifyObjectKey = (object: IObject): IObject => {
     return object;
 };
 
-export const sorter = (sort: string = '-created_at'): string[] => {
+export const sorter = (sort = '-created_at'): string[] => {
     let sortString = sort;
     let sortMethod;
 

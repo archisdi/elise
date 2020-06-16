@@ -86,7 +86,7 @@ export class PostModel extends BaseModel<PostProperties> {
     }
 
     public async save(): Promise<void> {
-        return PostModel.repo.upsert({ id: this.id }, this.toJson({ withHidden: true }));
+        return PostModel.repo.upsert({ id: this.id }, this.toJson());
     }
 }
 
