@@ -41,11 +41,9 @@ const defaultOptions: IObject = {
     abortEarly: false
 };
 
-export default (input: IObject, schema: SCHEMA, options: IObject = defaultOptions): any => {
-    const scheme: Joi.ObjectSchema = schemas[schema];
-
+export const SchemeValidator = (input: IObject, scheme: Joi.ObjectSchema, options: IObject = defaultOptions): any => {
     return Joi.validate(input, scheme, options).catch((err): void => {
-        const details = err.details.reduce((detail: any, item: any): object => {
+        const details = err.details.reduce((detail: any, item: any): IObject => {
             detail[item.context.key] = item.message.replace(/"/g, '');
             return detail;
         }, {});
@@ -57,3 +55,10 @@ export default (input: IObject, schema: SCHEMA, options: IObject = defaultOption
         });
     });
 };
+
+export const ValidatorFactory = (input: IObject, schema: SCHEMA, options: IObject = defaultOptions): any => {
+    const scheme: Joi.ObjectSchema = schemas[schema];
+    return SchemeValidator(input, scheme, defaultOptions);
+};
+
+export default ValidatorFactory;

@@ -1,4 +1,6 @@
-import { GenericStaticClass, IObject } from 'src/typings/common';
+import * as moment from 'moment';
+import { BaseProps, GenericStaticClass } from 'src/typings/common';
+import { v4 as uuidv4 } from 'uuid';
 
 export interface StaticSqlModel<ClassModel = BaseModel> extends GenericStaticClass<ClassModel> {
     modelName: string;
@@ -15,15 +17,20 @@ export interface StaticRedisModel<ClassModel = BaseModel> extends GenericStaticC
     buildFromRedis(...params: any): ClassModel;
 }
 
-export abstract class BaseModel<P = IObject> {
+export abstract class BaseModel<P extends BaseProps = any> {
     protected props: P;
     protected hidden: string[] = [];
 
     public constructor(props: P) {
         this.props = props;
+        if (!this.props.id) this.props.id = uuidv4();
+
+        const now = moment().toISOString();
+        if (!this.props.created_at) this.props.created_at = now;
+        if (!this.props.updated_at) this.props.updated_at = now;
     }
 
-    public toJson(option?: { withHidden?: boolean; withTimeStamps?: boolean }): P {
+    public toJson(option: { withHidden?: boolean; withTimeStamps?: boolean } = { withHidden: false, withTimeStamps: true }): P {
         const data: any = this.props;
         if (!option?.withHidden) {
             this.hidden.forEach((prop): void => {
@@ -38,11 +45,15 @@ export abstract class BaseModel<P = IObject> {
         return data;
     }
 
-    public async update(data: Partial<P>, options?: { save: boolean }): Promise<void> {
+    public async update(data: Partial<P>, options?: { save?: boolean; validate?: boolean; }): Promise<void> {
         this.props = {
             ...this.props,
             ...data
         };
+
+        if (options?.validate) {
+            await this.validate();
+        }
 
         if (options?.save) {
             await this.save();
@@ -52,6 +63,6 @@ export abstract class BaseModel<P = IObject> {
     public abstract save(): Promise<void>;
 
     public async validate(): Promise<void> {
-        throw new Error('Not Implemented');
+        throw new Error('model validation not implemented');
     }
 }

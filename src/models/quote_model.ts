@@ -1,11 +1,13 @@
-import { BaseModel } from './base/base_model';
+import * as Joi from '@hapi/joi';
 import { BaseProps } from 'src/typings/common';
 import RepoFactory from '../repositories';
+import { SchemeValidator } from '../utils/validator';
+import { BaseModel } from './base/base_model';
 
 export interface QuoteProps extends BaseProps {
-    author_name: string;
+    author: string;
     text: string;
-    year: number;
+    year: number | null;
 }
 
 export class QuoteModel extends BaseModel<QuoteProps> {
@@ -20,7 +22,7 @@ export class QuoteModel extends BaseModel<QuoteProps> {
     public static buildFromSql(data: QuoteProps): QuoteModel {
         return new QuoteModel({
             id: data.id,
-            author_name: data.author_name,
+            author: data.author,
             text: data.text,
             year: data.year,
             created_at: data.created_at,
@@ -34,7 +36,21 @@ export class QuoteModel extends BaseModel<QuoteProps> {
     }
 
     public async save(): Promise<void> {
-        return QuoteModel.repo.upsert({ id: this.id }, this.toJson({ withHidden: true }));
+        if (this.id) {
+            await QuoteModel.repo.upsert({ id: this.id }, this.toJson({ withHidden: true, withTimeStamps: false }));
+        } else {
+            await QuoteModel.repo.create({});
+        }
+    }
+
+    public async validate(): Promise<void> {
+        const payload = this.toJson();
+        const validationScheme = Joi.object({
+            author: Joi.string().min(4).max(50).required(),
+            text: Joi.string().min(10).required(),
+            year: Joi.number().integer().optional().allow(null, '')
+        });
+        await SchemeValidator(payload, validationScheme);
     }
 }
 

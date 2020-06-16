@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response, RequestHandler } from 'express';
-import Validator, { SCHEMA } from '../utils/validator';
+import ValidatorFactory, { SCHEMA } from '../utils/validator';
 
 const RequestValidator = (schema: SCHEMA): any => (req: Request, res: Response, next: NextFunction): RequestHandler => {
     const { query, params, body } = req;
 
-    return Validator({ query, params, body }, schema)
+    return ValidatorFactory({ query, params, body }, schema)
         .then((validated: any): void => {
             req.query = validated.query;
             req.params = validated.params;

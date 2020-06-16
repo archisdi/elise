@@ -14,7 +14,7 @@ export interface CrudController<ModelProperties> {
     create(data: IData, context: IContext): Promise<ModelProperties>
     list(data: IData, context: IContext): Promise<{ data: ModelProperties[]; pagination: IPagination }>
     detail(data: IData, context: IContext): Promise<ModelProperties>
-    update(data: IData, context: IContext): Promise<void>
+    update(data: IData, context: IContext): Promise<ModelProperties>
     delete(data: IData, context: IContext): Promise<void>
 }
 
@@ -56,7 +56,7 @@ export const RestfulControllerFactory = <ModelClass extends StaticSqlModel<BaseM
             return modelData.toJson();
         }
 
-        public async update(data: IData<any, { id: string }, ModelProps>, context: IContext): Promise<void> {
+        public async update(data: IData<any, { id: string }, ModelProps>, context: IContext): Promise<ModelProps> {
             const ModelRepo = RepoFactory.getSql(Model);
             const modelInstance = await ModelRepo.findById(data.params.id);
 
@@ -64,9 +64,10 @@ export const RestfulControllerFactory = <ModelClass extends StaticSqlModel<BaseM
                 throw HttpError.NotFoundError(`${InstanceName}_NOT_FOUND`);
             }
 
-            modelInstance.update(data.body);
-            await modelInstance.validate();
-            await modelInstance.save();
+            /** auto validate and save */
+            modelInstance.update(data.body, { validate: true, save: true });
+
+            return modelInstance.toJson();
         }
 
         public async delete(data: IData, context: IContext): Promise<void> {
