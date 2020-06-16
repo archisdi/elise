@@ -17,7 +17,7 @@ export interface StaticRedisModel<ClassModel = BaseModel> extends GenericStaticC
     buildFromRedis(...params: any): ClassModel;
 }
 
-export abstract class BaseModel<P extends BaseProps = any> {
+export abstract class BaseModel<P extends BaseProps = BaseProps> {
     protected props: P;
     protected hidden: string[] = [];
 

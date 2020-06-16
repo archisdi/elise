@@ -74,13 +74,13 @@ export const RestfulControllerFactory = <ModelClass extends StaticSqlModel<BaseM
 
         public async delete(data: IData, context: IContext): Promise<void> {
             const ModelRepo = RepoFactory.getSql(Model);
-            await ModelRepo.delete(data.params.id);
+            await ModelRepo.delete({ id: data.params.id } as any);
         }
 
         public setRoutes(): void {
             this.addRoute('post', '/', this.create);
             this.addRoute('get', '/', this.list);
-            this.addRoute('get', '/:id', this.detail, { cache: true });
+            this.addRoute('get', '/:id', this.detail);
             this.addRoute('put', '/:id', this.update);
             this.addRoute('delete', '/:id', this.delete);
         }
