@@ -30,6 +30,30 @@ export abstract class BaseModel<P extends BaseProps = BaseProps> {
         if (!this.props.updated_at) this.props.updated_at = now;
     }
 
+    public get id(): string {
+        return this.props.id;
+    }
+
+    public set id(value: string) {
+        this.props.id = value;
+    }
+
+    public get created_at(): string {
+        return this.props.created_at;
+    }
+
+    public set created_at(value: string) {
+        this.props.created_at = value;
+    }
+
+    public get updated_at(): string {
+        return this.props.updated_at;
+    }
+
+    public set updated_at(value: string) {
+        this.props.updated_at = value;
+    }
+
     public toJson(option: { removeHidden?: boolean; removeTimestamps?: boolean } = { removeHidden: false, removeTimestamps: false }): P {
         const data: any = this.props;
         if (option.removeHidden) {

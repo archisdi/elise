@@ -7,7 +7,7 @@ import { StaticBaseController } from './controllers/base/base_controller';
 import RouteNotFoundExceptionHandler from './middlewares/not_found';
 import GlobalExceptionHandler from './middlewares/exception';
 
-export default abstract class BaseApp {
+abstract class BaseApp {
     protected _app: express.Application;
     protected _port: number;
 
@@ -54,3 +54,5 @@ export default abstract class BaseApp {
         });
     }
 }
+
+export default BaseApp;

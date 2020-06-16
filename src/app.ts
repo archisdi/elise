@@ -7,17 +7,18 @@ import GraphQL from './graphql';
 import RestfulControllerFactory from './factories/controller';
 import QuoteModel from './models/quote_model';
 
-export default class App extends BaseApp {
+class App extends BaseApp {
     public constructor(port: number) {
         super(port);
     }
 
     public setControllers(): void {
+        /** Register Controller */
         this.addController(AuthController);
         this.addController(ProfileController);
         this.addController(PostController);
 
-        /** Auto Generated Crud Controller */
+        /** Register Auto Generated Crud Controller */
         const QuoteController = RestfulControllerFactory(QuoteModel, { auth: true, path: '/quote' });
         this.addController(QuoteController);
 
@@ -39,3 +40,5 @@ export default class App extends BaseApp {
         });
     }
 }
+
+export default App;

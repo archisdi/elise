@@ -31,10 +31,6 @@ export class QuoteModel extends BaseModel<QuoteProps> {
         });
     }
 
-    public get id(): string {
-        return this.props.id;
-    }
-
     public async save(): Promise<void> {
         await QuoteModel.repo.upsert({ id: this.id }, this.toJson({ removeTimestamps: true }));
     }
