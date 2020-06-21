@@ -7,8 +7,8 @@ import { COMMON_SCHEME, SchemeValidator } from '../utils/validator';
 import RepoFactory from './repository';
 
 interface Opts {
-    auth: boolean;
-    path: string;
+    auth?: boolean;
+    path?: string;
 }
 
 export interface CrudController<ModelProperties> {
@@ -19,16 +19,17 @@ export interface CrudController<ModelProperties> {
     delete(data: IData, context: IContext): Promise<void>
 }
 
-export const RestfulControllerFactory = <ModelClass extends StaticSqlModel<BaseModel>>(Model: ModelClass, options: Opts): GenericStaticClass<BaseController> => {
+export const RestfulControllerFactory = <ModelClass extends StaticSqlModel<BaseModel>>(Model: ModelClass, options?: Opts): GenericStaticClass<BaseController> => {
     type ModelProps = ConstructorParameters<typeof Model>[0];
 
     const InstanceName = Model.modelName.toUpperCase();
+    const PathName = `/${Model.modelName.toLowerCase()}`;
 
     return class GeneratedController extends BaseController implements CrudController<ModelProps> {
         public constructor() {
             super({
-                path: options.path,
-                middleware: options.auth ? jwt_auth : undefined
+                path: options?.path || PathName,
+                middleware: options?.auth === false ? undefined : jwt_auth
             });
         }
 

@@ -19,7 +19,7 @@ class App extends BaseApp {
         this.addController(PostController);
 
         /** Register Auto Generated Crud Controller */
-        const QuoteController = RestfulControllerFactory(QuoteModel, { auth: true, path: '/quote' });
+        const QuoteController = RestfulControllerFactory(QuoteModel);
         this.addController(QuoteController);
 
         /** Register GraphQL */
