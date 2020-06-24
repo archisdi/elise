@@ -21,6 +21,6 @@ export default class GraphQL {
     }
 
     public getInstance(): RequestHandler | RequestHandler[] {
-        return this.is_protected ? [AuthMiddleware, this.instance] : this.instance;
+        return this.is_protected ? [AuthMiddleware(), this.instance] : this.instance;
     }
 }

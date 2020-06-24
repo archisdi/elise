@@ -18,6 +18,11 @@ const model = (dataTypes) => ({
         type: dataTypes.STRING(255),
         allowNull: false
     },
+    clearance: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 5
+    },
     refresh_token: {
         type: dataTypes.STRING(255),
         allowNull: true

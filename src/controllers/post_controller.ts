@@ -11,7 +11,7 @@ import BaseController from './base/base_controller';
 
 export default class PostController extends BaseController {
     public constructor() {
-        super({ path: '/post', middleware: AuthMiddleware });
+        super({ path: '/post', middleware: AuthMiddleware() });
     }
 
     public async createPost(data: IData, context: IContext): Promise<{ id: string }> {
@@ -38,8 +38,7 @@ export default class PostController extends BaseController {
     }
 
     public async getPostList(data: IData, context: IContext): Promise<any> {
-        const postRepo = RepoFactory.getSql(PostModel);
-        const posts = await postRepo.paginate(
+        const posts = await PostModel.repo.paginate(
             { author_id: context.user_id },
             { page: 1, per_page: 10, sort: '-created_at' }
         );
@@ -48,8 +47,7 @@ export default class PostController extends BaseController {
     }
 
     public async getPostDetail(data: IData, context: IContext): Promise<any> {
-        const postRepo = RepoFactory.getSql(PostModel);
-        const post = await postRepo.findOneOrFail({
+        const post = await PostModel.repo.findOneOrFail({
             id: data.params.id,
             author_id: context.user_id
         });

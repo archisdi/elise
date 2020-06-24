@@ -56,7 +56,7 @@ export default abstract class BaseController {
         const middlewares = options?.middlewares ? options.middlewares instanceof Array ? options.middlewares : [options.middlewares] : [];
 
         if (options?.auth) {
-            middlewares.push(jwt_auth);
+            middlewares.push(jwt_auth());
         }
 
         if (options?.validate) {

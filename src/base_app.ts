@@ -2,10 +2,11 @@ import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
 import * as helmet from 'helmet';
-
 import { StaticBaseController } from './controllers/base/base_controller';
-import RouteNotFoundExceptionHandler from './middlewares/not_found';
+import RestfulControllerFactory, { ControllerOpts, StaticModel } from './factories/controller';
 import GlobalExceptionHandler from './middlewares/exception';
+import RouteNotFoundExceptionHandler from './middlewares/not_found';
+import { BaseModel } from './models/base/base_model';
 
 abstract class BaseApp {
     protected _app: express.Application;
@@ -34,6 +35,11 @@ abstract class BaseApp {
     public addController(controller: StaticBaseController): void {
         const ctrl = new controller();
         this.app.use(ctrl.path, ctrl.routes);
+    }
+
+    public addControllerFromModel<ModelClass extends StaticModel<BaseModel>>(model: ModelClass, options?: ControllerOpts): void {
+        const controller = RestfulControllerFactory(model, options);
+        this.addController(controller);
     }
 
     private setPlugins(): void {

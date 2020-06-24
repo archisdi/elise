@@ -1,18 +1,22 @@
 import * as moment from 'moment';
-import { BaseProps, GenericStaticClass } from 'src/typings/common';
+import { BaseProps } from 'src/typings/common';
 import { v4 as uuidv4 } from 'uuid';
 
-export interface StaticSqlModel<ClassModel = BaseModel> extends GenericStaticClass<ClassModel> {
+interface ModelStaticClass<ClassInstance> {
+    new(...params: any): ClassInstance
+}
+
+export interface StaticSqlModel<ClassModel = BaseModel> extends ModelStaticClass<ClassModel> {
     modelName: string;
     buildFromSql(...params: any): ClassModel;
 }
 
-export interface StaticMongoModel<ClassModel = BaseModel> extends GenericStaticClass<ClassModel> {
+export interface StaticMongoModel<ClassModel = BaseModel> extends ModelStaticClass<ClassModel> {
     collectionName: string;
     buildFromMongo(...params: any): ClassModel;
 }
 
-export interface StaticRedisModel<ClassModel = BaseModel> extends GenericStaticClass<ClassModel> {
+export interface StaticRedisModel<ClassModel = BaseModel> extends ModelStaticClass<ClassModel> {
     cacheName: string;
     buildFromRedis(...params: any): ClassModel;
 }
@@ -23,11 +27,16 @@ export abstract class BaseModel<P extends BaseProps = BaseProps> {
 
     public constructor(props: P) {
         this.props = props;
-        if (!this.props.id) this.props.id = uuidv4();
+    }
 
-        const now = moment().toISOString();
-        if (!this.props.created_at) this.props.created_at = now;
-        if (!this.props.updated_at) this.props.updated_at = now;
+    public static fillable = ['id', 'created_at', 'updated_at'];
+
+    public static generateId(): string {
+        return uuidv4();
+    }
+
+    public static generateTimestamp(): string {
+        return moment().toISOString();
     }
 
     public get id(): string {
@@ -38,19 +47,19 @@ export abstract class BaseModel<P extends BaseProps = BaseProps> {
         this.props.id = value;
     }
 
-    public get created_at(): string {
+    public get created_at(): string | null {
         return this.props.created_at;
     }
 
-    public set created_at(value: string) {
+    public set created_at(value: string | null) {
         this.props.created_at = value;
     }
 
-    public get updated_at(): string {
+    public get updated_at(): string | null {
         return this.props.updated_at;
     }
 
-    public set updated_at(value: string) {
+    public set updated_at(value: string | null) {
         this.props.updated_at = value;
     }
 

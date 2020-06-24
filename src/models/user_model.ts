@@ -11,6 +11,8 @@ export interface UserProperties extends BaseProps {
     password: string;
     refresh_token: string;
     token_validity: string;
+    clearance: number;
+
     posts?: PostProperties[];
 }
 
@@ -25,7 +27,7 @@ export class UserModel extends BaseModel<UserProperties> {
     public static collectionName = 'users';
     public static cacheName = 'user';
 
-    public static repo = RepoFactory.getSql(UserModel);
+    public static repo = RepoFactory.getSql<UserModel, UserProperties>(UserModel);
 
     public static buildFromSql(data: UserProperties): UserModel {
         return new UserModel({
@@ -35,10 +37,11 @@ export class UserModel extends BaseModel<UserProperties> {
             password: data.password,
             refresh_token: data.refresh_token,
             token_validity: data.token_validity,
+            clearance: data.clearance,
             created_at: data.created_at,
             updated_at: data.updated_at,
             deleted_at: data.deleted_at,
-            posts: data.posts || []
+            posts: data.posts
         });
     }
 
@@ -50,6 +53,7 @@ export class UserModel extends BaseModel<UserProperties> {
             password: data.password,
             refresh_token: data.refresh_token,
             token_validity: data.token_validity,
+            clearance: data.clearance,
             created_at: data.created_at,
             updated_at: data.updated_at,
             deleted_at: data.deleted_at,
@@ -64,7 +68,7 @@ export class UserModel extends BaseModel<UserProperties> {
         const { token, valid_until } = JWT.generateRefreshToken();
         this.refresh_token = token;
         this.token_validity = valid_until;
-        return JWT.generateToken({ user_id: this.id, username: this.username });
+        return JWT.generateToken({ user_id: this.id, username: this.username, clearance: this.clearance });
     }
 
     public get password(): string {
@@ -80,14 +84,6 @@ export class UserModel extends BaseModel<UserProperties> {
     }
     public set username(value: string) {
         this.props.username = value;
-    }
-
-    public get id(): string {
-        return this.props.id;
-    }
-
-    public set id(value: string) {
-        this.props.id = value;
     }
 
     public get refresh_token(): string {
@@ -106,6 +102,14 @@ export class UserModel extends BaseModel<UserProperties> {
         this.props.name = value;
     }
 
+    public get clearance(): number {
+        return this.props.clearance;
+    }
+
+    public set clearance(value: number) {
+        this.props.clearance = value;
+    }
+
     public get token_validity(): string {
         return this.props.token_validity;
     }
@@ -114,32 +118,8 @@ export class UserModel extends BaseModel<UserProperties> {
         this.props.token_validity = value;
     }
 
-    public get created_at(): string {
-        return this.props.created_at;
-    }
-
-    public set created_at(value: string) {
-        this.props.created_at = value;
-    }
-
-    public get updated_at(): string {
-        return this.props.updated_at;
-    }
-
-    public set updated_at(value: string) {
-        this.props.updated_at = value;
-    }
-
-    public get deleted_at(): string {
-        return this.props.deleted_at;
-    }
-
-    public set deleted_at(value: string) {
-        this.props.deleted_at = value;
-    }
-
     public get posts(): PostModel[] {
-        return this.props.posts?.map((post): PostModel => new PostModel(post)) || [];
+        return this.props.posts?.map((post) => PostModel.buildFromSql(post)) || [];
     }
 
     public async save({ cache }: { cache: boolean } = { cache: true }): Promise<void> {

@@ -19,6 +19,7 @@ export interface IPagination {
 export interface IContext {
     username: string;
     user_id: string;
+    clearance: number;
 }
 
 export interface IData<Query = any, Params = any, Body = any> {
@@ -70,9 +71,9 @@ export interface QueryOptions {
 
 export interface BaseProps {
     id: string;
-    created_at: string;
-    updated_at: string;
-    deleted_at: string;
+    created_at: string | null;
+    updated_at: string | null;
+    deleted_at?: string | null;
 }
 
 export interface GenericStaticClass<ClassInstance> {

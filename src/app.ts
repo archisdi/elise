@@ -19,8 +19,7 @@ class App extends BaseApp {
         this.addController(PostController);
 
         /** Register Auto Generated Crud Controller */
-        const QuoteController = RestfulControllerFactory(QuoteModel);
-        this.addController(QuoteController);
+        this.addControllerFromModel(QuoteModel);
 
         /** Register GraphQL */
         const GraphQLModule = new GraphQL({

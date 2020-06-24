@@ -3,10 +3,16 @@ export enum COMMON_ERRORS {
     SERVER_ERROR = 'SERVER_ERROR',
     TOKEN_INVALID = 'TOKEN_INVALID',
     TOKEN_EXPIRED = 'TOKEN_EXPIRED',
-    ROUTE_NOT_FOUND = 'ROUTE_NOT_FOUND'
+    ROUTE_NOT_FOUND = 'ROUTE_NOT_FOUND',
+    NO_ACCESS = 'NO_ACCESS'
 }
 
 export enum EVENT_NAMES {
     USER_LOGIN = 'user-login',
     POST_CREATED = 'post-created'
+}
+
+export enum CLEARANCE {
+    BLOCKED = 0,
+    AUTHENTICATED = 1
 }

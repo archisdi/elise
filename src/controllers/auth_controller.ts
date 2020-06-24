@@ -1,7 +1,6 @@
 import { LoginReponse, LoginRequest } from 'src/typings/endpoints';
 import { HttpError } from 'tymon';
 import UserLoggedInEvent from '../events/user_logged_in_event';
-import RepoFactory from '../factories/repository';
 import { UserModel } from '../models/user_model';
 import { IContext } from '../typings/common';
 import { SCHEMA } from '../utils/validator';
@@ -17,8 +16,7 @@ export default class AuthController extends BaseController {
             body: { username, password }
         } = data;
 
-        const userRepo = RepoFactory.getSql(UserModel);
-        const user = await userRepo.findOne({ username });
+        const user = await UserModel.repo.findOne({ username });
         if (!user) {
             throw HttpError.UnauthorizedError('credential not match', 'CREDENTIAL_NOT_MATCH');
         }

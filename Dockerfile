@@ -13,6 +13,7 @@ RUN npm ci --only=production --quiet
 
 RUN cp -a ./node_modules ./build
 RUN cp ./.env ./build
+RUN cp ./database ./build
 
 # release
 FROM node:12-alpine as release

@@ -17,7 +17,7 @@ export class QuoteModel extends BaseModel<QuoteProps> {
 
     public static modelName = 'Quote';
 
-    public static repo = RepoFactory.getSql(QuoteModel);
+    public static repo = RepoFactory.getSql<QuoteModel, QuoteProps>(QuoteModel);
 
     public static buildFromSql(data: QuoteProps): QuoteModel {
         return new QuoteModel({
@@ -29,6 +29,10 @@ export class QuoteModel extends BaseModel<QuoteProps> {
             updated_at: data.updated_at,
             deleted_at: data.deleted_at
         });
+    }
+
+    public static create(data: QuoteProps): QuoteModel {
+        return new QuoteModel(data);
     }
 
     public async save(): Promise<void> {

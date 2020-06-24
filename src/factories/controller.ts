@@ -1,15 +1,27 @@
-import { HttpError } from 'tymon';
+import { DBContext, HttpError } from 'tymon';
 import BaseController from '../controllers/base/base_controller';
 import jwt_auth from '../middlewares/jwt_auth';
-import { BaseModel, StaticSqlModel } from '../models/base/base_model';
-import { GenericStaticClass, IContext, IData, IPagination } from '../typings/common';
+import { BaseModel } from '../models/base/base_model';
+import { GenericStaticClass, IContext, IData, IObject, IPagination } from '../typings/common';
+import { CLEARANCE } from '../utils/constant';
 import { COMMON_SCHEME, SchemeValidator } from '../utils/validator';
 import RepoFactory from './repository';
 
-interface Opts {
+export interface ControllerOpts {
     auth?: boolean;
     path?: string;
+    resource?: string;
+    roles?: CLEARANCE | CLEARANCE[];
 }
+
+export interface StaticModel<ClassModel = BaseModel> {
+    new (...params: any): ClassModel;
+    fillable: string[];
+    modelName: string;
+    buildFromSql(...params: any): ClassModel;
+    create(...params: any): ClassModel;
+}
+
 
 export interface CrudController<ModelProperties> {
     create(data: IData, context: IContext): Promise<ModelProperties>
@@ -19,7 +31,21 @@ export interface CrudController<ModelProperties> {
     delete(data: IData, context: IContext): Promise<void>
 }
 
-export const RestfulControllerFactory = <ModelClass extends StaticSqlModel<BaseModel>>(Model: ModelClass, options?: Opts): GenericStaticClass<BaseController> => {
+const genericQueryBuilder = (keys: string[], query: IObject): IObject => {
+    const db = DBContext.getInstance();
+    const Op = db.ORMProvider.Op;
+    const conditions: IObject = {};
+
+    keys.forEach(key => {
+        if (query[key]) {
+            conditions[key] = { [Op.like]: `%${query[key]}%` };
+        }
+    });
+
+    return conditions;
+};
+
+export const RestfulControllerFactory = <ModelClass extends StaticModel<BaseModel>>(Model: ModelClass, options?: ControllerOpts): GenericStaticClass<BaseController> => {
     type ModelProps = ConstructorParameters<typeof Model>[0];
 
     const InstanceName = Model.modelName.toUpperCase();
@@ -29,24 +55,26 @@ export const RestfulControllerFactory = <ModelClass extends StaticSqlModel<BaseM
         public constructor() {
             super({
                 path: options?.path || PathName,
-                middleware: options?.auth === false ? undefined : jwt_auth
+                middleware: options?.auth === false ? undefined : jwt_auth(options?.roles)
             });
         }
 
         public async create(data: IData<any, any, ModelProps>, context: IContext): Promise<ModelProps> {
-            const modelInstance = new Model(data.body);
+            const modelInstance = Model.create(data.body);
             await modelInstance.validate();
             await modelInstance.save();
-            return modelInstance.toJson();
+            return modelInstance.toJson({ removeHidden: true });
         }
 
         public async list(data: IData, context: IContext): Promise<{ data: ModelProps[]; pagination: IPagination }> {
             const query = await SchemeValidator(data.query, COMMON_SCHEME.PAGINATION);
 
+            const conditions = genericQueryBuilder(Model.fillable, data.query);
             const ModelRepo = RepoFactory.getSql(Model);
-            const datas = await ModelRepo.paginate({}, query);
+            const datas = await ModelRepo.paginate(conditions, query);
+
             return {
-                data: datas.data.map(item => item.toJson()),
+                data: datas.data.map(item => item.toJson({ removeHidden: true })),
                 pagination: datas.meta
             };
         }
@@ -57,7 +85,7 @@ export const RestfulControllerFactory = <ModelClass extends StaticSqlModel<BaseM
             if (!modelData) {
                 throw HttpError.NotFoundError(`${InstanceName}_NOT_FOUND`);
             }
-            return modelData.toJson();
+            return modelData.toJson({ removeHidden: true });
         }
 
         public async update(data: IData<any, { id: string }, ModelProps>, context: IContext): Promise<ModelProps> {
@@ -70,7 +98,7 @@ export const RestfulControllerFactory = <ModelClass extends StaticSqlModel<BaseM
 
             /** auto validate and save */
             await modelInstance.update(data.body, { validate: true, save: true });
-            return modelInstance.toJson();
+            return modelInstance.toJson({ removeHidden: true });
         }
 
         public async delete(data: IData, context: IContext): Promise<void> {
@@ -79,11 +107,28 @@ export const RestfulControllerFactory = <ModelClass extends StaticSqlModel<BaseM
         }
 
         public setRoutes(): void {
-            this.addRoute('post', '/', this.create);
-            this.addRoute('get', '/', this.list);
-            this.addRoute('get', '/:id', this.detail);
-            this.addRoute('put', '/:id', this.update);
-            this.addRoute('delete', '/:id', this.delete);
+            if (options?.resource) {
+                const resource = options.resource.split('').map(i => i.toUpperCase());
+                if (resource.includes('C')) {
+                    this.addRoute('post', '/', this.create);
+                }
+                if (resource.includes('R')) {
+                    this.addRoute('get', '/', this.list);
+                    this.addRoute('get', '/:id', this.detail);
+                }
+                if (resource.includes('U')) {
+                    this.addRoute('put', '/:id', this.update);
+                }
+                if (resource.includes('D')) {
+                    this.addRoute('delete', '/:id', this.delete);
+                }
+            } else {
+                this.addRoute('post', '/', this.create);
+                this.addRoute('get', '/', this.list);
+                this.addRoute('get', '/:id', this.detail);
+                this.addRoute('put', '/:id', this.update);
+                this.addRoute('delete', '/:id', this.delete);
+            }
         }
     };
 };

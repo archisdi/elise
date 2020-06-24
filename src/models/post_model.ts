@@ -15,7 +15,7 @@ export class PostModel extends BaseModel<PostProperties> {
 
     public static modelName = 'Post';
 
-    public static repo = RepoFactory.getSql(PostModel);
+    public static repo = RepoFactory.getSql<PostModel, PostProperties>(PostModel);
 
     public static buildFromSql(data: PostProperties): PostModel {
         return new PostModel({
@@ -59,30 +59,6 @@ export class PostModel extends BaseModel<PostProperties> {
 
     public set content(value: string) {
         this.props.content = value;
-    }
-
-    public get created_at(): string {
-        return this.props.created_at;
-    }
-
-    public set created_at(value: string) {
-        this.props.created_at = value;
-    }
-
-    public get updated_at(): string {
-        return this.props.updated_at;
-    }
-
-    public set updated_at(value: string) {
-        this.props.updated_at = value;
-    }
-
-    public get deleted_at(): string {
-        return this.props.deleted_at;
-    }
-
-    public set deleted_at(value: string) {
-        this.props.deleted_at = value;
     }
 
     public async save(): Promise<void> {

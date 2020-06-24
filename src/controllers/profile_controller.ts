@@ -5,7 +5,7 @@ import BaseController from './base/base_controller';
 
 export default class ProfileController extends BaseController {
     public constructor() {
-        super({ path: '/profile', middleware: AuthMiddleware });
+        super({ path: '/profile', middleware: AuthMiddleware() });
     }
 
     public async getProfile(data: IData, context: IContext): Promise<any> {
