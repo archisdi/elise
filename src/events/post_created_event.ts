@@ -1,5 +1,5 @@
-import EventFactory from '../factories/event';
 import { PostProperties } from 'src/models/post_model';
+import EventFactory from '../factories/event';
 
 interface EventPayload {
     post: PostProperties;

@@ -1,6 +1,6 @@
 import RedisContext from 'tymon/modules/redis';
 
-export default class RedisRepo<Model = any> extends RedisContext {
+class RedisRepo<Model = any> extends RedisContext {
     private path: string;
 
     public constructor(path: string) {
@@ -45,3 +45,5 @@ export default class RedisRepo<Model = any> extends RedisContext {
         await redisClient.del(`${this.path}-${key}`);
     }
 }
+
+export default RedisRepo;

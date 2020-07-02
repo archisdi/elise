@@ -64,7 +64,9 @@ export abstract class BaseModel<P extends BaseProps = BaseProps> {
     }
 
     public toJson(option: { removeHidden?: boolean; removeTimestamps?: boolean } = { removeHidden: false, removeTimestamps: false }): P {
-        const data: any = this.props;
+        const data: any = {
+            ...this.props
+        };
         if (option.removeHidden) {
             this.hidden.forEach((prop): void => {
                 delete data[prop];

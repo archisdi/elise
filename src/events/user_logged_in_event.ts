@@ -1,5 +1,5 @@
-import { UserProperties } from '../models/user_model';
 import EventFactory from '../factories/event';
+import { UserProperties } from '../models/user_model';
 
 interface EventPayload {
     user: UserProperties;

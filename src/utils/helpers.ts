@@ -1,5 +1,5 @@
+import * as moment from 'moment';
 import { IObject } from 'src/typings/common';
-import moment = require('moment');
 
 export const parseDataObject = (object: IObject): IObject => JSON.parse(JSON.stringify(object));
 
@@ -40,6 +40,11 @@ export const sorter = (sort = '-created_at'): string[] => {
 
 export const timestamp = (): string => moment().utc().toISOString();
 
+export const spitTrim = (str: string, delimiter = ','): string[] => {
+    const strings = str.split(delimiter).map(i => i.trim()).filter(i => i);
+    return strings;
+};
+
 export default {
     timestamp,
     parseDataObject,
@@ -47,5 +52,6 @@ export default {
     isEmptyArray,
     isEmptyObject,
     trimObjectKey,
-    stringifyObjectKey
+    stringifyObjectKey,
+    spitTrim
 };

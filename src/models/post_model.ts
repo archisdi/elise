@@ -1,6 +1,6 @@
-import { BaseModel } from './base/base_model';
 import { BaseProps } from 'src/typings/common';
 import RepoFactory from '../factories/repository';
+import { BaseModel } from './base/base_model';
 
 export interface PostProperties extends BaseProps {
     author_id: string;
