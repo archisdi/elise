@@ -1,0 +1,8 @@
+{
+    "apps": [{
+        "name": "Elise",
+        "script": "./build/src/index.js",
+        "instances": "max",
+        "exec_mode": "cluster"
+    }]
+}

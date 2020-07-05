@@ -11,13 +11,16 @@ RUN tsc
 RUN rm -rf ./node_modules
 RUN npm ci --only=production --quiet
 
+# move production related files to build folder
 RUN cp -a ./node_modules ./build
 RUN cp ./.env ./build
-RUN cp ./database ./build
+RUN cp -a ./database ./build
+RUN cp ./cluster.json ./build
 
 # release
 FROM node:12-alpine as release
+RUN npm install -g pm2
 COPY --from=builder ./usr/src/app/build .
 
 EXPOSE 3020
-CMD ["node", "./src/server.js" ]
+CMD ["pm2-runtime", "./cluster.json" ]
