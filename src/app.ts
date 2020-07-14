@@ -4,7 +4,6 @@ import AuthController from './controllers/auth_controller';
 import PostController from './controllers/post_controller';
 import ProfileController from './controllers/profile_controller';
 import GraphQL from './graphql';
-import RestfulControllerFactory from './factories/controller';
 import QuoteModel from './models/quote_model';
 
 class App extends BaseApp {

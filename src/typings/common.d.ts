@@ -67,6 +67,7 @@ export interface QueryOptions {
     per_page?: number;
     sort?: string;
     attributes?: Attributes;
+    cache?: boolean;
 }
 
 export interface BaseProps {

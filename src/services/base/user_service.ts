@@ -9,6 +9,10 @@ export class UserService extends BaseService {
         this.user_id = userId;
     }
 
+    public static create(userId: string): UserService {
+        return new UserService(userId);
+    }
+
     public async setCache<CacheInterface>(cacheName: string, payload: any, expires?: number): Promise<void> {
         const cacheRepo = new RedisRepo<CacheInterface>(this.user_id);
         await cacheRepo.setHash(cacheName, payload, expires);

@@ -1,6 +1,5 @@
 import RedisContext from 'tymon/modules/redis';
 import { IObject } from '../../typings/common';
-import { isEmptyObject } from '../../utils/helpers';
 
 class RedisRepo<Model = any> extends RedisContext {
     private path: string;
