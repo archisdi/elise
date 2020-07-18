@@ -1,5 +1,5 @@
 import RedisRepo from '../../repositories/base/redis_repository';
-import BaseService from './base_service';
+import BaseService from './base/service';
 
 export class UserService extends BaseService {
     private user_id: string;

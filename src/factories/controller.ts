@@ -22,7 +22,6 @@ export interface StaticModel<ClassModel = BaseModel> {
     create(...params: any): ClassModel;
 }
 
-
 export interface CrudController<ModelProperties> {
     create(data: IData, context: IContext): Promise<ModelProperties>
     list(data: IData, context: IContext): Promise<{ data: ModelProperties[]; pagination: IPagination }>
