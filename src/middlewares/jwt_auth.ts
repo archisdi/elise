@@ -4,8 +4,8 @@ import { NextFunction, Request, Response } from 'express';
 import { HttpError } from 'tymon';
 import { Tokenable } from '../typings/auth';
 import { IContext } from '../typings/common';
-import { COMMON_ERRORS, CLEARANCE } from '../utils/constant';
-import JWT from '../utils/jwt';
+import Auth from '../utils/auth';
+import { CLEARANCE, COMMON_ERRORS } from '../utils/constant';
 
 const JWT_EXPIRED_MESSAGE = 'jwt expired';
 
@@ -31,7 +31,7 @@ const JwtMiddleware = (roles?: CLEARANCE | CLEARANCE[]) => async (req: Request, 
 
         let context;
         try {
-            const tokenPayload: Tokenable = await JWT.verifyToken(token);
+            const tokenPayload: Tokenable = await Auth.verifyJwtToken(token);
             context = await generateContext(tokenPayload);
         } catch (err) {
             const message =

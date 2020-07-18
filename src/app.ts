@@ -25,6 +25,8 @@ class App extends BaseApp {
             enable_graphiql: true /** ui interface */,
             is_protected: true /** jwt protected */
         });
+
+        /** GraphQL Endpoint */
         this.app.use('/graphql', GraphQLModule.getInstance());
     }
 

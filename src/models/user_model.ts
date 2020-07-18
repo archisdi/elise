@@ -1,7 +1,7 @@
 import { BaseProps, BasicType } from 'src/typings/common';
 import { HttpError } from 'tymon';
 import RepoFactory from '../factories/repository';
-import JWT from '../utils/jwt';
+import Auth from '../utils/auth';
 import { BaseModel } from './base/base_model';
 import { PostModel, PostProperties } from './post_model';
 
@@ -62,13 +62,13 @@ export class UserModel extends BaseModel<UserProperties> {
     }
 
     public signJwtToken(password: string): { token: string; lifetime: number } {
-        if (!JWT.validatePassword(password, this.password)) {
+        if (!Auth.validatePassword(password, this.password)) {
             throw HttpError.UnauthorizedError('credential not match', 'CREDENTIAL_NOT_MATCH');
         }
-        const { token, valid_until } = JWT.generateRefreshToken();
+        const { token, valid_until } = Auth.generateRefreshToken();
         this.refresh_token = token;
         this.token_validity = valid_until;
-        return JWT.generateToken({ user_id: this.id, username: this.username, clearance: this.clearance });
+        return Auth.generateToken({ user_id: this.id, username: this.username, clearance: this.clearance });
     }
 
     public get password(): string {

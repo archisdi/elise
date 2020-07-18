@@ -1,7 +1,7 @@
 import * as Joi from '@hapi/joi';
+import { IObject } from 'src/typings/common';
 import { HttpError } from 'tymon';
 import { COMMON_ERRORS } from './constant';
-import { IObject } from 'src/typings/common';
 
 export enum SCHEMA {
     LOGIN = 'login',
