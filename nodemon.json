@@ -2,7 +2,7 @@
   "watch": ["src"],
   "ext": "ts",
   "ignore": ["src/public"],
-  "exec": "node --inspect=6969 -r ts-node/register src/server.ts",
+  "exec": "node --inspect=6969 -r ts-node/register src/index.ts",
   "env": {
     "NODE_ENV": "development"
   }
