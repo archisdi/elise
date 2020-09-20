@@ -62,7 +62,8 @@
     "randomstring": "^1.1.5",
     "sequelize": "^5.10.1",
     "tymon": "git+https://github.com/archisdi/tymon.git",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "zuu": "git+https://github.com/archisdi/zuu.git"
   },
   "ava": {
     "compileEnhancements": false,
