@@ -1,4 +1,4 @@
-import RedisRepo from '../../repositories/base/redis_repository';
+import { RedisRepo } from 'zuu';
 import BaseService from './base/service';
 
 export class UserService extends BaseService {
@@ -26,8 +26,8 @@ export class UserService extends BaseService {
     public async bustCache<CacheInterface = any>(cacheName?: string): Promise<void> {
         const cacheRepo = new RedisRepo<CacheInterface>(this.user_id);
         cacheName ?
-            await cacheRepo.deleteHash(cacheName):
-            await cacheRepo.delete(this.user_id) ;
+            await cacheRepo.deleteHash(cacheName) :
+            await cacheRepo.delete(this.user_id);
     }
 }
 

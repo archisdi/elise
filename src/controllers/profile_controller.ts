@@ -1,7 +1,8 @@
-import { IContext, IData } from 'src/typings/common';
+import { IContext } from 'src/typings/common';
 import AuthMiddleware from '../middlewares/jwt_auth';
 import { UserModel } from '../models/user_model';
 import { Controller as BaseController } from 'zuu';
+import { IData } from 'zuu/modules/typings/common';
 
 export default class ProfileController extends BaseController {
     public constructor() {
@@ -15,7 +16,7 @@ export default class ProfileController extends BaseController {
             user = await UserModel.repo.findOneOrFail({ username: context.username });
         }
 
-        return user.toJson();
+        return user.toJson({ removeHidden: true });
     }
 
     public setRoutes(): void {

@@ -1,5 +1,5 @@
-import { BaseProps } from 'src/typings/common';
 import { Model as BaseModel, RepoFactory } from 'zuu';
+import { BaseProps } from 'zuu/modules/typings/common';
 
 export interface PostProperties extends BaseProps {
     author_id: string;

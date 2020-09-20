@@ -1,5 +1,5 @@
+import { IPagination } from 'zuu/modules/typings/common';
 import { PostModel } from '../models/post_model';
-import { IPagination } from 'src/typings/common';
 
 export default class PostTransformer {
     public static PostList(posts: PostModel[], pagination: IPagination): any {

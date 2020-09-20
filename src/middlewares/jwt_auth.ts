@@ -1,10 +1,10 @@
-/// <reference types="../typings/express" />
+/// <reference types="zuu/modules/typings/express" />
 
 import { NextFunction, Request, Response } from 'express';
 import { HttpError } from 'tymon';
 import { Tokenable } from '../typings/auth';
 import { IContext } from '../typings/common';
-import Auth from '../utils/auth';
+import Auth from '../libs/auth';
 import { CLEARANCE, COMMON_ERRORS } from '../utils/constant';
 
 const JWT_EXPIRED_MESSAGE = 'jwt expired';

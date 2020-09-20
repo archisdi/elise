@@ -1,5 +1,5 @@
 import * as Joi from 'joi';
-import { IObject } from 'src/typings/common';
+import { IObject } from 'zuu/modules/typings/common';
 
 export const COMMON_SCHEME = {
     PAGINATION: Joi.object({

@@ -3,7 +3,7 @@ import { HttpError } from 'tymon';
 import UserLoggedInEvent from '../events/user_logged_in_event';
 import { UserModel } from '../models/user_model';
 import { IContext } from '../typings/common';
-import { SCHEME } from '../utils/validator';
+import { SCHEME } from '../libs/validator';
 import { Controller as BaseController } from 'zuu';
 
 export default class AuthController extends BaseController {
