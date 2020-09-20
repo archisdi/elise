@@ -1,7 +1,7 @@
 import { GraphQLObjectType, GraphQLString } from 'graphql';
-import AuthorModel from './author';
-import RepoFactory from 'src/repositories';
 import { PostModel } from 'src/models/post_model';
+import { RepoFactory } from 'zuu';
+import AuthorModel from './author';
 
 export const PostGraphQL = new GraphQLObjectType({
     name: 'Post',
