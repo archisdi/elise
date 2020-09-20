@@ -11,21 +11,9 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "resolveJsonModule": true,
-    "types": [
-      "node"
-    ],
-    "typeRoots": [
-      "./node_modules/@types",
-      "./src/typings"
-    ],
+    "types": ["node"],
+    "typeRoots": ["./node_modules/@types", "./src/typings"],
     "sourceMap": true
   },
-  "include": [
-    "./src/**/*.ts"
-  ],
-  "exclude": [],
-  "files": [
-    "src/typings/express.d.ts",
-    "src/typings/common.d.ts"
-  ]
+  "include": ["./src/**/*.ts"]
 }
