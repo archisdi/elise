@@ -3,8 +3,8 @@ export interface LoginRequest {
         username: string;
         password: string;
     };
-    query: {};
-    params: {};
+    query: Record<string, unknown>;
+    params: Record<string, unknown>;
 }
 
 export interface LoginReponse {
@@ -18,7 +18,7 @@ export interface UpdatePostRequest {
         title?: string;
         content?: string;
     };
-    query: {};
+    query: Record<string, unknown>;
     params: {
         id: string;
     };

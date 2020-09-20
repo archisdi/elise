@@ -1,5 +1,5 @@
 import { GraphQLObjectType, GraphQLString } from 'graphql';
-import RepoFactory from '../../repositories';
+import { RepoFactory } from 'zuu';
 import { UserModel } from '../../models/user_model';
 
 export const AuthorGraphQL = new GraphQLObjectType({
@@ -21,6 +21,6 @@ export default {
     schema: AuthorGraphQL,
     resolver: (parentValue: any, args: any): any => {
         const userRepo = RepoFactory.getSql(UserModel);
-        return userRepo.findOne({ id: parentValue.author_id }).then((res): any => (res ? res.toJson() : null));
+        return userRepo.findOne({ id: parentValue.author_id }).then((res: any): any => (res ? res.toJson() : null));
     }
 };

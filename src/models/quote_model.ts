@@ -1,8 +1,6 @@
-import * as Joi from '@hapi/joi';
-import { BaseProps } from 'src/typings/common';
-import RepoFactory from '../repositories';
-import { SchemeValidator } from '../utils/validator';
-import { BaseModel } from './base/base_model';
+import * as Joi from 'joi';
+import { Model as BaseModel, RepoFactory, SchemeValidator } from 'zuu';
+import { BaseProps } from 'zuu/modules/typings/common';
 
 export interface QuoteProps extends BaseProps {
     author: string;

@@ -3,8 +3,8 @@ import { HttpError } from 'tymon';
 import UserLoggedInEvent from '../events/user_logged_in_event';
 import { UserModel } from '../models/user_model';
 import { IContext } from '../typings/common';
-import { SCHEMA } from '../utils/validator';
-import BaseController from './base/base_controller';
+import { SCHEME } from '../libs/validator';
+import { Controller as BaseController } from 'zuu';
 
 export default class AuthController extends BaseController {
     public constructor() {
@@ -39,6 +39,6 @@ export default class AuthController extends BaseController {
     }
 
     public setRoutes(): void {
-        this.addRoute<LoginReponse>('post', '/login', this.login, { validate: SCHEMA.LOGIN });
+        this.addRoute<LoginReponse>('post', '/login', this.login, { validate: SCHEME.LOGIN });
     }
 }
