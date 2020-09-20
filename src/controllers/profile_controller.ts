@@ -1,7 +1,7 @@
 import { IContext, IData } from 'src/typings/common';
 import AuthMiddleware from '../middlewares/jwt_auth';
 import { UserModel } from '../models/user_model';
-import BaseController from './base/base_controller';
+import { Controller as BaseController } from 'zuu';
 
 export default class ProfileController extends BaseController {
     public constructor() {

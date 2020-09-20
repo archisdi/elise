@@ -1,4 +1,4 @@
-import EventFactory from '../factories/event';
+import { EventFactory } from 'zuu';
 import { UserProperties } from '../models/user_model';
 
 interface EventPayload {

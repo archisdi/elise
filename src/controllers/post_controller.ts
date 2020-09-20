@@ -1,13 +1,12 @@
 import { IContext, IData } from 'src/typings/common';
 import { UpdatePostRequest, UpdatePostResponse } from 'src/typings/endpoints';
 import { DBContext } from 'tymon';
+import { Controller as BaseController, RepoFactory } from 'zuu';
 import PostCreatedEvent from '../events/post_created_event';
-import RepoFactory from '../factories/repository';
 import AuthMiddleware from '../middlewares/jwt_auth';
 import { PostModel } from '../models/post_model';
 import PostTransformer from '../transformers/post_transformer';
-import { SCHEMA } from '../utils/validator';
-import BaseController from './base/base_controller';
+import { SCHEME } from '../utils/validator';
 
 export default class PostController extends BaseController {
     public constructor() {
@@ -69,9 +68,9 @@ export default class PostController extends BaseController {
     }
 
     public setRoutes(): void {
-        this.addRoute('post', '/', this.createPost, { validate: SCHEMA.CREATE_POST });
+        this.addRoute('post', '/', this.createPost, { validate: SCHEME.CREATE_POST });
         this.addRoute('get', '/', this.getPostList);
         this.addRoute('get', '/:id', this.getPostDetail, { cache: true });
-        this.addRoute('put', '/:id', this.updatePost, { validate: SCHEMA.UPDATE_POST });
+        this.addRoute('put', '/:id', this.updatePost, { validate: SCHEME.UPDATE_POST });
     }
 }

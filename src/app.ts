@@ -1,5 +1,5 @@
 import { DBContext, RedisContext } from 'tymon';
-import BaseApp from './base_app';
+import { App as BaseApp } from 'zuu';
 import AuthController from './controllers/auth_controller';
 import PostController from './controllers/post_controller';
 import ProfileController from './controllers/profile_controller';

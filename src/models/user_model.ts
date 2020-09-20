@@ -1,8 +1,7 @@
-import { BaseProps, BasicType } from 'src/typings/common';
+import { BaseProps } from 'src/typings/common';
 import { HttpError } from 'tymon';
-import RepoFactory from '../factories/repository';
 import Auth from '../utils/auth';
-import { BaseModel } from './base/base_model';
+import { Model as BaseModel, RepoFactory, SchemeValidator } from 'zuu';
 import { PostModel, PostProperties } from './post_model';
 
 export interface UserProperties extends BaseProps {
