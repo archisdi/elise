@@ -1,10 +1,10 @@
 import { LoginReponse, LoginRequest } from 'src/typings/endpoints';
 import { HttpError } from 'tymon';
+import { Controller as BaseController } from 'zuu';
 import UserLoggedInEvent from '../events/user_logged_in_event';
+import { SCHEME } from '../libs/validator';
 import { UserModel } from '../models/user_model';
 import { IContext } from '../typings/common';
-import { SCHEME } from '../libs/validator';
-import { Controller as BaseController } from 'zuu';
 
 export default class AuthController extends BaseController {
     public constructor() {
