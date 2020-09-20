@@ -30,7 +30,10 @@ export class QuoteModel extends BaseModel<QuoteProps> {
     }
 
     public static create(data: QuoteProps): QuoteModel {
-        return new QuoteModel(data);
+        return new QuoteModel({
+            ...data,
+            id: this.generateId(),
+        });
     }
 
     public async save(): Promise<void> {
