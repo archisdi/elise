@@ -1,5 +1,5 @@
 import { PostProperties } from 'src/models/post_model';
-import { EventFactory } from 'zuu/modules/factory';
+import { EventFactory } from 'zuu';
 
 interface EventPayload {
     post: PostProperties;

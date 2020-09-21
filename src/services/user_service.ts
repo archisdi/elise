@@ -1,5 +1,4 @@
-import { RedisRepo } from 'zuu';
-import BaseService from './base/service';
+import { RedisRepo, Service as BaseService } from 'zuu';
 
 export class UserService extends BaseService {
     private user_id: string;

@@ -1,6 +1,5 @@
 import * as Joi from 'joi';
-import { Model as BaseModel, RepoFactory, SchemeValidator } from 'zuu';
-import { BaseProps } from 'zuu/modules/typings/common';
+import { BaseProps, Model as BaseModel, RepoFactory, SchemeValidator } from 'zuu';
 
 export interface QuoteProps extends BaseProps {
     author: string;
