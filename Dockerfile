@@ -15,12 +15,12 @@ RUN npm ci --only=production --quiet
 RUN cp -a ./node_modules ./build
 RUN cp ./.env ./build
 RUN cp -a ./database ./build
-RUN cp ./cluster.json ./build
 
 # release
 FROM node:12-alpine as release
 RUN npm install -g pm2
-COPY --from=builder ./usr/src/app/build .
+COPY --from=builder ./usr/src/app/cluster.json ./
+COPY --from=builder ./usr/src/app/build ./build
 
 EXPOSE 3020
 CMD ["pm2-runtime", "./cluster.json" ]
