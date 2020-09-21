@@ -1,7 +1,8 @@
 import { HttpError } from 'tymon';
 import Auth from '../libs/auth';
-import { Model as BaseModel, RepoFactory, BaseProps } from 'zuu';
+import { Model as BaseModel, RepoFactory } from 'zuu';
 import { PostModel, PostProperties } from './post_model';
+import { BaseProps } from 'zuu/modules/typings/common';
 
 export interface UserProperties extends BaseProps {
     name: string;

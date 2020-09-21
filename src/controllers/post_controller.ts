@@ -1,7 +1,8 @@
 import { IContext } from 'src/typings/common';
 import { UpdatePostRequest, UpdatePostResponse } from 'src/typings/endpoints';
 import { DBContext } from 'tymon';
-import { Controller as BaseController, RepoFactory, IData } from 'zuu';
+import { Controller as BaseController, RepoFactory } from 'zuu';
+import { IData } from 'zuu/modules/typings/common';
 import PostCreatedEvent from '../events/post_created_event';
 import { SCHEME } from '../libs/validator';
 import AuthMiddleware from '../middlewares/jwt_auth';
