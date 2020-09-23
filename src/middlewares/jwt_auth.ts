@@ -1,6 +1,6 @@
 /// <reference types="zuu/modules/typings/express" />
 
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response, RequestHandler } from 'express';
 import { HttpError } from 'tymon';
 import { Tokenable } from '../typings/auth';
 import { IContext } from '../typings/common';
@@ -17,7 +17,7 @@ const generateContext = async (payload: Tokenable): Promise<IContext> => {
     };
 };
 
-const JwtMiddleware = (roles?: CLEARANCE | CLEARANCE[]) => async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const JwtMiddleware = (roles?: CLEARANCE | CLEARANCE[]): RequestHandler => async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const authorizationToken: string | undefined = req.headers.authorization;
         if (!authorizationToken) {
