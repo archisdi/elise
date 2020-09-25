@@ -1,4 +1,4 @@
-import { IContext as Context } from 'zuu/modules/typings/common';
+import { IContext as Context } from 'zuu';
 
 export type IContext = Context<{
     username: string;

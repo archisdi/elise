@@ -1,4 +1,4 @@
-import { IPagination } from 'zuu/modules/typings/common';
+import { IPagination } from 'zuu';
 import { PostModel } from '../models/post_model';
 
 export default class PostTransformer {
