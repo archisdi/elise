@@ -1,7 +1,7 @@
 /// <reference types="zuu/modules/typings/express" />
 
 import { NextFunction, Request, Response, RequestHandler } from 'express';
-import { HttpError } from 'tymon';
+import { HttpError } from 'zuu';
 import { Tokenable } from '../typings/auth';
 import { IContext } from '../typings/common';
 import Auth from '../libs/auth';
@@ -21,12 +21,12 @@ const JwtMiddleware = (roles?: CLEARANCE | CLEARANCE[]): RequestHandler => async
     try {
         const authorizationToken: string | undefined = req.headers.authorization;
         if (!authorizationToken) {
-            throw HttpError.UnauthorizedError('token not provided', COMMON_ERRORS.TOKEN_INVALID);
+            throw new HttpError.UnauthorizedError('token not provided', COMMON_ERRORS.TOKEN_INVALID);
         }
 
         const [type, token] = authorizationToken.split(' ');
         if (!token || type !== 'Bearer') {
-            throw HttpError.UnauthorizedError('token signature invalid', COMMON_ERRORS.TOKEN_INVALID);
+            throw new HttpError.UnauthorizedError('token signature invalid', COMMON_ERRORS.TOKEN_INVALID);
         }
 
         let context;
@@ -39,21 +39,21 @@ const JwtMiddleware = (roles?: CLEARANCE | CLEARANCE[]): RequestHandler => async
                     ? ['token expired', COMMON_ERRORS.TOKEN_EXPIRED]
                     : ['token invalid', COMMON_ERRORS.TOKEN_INVALID];
 
-            throw HttpError.UnauthorizedError(message[0], message[1]);
+            throw new HttpError.UnauthorizedError(message[0], message[1]);
         }
 
         // check clearance / (not blocked)
         if (context.clearance === CLEARANCE.BLOCKED) {
-            throw HttpError.UnauthorizedError('access denied', COMMON_ERRORS.NO_ACCESS);
+            throw new HttpError.UnauthorizedError('access denied', COMMON_ERRORS.NO_ACCESS);
         }
 
         // check roles
         if (roles && roles instanceof Array) {
             if (!roles.includes(context.clearance)) {
-                throw HttpError.ForbiddenError('access denied', COMMON_ERRORS.NO_ACCESS);
+                throw new HttpError.ForbiddenError('access denied', COMMON_ERRORS.NO_ACCESS);
             }
         } else if (roles && roles !== context.clearance) {
-            throw HttpError.ForbiddenError('access denied', COMMON_ERRORS.NO_ACCESS);
+            throw new HttpError.ForbiddenError('access denied', COMMON_ERRORS.NO_ACCESS);
         }
 
         // assign context to request

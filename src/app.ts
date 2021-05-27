@@ -1,10 +1,9 @@
-import { DBContext, RedisContext } from 'tymon';
-import { App as BaseApp } from 'zuu';
+import { App as BaseApp, DBContext, RedisContext } from 'zuu';
 import AuthController from './controllers/auth_controller';
 import PostController from './controllers/post_controller';
 import ProfileController from './controllers/profile_controller';
-import GraphQL from './graphql';
-import QuoteModel from './models/quote_model';
+import UserServiceImpl from './services/user_service';
+import UserRepositoryImpl from './repositories/user_repository';
 
 class App extends BaseApp {
     public constructor(port: number) {
@@ -12,22 +11,16 @@ class App extends BaseApp {
     }
 
     public setControllers(): void {
+
+        /** initiate services */
+        const userService = new UserServiceImpl(
+            new UserRepositoryImpl
+        );
+
         /** Register Controller */
-        this.addController(AuthController);
-        this.addController(ProfileController);
+        this.addController(new AuthController(userService));
+        this.addController(new ProfileController(userService));
         this.addController(PostController);
-
-        /** Register Auto Generated Crud Controller */
-        this.addControllerFromModel(QuoteModel);
-
-        /** Register GraphQL */
-        const GraphQLModule = new GraphQL({
-            enable_graphiql: true /** ui interface */,
-            is_protected: true /** jwt protected */
-        });
-
-        /** GraphQL Endpoint */
-        this.app.use('/graphql', GraphQLModule.getInstance());
     }
 
     public setSingletonModules(): void {

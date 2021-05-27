@@ -1,33 +1,47 @@
-import { RedisRepo, Service as BaseService } from 'zuu';
+import { HttpError } from 'zuu';
+import Auth from '../libs/auth';
+import UserModel from '../models/user_model';
+import UserRepository from '../repositories/interfaces/user_repository';
+import UserService from './interfaces/user_service';
 
-export class UserService extends BaseService {
-    private user_id: string;
+export class UserServiceImpl implements UserService {
 
-    public constructor(userId: string) {
-        super();
-        this.user_id = userId;
+    constructor(
+        private userRepository: UserRepository
+    ){}
+
+    public async signUser(username: string, password: string): Promise<{ token: string; refresh_token: string; lifetime: number }> {
+        const user = await this.userRepository.findOne({ username });
+        if (!user) {
+            throw new HttpError.UnauthorizedError('credential not match', 'CREDENTIAL_NOT_MATCH');
+        }
+
+        if (!Auth.validatePassword(password, user.password)) {
+            throw new HttpError.UnauthorizedError('credential not match', 'CREDENTIAL_NOT_MATCH');
+        }
+
+        const { token: refreshToken, valid_until } = Auth.generateRefreshToken();
+        user.refresh_token = refreshToken;
+        user.token_validity = valid_until;
+
+        await this.userRepository.save(user);
+
+        const { lifetime, token } = Auth.generateToken({ user_id: user.id, username: user.username, clearance: user.clearance });
+
+        return {
+            token,
+            refresh_token: refreshToken,
+            lifetime
+        };
     }
 
-    public static create(userId: string): UserService {
-        return new UserService(userId);
-    }
-
-    public async setCache<CacheInterface>(cacheName: string, payload: any, expires?: number): Promise<void> {
-        const cacheRepo = new RedisRepo<CacheInterface>(this.user_id);
-        await cacheRepo.setHash(cacheName, payload, expires);
-    }
-
-    public async getCache<CacheInterface = any>(cacheName: string): Promise<CacheInterface | null> {
-        const cacheRepo = new RedisRepo<CacheInterface>(this.user_id);
-        return cacheRepo.getHash(cacheName);
-    }
-
-    public async bustCache<CacheInterface = any>(cacheName?: string): Promise<void> {
-        const cacheRepo = new RedisRepo<CacheInterface>(this.user_id);
-        cacheName ?
-            await cacheRepo.deleteHash(cacheName) :
-            await cacheRepo.delete(this.user_id);
+    public async getUser(id: string): Promise<UserModel> {
+        const user = await this.userRepository.findOne({ id });
+        if (!user) {
+            throw new HttpError.NotFoundError('user not found', 'USER_NOT_FOUND');
+        }
+        return user;
     }
 }
 
-export default UserService;
+export default UserServiceImpl;

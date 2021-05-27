@@ -1,6 +1,6 @@
 import { IContext } from 'src/typings/common';
 import { UpdatePostRequest, UpdatePostResponse } from 'src/typings/endpoints';
-import { DBContext } from 'tymon';
+import { DBContext } from 'zuu';
 import { Controller as BaseController, IData, RepoFactory } from 'zuu';
 import PostCreatedEvent from '../events/post_created_event';
 import { SCHEME } from '../libs/validator';

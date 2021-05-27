@@ -1,6 +1,4 @@
-import { HttpError } from 'tymon';
-import Auth from '../libs/auth';
-import { BaseProps, Model as BaseModel, RepoFactory } from 'zuu';
+import { BaseProps, Model as BaseModel } from 'zuu';
 import { PostModel, PostProperties } from './post_model';
 
 export interface UserProperties extends BaseProps {
@@ -25,8 +23,6 @@ export class UserModel extends BaseModel<UserProperties> {
     public static collectionName = 'users';
     public static cacheName = 'user';
 
-    public static repo = RepoFactory.getSql<UserModel, UserProperties>(UserModel);
-
     public static buildFromSql(data: UserProperties): UserModel {
         return new UserModel({
             id: data.id,
@@ -41,32 +37,6 @@ export class UserModel extends BaseModel<UserProperties> {
             deleted_at: data.deleted_at,
             posts: data.posts
         });
-    }
-
-    public static buildFromRedis(data: any): UserModel {
-        return new UserModel({
-            id: data.id,
-            name: data.name,
-            username: data.username,
-            password: data.password,
-            refresh_token: data.refresh_token,
-            token_validity: data.token_validity,
-            clearance: data.clearance,
-            created_at: data.created_at,
-            updated_at: data.updated_at,
-            deleted_at: data.deleted_at,
-            posts: []
-        });
-    }
-
-    public signJwtToken(password: string): { token: string; lifetime: number } {
-        if (!Auth.validatePassword(password, this.password)) {
-            throw HttpError.UnauthorizedError('credential not match', 'CREDENTIAL_NOT_MATCH');
-        }
-        const { token, valid_until } = Auth.generateRefreshToken();
-        this.refresh_token = token;
-        this.token_validity = valid_until;
-        return Auth.generateToken({ user_id: this.id, username: this.username, clearance: this.clearance });
     }
 
     public get password(): string {
@@ -120,22 +90,6 @@ export class UserModel extends BaseModel<UserProperties> {
         return this.props.posts?.map((post) => PostModel.buildFromSql(post)) || [];
     }
 
-    public async save({ cache }: { cache: boolean } = { cache: true }): Promise<void> {
-        const payload = this.toJson() as Partial<UserModel>;
-        await UserModel.repo.upsert({ id: this.id }, payload).then((): any => (cache ? this.cache() : null));
-    }
-
-    public async cache(): Promise<void> {
-        const redisRepo = RepoFactory.getRedis(UserModel);
-        const payload = this.toJson() as Partial<UserModel>;
-        await redisRepo.set(this.id, payload, 300);
-    }
-
-    public static async findFromCache(id: string): Promise<UserModel | null> {
-        const redisRepo = RepoFactory.getRedis(UserModel);
-        const user = await redisRepo.get(id);
-        return user ? this.buildFromRedis(user) : null;
-    }
 }
 
 export default UserModel;

@@ -1,13 +1,14 @@
 import { LoginReponse, LoginRequest } from 'src/typings/endpoints';
-import { HttpError } from 'tymon';
 import { Controller as BaseController } from 'zuu';
-import UserLoggedInEvent from '../events/user_logged_in_event';
 import { SCHEME } from '../libs/validator';
-import { UserModel } from '../models/user_model';
+import UserService from '../services/interfaces/user_service';
 import { IContext } from '../typings/common';
 
 export default class AuthController extends BaseController {
-    public constructor() {
+
+    public constructor(
+        private userService: UserService
+    ) {
         super({ path: '/auth' });
     }
 
@@ -16,29 +17,16 @@ export default class AuthController extends BaseController {
             body: { username, password }
         } = data;
 
-        const user = await UserModel.repo.findOne({ username });
-        if (!user) {
-            throw HttpError.UnauthorizedError('credential not match', 'CREDENTIAL_NOT_MATCH');
-        }
-
-        /** sign token if credential correct */
-        const { token, lifetime } = user.signJwtToken(password);
-
-        /** save and cache */
-        await user.save({ cache: true });
-
-        /** dispatch event */
-        await UserLoggedInEvent.dispatch({ user: user.toJson() });
+        const { lifetime, refresh_token, token} = await this.userService.signUser(username, password);
 
         return {
-            token: token,
-            refresh_token: user.refresh_token,
-            expires_in: lifetime
+            token,
+            refresh_token,
+            expires_in: lifetime,
         };
-        // Wrap in try/catch block if transaction is needed
     }
 
     public setRoutes(): void {
-        this.addRoute<LoginReponse>('post', '/login', this.login, { validate: SCHEME.LOGIN });
+        this.addRoute<LoginReponse>('post', '/login', this.login.bind(this), { validate: SCHEME.LOGIN });
     }
 }
