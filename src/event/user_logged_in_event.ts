@@ -1,5 +1,5 @@
 import { EventFactory } from 'zuu';
-import { UserProperties } from '../models/user_model';
+import { UserProperties } from '../entity/models/user_model';
 
 interface EventPayload {
     user: UserProperties;

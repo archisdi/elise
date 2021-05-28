@@ -1,7 +1,7 @@
 import { LoginReponse, LoginRequest } from 'src/typings/endpoints';
 import { Controller as BaseController } from 'zuu';
-import { SCHEME } from '../libs/validator';
-import UserService from '../services/interfaces/user_service';
+import { SCHEME } from '../utility/validator';
+import UserService from '../service/interfaces/user_service';
 import { IContext } from '../typings/common';
 
 export default class AuthController extends BaseController {

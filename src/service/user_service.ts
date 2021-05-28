@@ -1,7 +1,7 @@
 import { HttpError } from 'zuu';
-import Auth from '../libs/auth';
-import UserModel from '../models/user_model';
-import UserRepository from '../repositories/interfaces/user_repository';
+import Auth from '../utility/auth';
+import UserModel from '../entity/models/user_model';
+import UserRepository from '../repository/interfaces/user_repository';
 import UserService from './interfaces/user_service';
 
 export class UserServiceImpl implements UserService {

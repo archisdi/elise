@@ -1,4 +1,4 @@
-import { PostProperties } from 'src/models/post_model';
+import { PostProperties } from 'src/entity/models/post_model';
 import { EventFactory } from 'zuu';
 
 interface EventPayload {

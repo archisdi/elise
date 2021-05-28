@@ -1,7 +1,7 @@
 import test from 'ava';
 import * as sinon from 'sinon';
-import UserService from '../../src/services/user_service';
-import UserRepository from '../../src/repositories/user_repository';
+import UserService from '../../src/service/user_service';
+import UserRepository from '../../src/repository/user_repository';
 import User from '../../src/models/user_model';
 import { HttpError } from 'zuu';
 

@@ -2,11 +2,11 @@ import { IContext } from 'src/typings/common';
 import { UpdatePostRequest, UpdatePostResponse } from 'src/typings/endpoints';
 import { DBContext } from 'zuu';
 import { Controller as BaseController, IData, RepoFactory } from 'zuu';
-import PostCreatedEvent from '../events/post_created_event';
-import { SCHEME } from '../libs/validator';
-import AuthMiddleware from '../middlewares/jwt_auth';
-import { PostModel } from '../models/post_model';
-import PostTransformer from '../transformers/post_transformer';
+import PostCreatedEvent from '../event/post_created_event';
+import { SCHEME } from '../utility/validator';
+import AuthMiddleware from '../middleware/jwt_auth';
+import { PostModel } from '../entity/models/post_model';
+import PostTransformer from '../entity/mapper/post_transformer';
 
 export default class PostController extends BaseController {
     public constructor() {

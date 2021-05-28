@@ -4,8 +4,8 @@ import { NextFunction, Request, Response, RequestHandler } from 'express';
 import { HttpError } from 'zuu';
 import { Tokenable } from '../typings/auth';
 import { IContext } from '../typings/common';
-import Auth from '../libs/auth';
-import { CLEARANCE, COMMON_ERRORS } from '../utils/constant';
+import Auth from '../utility/auth';
+import { CLEARANCE, COMMON_ERRORS } from '../entity/constant';
 
 const JWT_EXPIRED_MESSAGE = 'jwt expired';
 
