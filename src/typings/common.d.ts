@@ -1,6 +1,6 @@
-import { IContext as Context } from 'zuu';
+import { Context as IContext } from 'zuu';
 
-export type IContext = Context<{
+export type Context = IContext<{
     username: string;
     user_id: string;
     clearance: number;

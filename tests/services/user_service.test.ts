@@ -2,7 +2,7 @@ import test from 'ava';
 import * as sinon from 'sinon';
 import UserService from '../../src/service/user_service';
 import UserRepository from '../../src/repository/user_repository';
-import User from '../../src/models/user_model';
+import User from '../../src/entity/models/user_model';
 import { HttpError } from 'zuu';
 
 test.beforeEach('Initialize New Sandbox Before Each Test', (t: any): void => {
@@ -40,17 +40,6 @@ test.serial('SUCCESS, getUser case user found', async (t: any): Promise<void> =>
 test.serial('FAIL, getUser case user not found', async (t: any): Promise<void> => {
     const userRepository = new UserRepository();
     const userService = new UserService(userRepository);
-    const user = new User({
-        id: 'id',
-        name: 'archie',
-        clearance: 5,
-        username: 'archie',
-        password: 'archie',
-        token_validity: '2021-10-10',
-        refresh_token: '',
-        created_at: '',
-        updated_at: '',
-    });
 
     const mockRepository = t.context.sandbox.mock(userRepository).expects('findOne').resolves(null);
 

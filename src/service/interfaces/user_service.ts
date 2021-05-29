@@ -1,7 +1,7 @@
-import { Service as BaseService } from 'zuu';
+import { Service } from 'zuu';
 import UserModel from '../../entity/models/user_model';
 
-interface UserService extends BaseService {
+interface UserService extends Service {
     signUser(username: string, password: string): Promise<{ token: string; refresh_token: string; lifetime: number; }>
     getUser(id: string): Promise<UserModel>
 }

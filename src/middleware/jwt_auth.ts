@@ -3,13 +3,14 @@
 import { NextFunction, Request, Response, RequestHandler } from 'express';
 import { HttpError } from 'zuu';
 import { Tokenable } from '../typings/auth';
-import { IContext } from '../typings/common';
+import { Context } from '../typings/common';
 import Auth from '../utility/auth';
-import { CLEARANCE, COMMON_ERRORS } from '../entity/constant';
+import COMMON_ERRORS from '../entity/constant/error';
+import CLEARANCE from '../entity/constant/clearance';
 
 const JWT_EXPIRED_MESSAGE = 'jwt expired';
 
-const generateContext = async (payload: Tokenable): Promise<IContext> => {
+const generateContext = async (payload: Tokenable): Promise<Context> => {
     return {
         user_id: payload.user_id,
         username: payload.username,

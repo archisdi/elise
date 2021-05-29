@@ -2,22 +2,23 @@ import { LoginReponse, LoginRequest } from 'src/typings/endpoints';
 import { Controller as BaseController } from 'zuu';
 import { SCHEME } from '../utility/validator';
 import UserService from '../service/interfaces/user_service';
-import { IContext } from '../typings/common';
+import { Context } from '../typings/common';
+import API_ROUTE from '../entity/constant/api_route';
 
 export default class AuthController extends BaseController {
 
     public constructor(
         private userService: UserService
     ) {
-        super({ path: '/auth' });
+        super({ path: API_ROUTE.AUTH });
     }
 
-    public async login(data: LoginRequest, context: IContext): Promise<LoginReponse> {
+    public async login(data: LoginRequest, context: Context): Promise<LoginReponse> {
         const {
             body: { username, password }
         } = data;
 
-        const { lifetime, refresh_token, token} = await this.userService.signUser(username, password);
+        const { lifetime, refresh_token, token } = await this.userService.signUser(username, password);
 
         return {
             token,

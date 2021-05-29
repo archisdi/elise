@@ -1,15 +1,15 @@
-import { IPagination } from 'zuu';
-import { PostModel } from '../models/post_model';
+import { Page, PaginationMeta } from 'zuu';
+import { PostModel, PostProperties } from '../models/post_model';
 
 export default class PostTransformer {
-    public static PostList(posts: PostModel[], pagination: IPagination): any {
+    public static PostList(posts: PostModel[], pagination: PaginationMeta): Page<Partial<PostProperties>> {
         return {
-            content: posts.map((post): any => ({
+            data: posts.map((post): any => ({
                 id: post.id,
                 title: post.title,
                 created_at: post.created_at
             })),
-            pagination
+            meta: pagination
         };
     }
 

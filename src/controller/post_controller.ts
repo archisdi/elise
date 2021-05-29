@@ -1,19 +1,22 @@
-import { IContext } from 'src/typings/common';
+import { Context } from 'src/typings/common';
 import { UpdatePostRequest, UpdatePostResponse } from 'src/typings/endpoints';
-import { DBContext } from 'zuu';
-import { Controller as BaseController, IData, RepoFactory } from 'zuu';
-import PostCreatedEvent from '../event/post_created_event';
-import { SCHEME } from '../utility/validator';
-import AuthMiddleware from '../middleware/jwt_auth';
+import { Controller as BaseController, DBContext, RepoFactory, RequestData } from 'zuu';
+import API_ROUTE from '../entity/constant/api_route';
+import PostTransformer from '../entity/mapper/post_mapper';
 import { PostModel } from '../entity/models/post_model';
-import PostTransformer from '../entity/mapper/post_transformer';
+import PostCreatedEvent from '../event/post_created_event';
+import AuthMiddleware from '../middleware/jwt_auth';
+import PostService from '../service/interfaces/post_service';
+import { SCHEME } from '../utility/validator';
 
 export default class PostController extends BaseController {
-    public constructor() {
-        super({ path: '/post', middleware: AuthMiddleware() });
+    public constructor(
+        private postService: PostService
+    ) {
+        super({ path: API_ROUTE.POST, middleware: AuthMiddleware() });
     }
 
-    public async createPost(data: IData, context: IContext): Promise<{ id: string }> {
+    public async createPost(data: RequestData, context: Context): Promise<{ id: string }> {
         try {
             await DBContext.startTransaction();
 
@@ -36,7 +39,7 @@ export default class PostController extends BaseController {
         }
     }
 
-    public async getPostList(data: IData, context: IContext): Promise<any> {
+    public async getPostList(data: RequestData, context: Context): Promise<any> {
         const posts = await PostModel.repo.paginate(
             { author_id: context.user_id },
             { page: 1, per_page: 10, sort: '-created_at' }
@@ -45,16 +48,12 @@ export default class PostController extends BaseController {
         return PostTransformer.PostList(posts.data, posts.meta);
     }
 
-    public async getPostDetail(data: IData, context: IContext): Promise<any> {
-        const post = await PostModel.repo.findOneOrFail({
-            id: data.params.id,
-            author_id: context.user_id
-        });
-
-        return PostTransformer.PostDetail(post);
+    public async getPostDetail(data: RequestData, context: Context): Promise<any> {
+        const post = await this.postService.findPost(data.params.id, context);
+        return post.toJson();
     }
 
-    public async updatePost(data: UpdatePostRequest, context: IContext): Promise<UpdatePostResponse> {
+    public async updatePost(data: UpdatePostRequest, context: Context): Promise<UpdatePostResponse> {
         const { body } = data;
 
         const post = await PostModel.repo.findOneOrFail({ id: data.params.id, author_id: context.user_id });
@@ -68,9 +67,9 @@ export default class PostController extends BaseController {
     }
 
     public setRoutes(): void {
-        this.addRoute('post', '/', this.createPost, { validate: SCHEME.CREATE_POST });
-        this.addRoute('get', '/', this.getPostList);
-        this.addRoute('get', '/:id', this.getPostDetail, { cache: true });
-        this.addRoute('put', '/:id', this.updatePost, { validate: SCHEME.UPDATE_POST });
+        this.addRoute('post', '/', this.createPost.bind(this), { validate: SCHEME.CREATE_POST });
+        this.addRoute('get', '/', this.getPostList.bind(this));
+        this.addRoute('get', '/:id', this.getPostDetail.bind(this), { cache: true });
+        this.addRoute('put', '/:id', this.updatePost.bind(this), { validate: SCHEME.UPDATE_POST });
     }
 }
