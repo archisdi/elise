@@ -47,7 +47,7 @@
     "pg": "^8.6.0",
     "randomstring": "^1.1.5",
     "uuid": "^3.3.2",
-    "zuu": "git+https://github.com/archisdi/zuu.git#clean"
+    "zuu": "git+https://github.com/archisdi/zuu.git"
   },
   "ava": {
     "babel": {
