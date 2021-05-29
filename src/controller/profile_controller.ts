@@ -1,8 +1,8 @@
 import { Context } from 'src/typings/common';
-import AuthMiddleware from '../middleware/jwt_auth';
 import { Controller as BaseController, RequestData } from 'zuu';
-import UserService from '../service/interfaces/user_service';
 import API_ROUTE from '../entity/constant/api_route';
+import AuthMiddleware from '../middleware/jwt_auth';
+import UserService from '../service/interfaces/user_service';
 
 export default class ProfileController extends BaseController {
     public constructor(

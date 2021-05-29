@@ -2,7 +2,7 @@
   "name": "elise",
   "version": "2.1.0",
   "description": "rest api made with node, express, and typescript",
-  "repository": "https://github.com/archisdi/expRESTful-typed",
+  "repository": "https://github.com/archisdi/elise",
   "main": "index.js",
   "scripts": {
     "serve": "nodemon",

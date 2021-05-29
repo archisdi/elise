@@ -1,4 +1,4 @@
-export enum COMMON_ERRORS {
+export enum RESPONSE_CODE {
     VALIDATION_ERROR = 'VALIDATION_ERROR',
     SERVER_ERROR = 'SERVER_ERROR',
     TOKEN_INVALID = 'TOKEN_INVALID',
@@ -7,4 +7,4 @@ export enum COMMON_ERRORS {
     NO_ACCESS = 'NO_ACCESS'
 }
 
-export default COMMON_ERRORS;
+export default RESPONSE_CODE;
