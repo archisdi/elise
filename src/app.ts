@@ -2,10 +2,11 @@ import { App as BaseApp, DBContext, RedisContext } from 'zuu';
 import AuthController from './controller/auth_controller';
 import PostController from './controller/post_controller';
 import ProfileController from './controller/profile_controller';
-import UserServiceImpl from './service/user_service';
+import QuoteModel from './entity/models/quote_model';
+import PostRepositoryImpl from './repository/post_repository';
 import UserRepositoryImpl from './repository/user_repository';
 import PostServiceImpl from './service/post_service';
-import { PostRepositoryImpl } from './repository/post_repository';
+import UserServiceImpl from './service/user_service';
 
 class App extends BaseApp {
     public constructor(port: number) {
@@ -25,6 +26,9 @@ class App extends BaseApp {
         this.addController(new AuthController(userService));
         this.addController(new ProfileController(userService));
         this.addController(new PostController(postService));
+
+        /** Generate CRUD from model */
+        this.addControllerFromModel(QuoteModel);
     }
 
     public setSingletonModules(): void {

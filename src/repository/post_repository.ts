@@ -7,3 +7,5 @@ export class PostRepositoryImpl extends SQLRepo<PostModel, PostProperties> imple
         super(PostModel);
     }
 }
+
+export default PostRepositoryImpl;
