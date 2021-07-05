@@ -1,4 +1,4 @@
-import { HttpError, Service } from 'zuu';
+import { HttpError, Service } from '@archisdi/zuu';
 import Auth from '../utility/auth';
 import UserModel from '../entity/models/user_model';
 import UserRepository from '../repository/interfaces/user_repository';

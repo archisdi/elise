@@ -1,4 +1,4 @@
-import { Context, Page, Service } from 'zuu';
+import { Context, Page, Service } from '@archisdi/zuu';
 import PostModel, { PostProperties } from '../../entity/models/post_model';
 
 export interface PostService extends Service {

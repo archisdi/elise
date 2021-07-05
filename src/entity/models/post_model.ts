@@ -1,4 +1,4 @@
-import { BaseProps, Model as BaseModel, RepoFactory } from 'zuu';
+import { BaseProps, Model as BaseModel, RepoFactory } from '@archisdi/zuu';
 
 export interface PostProperties extends BaseProps {
     author_id: string;

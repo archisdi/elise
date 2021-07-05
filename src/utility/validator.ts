@@ -1,5 +1,5 @@
 import * as Joi from 'joi';
-import { IObject } from 'zuu';
+import { IObject } from '@archisdi/zuu';
 
 export const COMMON_SCHEME = {
     PAGINATION: Joi.object({

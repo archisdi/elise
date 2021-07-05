@@ -1,4 +1,4 @@
-const { DBContext } = require('zuu');
+const { DBContext } = require('@archisdi/zuu');
 
 const { Model, DataTypes } = DBContext.getORMProvider();
 

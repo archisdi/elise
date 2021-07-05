@@ -1,5 +1,5 @@
 import { Context } from 'src/typings/common';
-import { Controller as BaseController, RequestData } from 'zuu';
+import { Controller as BaseController, RequestData } from '@archisdi/zuu';
 import API_ROUTE from '../entity/constant/api_route';
 import CLEARANCE from '../entity/constant/clearance';
 import AuthMiddleware from '../middleware/jwt_auth';

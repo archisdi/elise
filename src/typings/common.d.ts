@@ -1,4 +1,4 @@
-import { Context as IContext } from 'zuu';
+import { Context as IContext } from '@archisdi/zuu';
 
 export type Context = IContext<{
     username: string;

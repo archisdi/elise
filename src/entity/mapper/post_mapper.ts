@@ -1,4 +1,4 @@
-import { Page, PaginationMeta } from 'zuu';
+import { Page, PaginationMeta } from '@archisdi/zuu';
 import { PostModel, PostProperties } from '../models/post_model';
 
 export default class PostTransformer {

@@ -1,6 +1,6 @@
 import { Context } from 'src/typings/common';
 import { UpdatePostRequest, UpdatePostResponse } from 'src/typings/endpoints';
-import { Controller as BaseController, DBContext, RepoFactory, RequestData } from 'zuu';
+import { Controller as BaseController, DBContext, RepoFactory, RequestData } from '@archisdi/zuu';
 import API_ROUTE from '../entity/constant/api_route';
 import PostTransformer from '../entity/mapper/post_mapper';
 import { PostModel } from '../entity/models/post_model';

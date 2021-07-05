@@ -1,5 +1,5 @@
 import { LoginReponse, LoginRequest } from 'src/typings/endpoints';
-import { Controller as BaseController } from 'zuu';
+import { Controller as BaseController } from '@archisdi/zuu';
 import { SCHEME } from '../utility/validator';
 import UserService from '../service/interfaces/user_service';
 import { Context } from '../typings/common';

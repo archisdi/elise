@@ -1,4 +1,4 @@
-import { SQLRepo } from 'zuu';
+import { SQLRepo } from '@archisdi/zuu';
 import { UserModel, UserProperties } from '../entity/models/user_model';
 import { UserRepository } from './interfaces/user_repository';
 

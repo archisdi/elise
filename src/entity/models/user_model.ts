@@ -1,4 +1,4 @@
-import { BaseProps, Model as BaseModel } from 'zuu';
+import { BaseProps, Model as BaseModel } from '@archisdi/zuu';
 import { PostModel, PostProperties } from './post_model';
 
 export interface UserProperties extends BaseProps {

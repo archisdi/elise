@@ -1,5 +1,5 @@
 import * as Joi from 'joi';
-import { BaseProps, Model as BaseModel, RepoFactory, SchemeValidator } from 'zuu';
+import { BaseProps, Model as BaseModel, RepoFactory, SchemeValidator } from '@archisdi/zuu';
 
 export interface QuoteProps extends BaseProps {
     author: string;

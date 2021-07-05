@@ -1,4 +1,4 @@
-import { Service } from 'zuu';
+import { Service } from '@archisdi/zuu';
 import PostModel from '../entity/models/post_model';
 import PostRepository from '../repository/interfaces/post_repository';
 import { Context } from '../typings/common';

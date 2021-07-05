@@ -1,4 +1,4 @@
-import { EventFactory } from 'zuu';
+import { EventFactory } from '@archisdi/zuu';
 import { UserProperties } from '../entity/models/user_model';
 
 interface EventPayload {

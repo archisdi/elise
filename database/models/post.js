@@ -1,6 +1,6 @@
 const {
     DBContext
-} = require('zuu');
+} = require('@archisdi/zuu');
 
 const { Model, DataTypes } = DBContext.getORMProvider();
 

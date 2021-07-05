@@ -1,5 +1,5 @@
 import { PostProperties } from 'src/entity/models/post_model';
-import { EventFactory } from 'zuu';
+import { EventFactory } from '@archisdi/zuu';
 
 interface EventPayload {
     post: PostProperties;

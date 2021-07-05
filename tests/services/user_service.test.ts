@@ -3,7 +3,7 @@ import * as sinon from 'sinon';
 import UserService from '../../src/service/user_service';
 import UserRepository from '../../src/repository/user_repository';
 import User from '../../src/entity/models/user_model';
-import { HttpError } from 'zuu';
+import { HttpError } from '@archisdi/zuu';
 
 test.beforeEach('Initialize New Sandbox Before Each Test', (t: any): void => {
     t.context.sandbox = sinon.createSandbox();

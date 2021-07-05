@@ -1,7 +1,7 @@
-/// <reference types="zuu/modules/typings/express" />
+/// <reference types="@archisdi/zuu/modules/typings/express" />
 
 import { NextFunction, Request, Response, RequestHandler } from 'express';
-import { HttpError } from 'zuu';
+import { HttpError } from '@archisdi/zuu';
 import { Tokenable } from '../typings/auth';
 import { Context } from '../typings/common';
 import Auth from '../utility/auth';

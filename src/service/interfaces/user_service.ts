@@ -1,4 +1,4 @@
-import { Service } from 'zuu';
+import { Service } from '@archisdi/zuu';
 import UserModel from '../../entity/models/user_model';
 
 interface UserService extends Service {

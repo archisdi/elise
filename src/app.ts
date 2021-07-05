@@ -1,4 +1,4 @@
-import { App as BaseApp, DBContext, RedisContext } from 'zuu';
+import { App as BaseApp, DBContext, RedisContext } from '@archisdi/zuu';
 import AuthController from './controller/auth_controller';
 import PostController from './controller/post_controller';
 import ProfileController from './controller/profile_controller';
@@ -36,7 +36,7 @@ class App extends BaseApp {
     public async initProviders(): Promise<void> {
         DBContext.initialize({
             connection_string: String(process.env.DB_CONNECTION_STRING),
-            models_path: '../database/models'
+            models_path: '../../database/models'
         });
         RedisContext.initialize({
             connection_string: String(process.env.REDIS_CONNECTION_STRING)
