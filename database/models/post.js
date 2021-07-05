@@ -1,54 +1,51 @@
-const model = (dataTypes) => ({
+const {
+    DBContext
+} = require('zuu');
+
+const { Model, DataTypes } = DBContext.getORMProvider();
+
+class Post extends Model {}
+
+Post.init({
     id: {
-        type: dataTypes.UUID,
-        defaultValue: dataTypes.UUIDV4,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         allowNull: false,
         primaryKey: true
     },
     author_id: {
-        type: dataTypes.UUID,
+        type: DataTypes.UUID,
         allowNull: false,
     },
     title: {
-        type: dataTypes.STRING(255),
+        type: DataTypes.STRING(255),
         allowNull: false
     },
     content: {
-        type: dataTypes.TEXT,
+        type: DataTypes.TEXT,
         allowNull: false,
     },
     created_at: {
-        type: dataTypes.DATE,
+        type: DataTypes.DATE,
         allowNull: true
     },
     updated_at: {
-        type: dataTypes.DATE,
+        type: DataTypes.DATE,
         allowNull: true
     },
     deleted_at: {
-        type: dataTypes.DATE,
+        type: DataTypes.DATE,
         allowNull: true
     }
+}, {
+    sequelize: DBContext.getContext(),
+    underscored: true,
+    paranoid: true,
+    tableName: 'posts'
 });
 
-const options = {
-    tableName: 'posts',
-    freezeTableName: true,
-    underscored: true,
-    paranoid: true /** Soft deletes */
-}
+Post.associate = (models) => {
+    // 
+};
 
-module.exports = {
-    options,
-    model,
-    default: function (sequelize, dataTypes) {
-        const post = sequelize.define('Post', model(dataTypes), options);
-        post.associate = (models) => {
-            // post.belongsTo(models.User, {
-            //     foreignKey: 'author_id',
-            //     targetKey: 'id'
-            // });
-        };
-        return post;
-    }
-}
+module.exports = Post;

@@ -1,14 +1,16 @@
-import { HttpError } from 'zuu';
+import { HttpError, Service } from 'zuu';
 import Auth from '../utility/auth';
 import UserModel from '../entity/models/user_model';
 import UserRepository from '../repository/interfaces/user_repository';
 import UserService from './interfaces/user_service';
 
-export class UserServiceImpl implements UserService {
+export class UserServiceImpl extends Service implements UserService {
 
     constructor(
         private userRepository: UserRepository
-    ){}
+    ){
+        super();
+    }
 
     public async signUser(username: string, password: string): Promise<{ token: string; refresh_token: string; lifetime: number }> {
         const user = await this.userRepository.findOne({ username });

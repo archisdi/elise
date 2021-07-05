@@ -1,50 +1,51 @@
-const model = (dataTypes) => ({
+const {
+    DBContext
+} = require('zuu');
+
+const { Model, DataTypes } = DBContext.getORMProvider();
+
+class Quote extends Model {}
+
+Quote.init({
     id: {
-        type: dataTypes.UUID,
-        defaultValue: dataTypes.UUIDV4,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         allowNull: false,
         primaryKey: true
     },
     author: {
-        type: dataTypes.STRING(255),
+        type: DataTypes.STRING(255),
         allowNull: false
     },
     text: {
-        type: dataTypes.TEXT,
+        type: DataTypes.TEXT,
         allowNull: false,
     },
     year: {
-        type: dataTypes.INTEGER,
+        type: DataTypes.INTEGER,
         allowNull: true,
     },
     created_at: {
-        type: dataTypes.DATE,
+        type: DataTypes.DATE,
         allowNull: true
     },
     updated_at: {
-        type: dataTypes.DATE,
+        type: DataTypes.DATE,
         allowNull: true
     },
     deleted_at: {
-        type: dataTypes.DATE,
+        type: DataTypes.DATE,
         allowNull: true
     }
+}, {
+    sequelize: DBContext.getContext(),
+    underscored: true,
+    paranoid: true,
+    tableName: 'quotes'
 });
 
-const options = {
-    tableName: 'quotes',
-    freezeTableName: true,
-    underscored: true,
-    paranoid: true /** Soft deletes */
-}
+Quote.associate = (models) => {
+    // 
+};
 
-module.exports = {
-    options,
-    model,
-    default: function (sequelize, dataTypes) {
-        const quote = sequelize.define('Quote', model(dataTypes), options);
-        quote.associate = (models) => {
-        };
-        return quote;
-    }
-}
+module.exports = Quote;

@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const uuid = require('uuid/v4');
 
 module.exports = {
-    up: (queryInterface, Sequelize) => {
+    up: (queryInterface, DataTypes) => {
         const names = ['admin', 'archisdi'];
 
         const users = names.map(item => ({
@@ -16,5 +16,5 @@ module.exports = {
 
         return queryInterface.bulkInsert('users', users, {});
     },
-    down: (queryInterface, Sequelize) => { }
+    down: (queryInterface, DataTypes) => { }
 };

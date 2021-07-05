@@ -2,7 +2,7 @@ import * as env from 'dotenv';
 import App from './app';
 
 /**  */
-((): void => {
+(async (): Promise<void> => {
     /** load envs */
     env.config();
 
@@ -10,5 +10,7 @@ import App from './app';
     const port = Number(process.env.APP_PORT);
 
     /** instantiate and start server  */
-    new App(port).start();
+    const app = new App(port);
+    await app.initialize();
+    app.start();
 })();

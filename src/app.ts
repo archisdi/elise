@@ -14,13 +14,13 @@ class App extends BaseApp {
         super(port);
     }
 
-    public setControllers(): void {
+    public async initControllers(): Promise<void> {
         /** initiate services */
         const userService = new UserServiceImpl(
-            new UserRepositoryImpl
+            new UserRepositoryImpl()
         );
         const postService = new PostServiceImpl(
-            new PostRepositoryImpl
+            new PostRepositoryImpl()
         );
         const starwarsService = new StarwarsOutboundServiceImpl;
 
@@ -33,7 +33,7 @@ class App extends BaseApp {
         this.addControllerFromModel(QuoteModel);
     }
 
-    public setSingletonModules(): void {
+    public async initProviders(): Promise<void> {
         DBContext.initialize({
             connection_string: String(process.env.DB_CONNECTION_STRING),
             models_path: '../database/models'

@@ -1,13 +1,16 @@
+import { Service } from 'zuu';
 import PostModel from '../entity/models/post_model';
 import PostRepository from '../repository/interfaces/post_repository';
 import { Context } from '../typings/common';
 import PostService from './interfaces/post_service';
 
-export class PostServiceImpl implements PostService {
+export class PostServiceImpl extends Service implements PostService {
 
     constructor(
         private postRepository: PostRepository
-    ){}
+    ){
+        super();
+    }
 
     public async findPost(id: string, context: Context): Promise<PostModel> {
         return await this.postRepository.findOneOrFail({
