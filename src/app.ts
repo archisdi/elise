@@ -14,6 +14,16 @@ class App extends BaseApp {
         super(port);
     }
 
+    public async initProviders(): Promise<void> {
+        DBContext.initialize({
+            connection_string: String(process.env.DB_CONNECTION_STRING),
+            models_path: '../../database/models'
+        });
+        RedisContext.initialize({
+            connection_string: String(process.env.REDIS_CONNECTION_STRING)
+        });
+    }
+
     public async initControllers(): Promise<void> {
         /** initiate services */
         const userService = new UserServiceImpl(
@@ -31,16 +41,6 @@ class App extends BaseApp {
 
         /** Generate CRUD from model */
         this.addControllerFromModel(QuoteModel);
-    }
-
-    public async initProviders(): Promise<void> {
-        DBContext.initialize({
-            connection_string: String(process.env.DB_CONNECTION_STRING),
-            models_path: '../../database/models'
-        });
-        RedisContext.initialize({
-            connection_string: String(process.env.REDIS_CONNECTION_STRING)
-        });
     }
 }
 

@@ -18,9 +18,8 @@ RUN cp -a ./database ./build
 
 # release
 FROM node:12-alpine as release
-RUN npm install -g pm2
 COPY --from=builder ./usr/src/app/cluster.json ./
 COPY --from=builder ./usr/src/app/build ./build
 
 EXPOSE 3020
-CMD ["pm2-runtime", "./cluster.json" ]
+CMD ["node", "./index.js" ]
