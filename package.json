@@ -9,7 +9,7 @@
     "clean-install": "rm -rf node_modules package-lock.json && npm install",
     "test": "NODE_ENV=test nyc ava --verbose",
     "lint": "eslint './src/**/*.{js,ts}' --fix",
-    "build": "./node_modules/typescript/bin/tsc"
+    "build": "rm -rf ./build && ./node_modules/typescript/bin/tsc"
   },
   "author": "Archie Isdiningrat",
   "license": "ISC",
